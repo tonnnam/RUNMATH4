@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <title>กรอกข้อมูลธุรกิจ</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans Thai', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      min-height: 100vh;
+      color: white;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .selected-product {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 3rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #e2e8f0;
+      font-size: 1rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .submit-button {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 1.2rem 3rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: 2rem;
+    }
+
+    .submit-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+    }
+
+    .nav-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      margin-top: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .required {
+      color: #ef4444;
+    }
+
+    .help-text {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-top: 0.25rem;
+    }
+
+    .quick-note {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #10b981;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <div style="margin-top: 1rem;">
+        <select id="languageSelect" onchange="setLanguage(this.value)">
+          <option value="th">ไทย</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+      <h1 data-i18n="form_title">⚡ กรอกข้อมูลสั้นๆ</h1>
+      <p data-i18n="form_subtitle">เพียง 5 ข้อมูลสำคัญ ก็วิเคราะห์ธุรกิจได้แล้ว!</p>
+    </div>
+
+    <div class="selected-product">
+      <h3 data-i18n="selected_product">🎯 สินค้าที่เลือก: <span id="selectedProductName">-</span></h3>
+    </div>
+
+    <div class="quick-note">
+      <strong data-i18n="quick_note">✨ ใส่ข้อมูลง่ายๆ 5 ข้อ ระบบจะช่วยวิเคราะห์ให้เอง!</strong>
+    </div>
+
+    <div class="form-container">
+      <form id="businessForm">
+
+        <div class="form-group">
+          <label data-i18n="label_product">1. ชื่อสินค้า/บริการ <span class="required">*</span></label>
+          <input type="text" id="productName" required placeholder="เช่น กาแฟคั่วสด">
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="label_cost">2. ต้นทุนต่อหน่วย (บาท) <span class="required">*</span></label>
+          <input type="number" id="cost" step="0.01" required placeholder="เช่น 15">
+          <div class="help-text" data-i18n="quick_note">ค่าวัตถุดิบ + ค่าแรง</div>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="label_price">3. ราคาขายต่อหน่วย (บาท) <span class="required">*</span></label>
+          <input type="number" id="price" step="0.01" required placeholder="เช่น 25">
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="label_units">4. จำนวนที่จะขายต่อเดือน (หน่วย) <span class="required">*</span></label>
+          <input type="number" id="units" required placeholder="เช่น 500">
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="label_expense">5. ค่าใช้จ่ายคงที่ต่อเดือน (บาท) <span class="required">*</span></label>
+          <input type="number" id="expense" step="0.01" required placeholder="เช่น 3000">
+          <div class="help_text" data-i18n="help_text">ค่าเช่า + ค่าไฟ + เงินเดือน</div>
+        </div>
+
+        <button type="submit" class="submit-button" data-i18n="btn_submit">🚀 เริ่มวิเคราะห์เลย!</button>
+      </form>
+    </div>
+
+    <a href="index.html" class="nav-link" data-i18n="back_home">← กลับหน้าแรก</a>
+  </div>
+
+  <script>
+    // โหลดชื่อสินค้าที่เลือกจากหน้าแรก
+    const selectedProduct = localStorage.getItem('selectedProduct');
+    if (selectedProduct) {
+      document.getElementById('selectedProductName').textContent = selectedProduct;
+      document.getElementById('productName').value = selectedProduct;
+    }
+
+    document.getElementById('businessForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // ตรวจสอบข้อมูลที่จำเป็น
+      const requiredFields = ['productName', 'cost', 'price', 'units', 'expense'];
+      let isValid = true;
+
+      requiredFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (!field.value.trim()) {
+          field.style.borderColor = '#ef4444';
+          isValid = false;
+        } else {
+          field.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+        }
+      });
+
+      if (!isValid) {
+        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+        return;
+      }
+      // ตรวจสอบว่าราคาขายมากกว่าต้นทุนหรือไม่
+      const cost = parseFloat(document.getElementById('cost').value);
+      const price = parseFloat(document.getElementById('price').value);
+
+      if (price <= cost) {
+        alert('❗ ราคาขายต้องมากกว่าต้นทุน');
+        document.getElementById('price').style.borderColor = '#ef4444';
+        document.getElementById('price').focus();
+        return; // หยุดการส่งฟอร์ม
+      } else {
+        document.getElementById('price').style.borderColor = 'rgba(255, 255, 255, 0.2)';
+      }
+      // รวบรวมข้อมูล
+      const businessData = {
+        productName: document.getElementById('productName').value,
+        cost: parseFloat(document.getElementById('cost').value),
+        price: parseFloat(document.getElementById('price').value),
+        units: parseFloat(document.getElementById('units').value),
+        expense: parseFloat(document.getElementById('expense').value),
+
+        // ค่าดีฟอลต์สำหรับข้อมูลอื่นๆ
+        businessType: 'retail',
+        productDescription: 'ไม่ได้ระบุ',
+        initialCapital: 0,
+        workingCapital: 0,
+        targetMarket: 'ลูกค้าทั่วไป',
+        salesChannel: 'both',
+        competitorCount: 'moderate',
+        advantage: 'คุณภาพดี',
+        employeeCount: 1,
+        businessLocation: 'home',
+        businessDuration: 'new',
+        revenueGoal: 0,
+        createdAt: new Date().toISOString()
+      };
+
+      // บันทึกข้อมูล
+      localStorage.setItem('businessData', JSON.stringify(businessData));
+
+      // ไปหน้าวิเคราะห์
+      window.location.href = 'analyze.html';
+    });
+
+  </script>
+
+  <script>
+    // ✅ ระบบแปลภาษา 2 ภาษา
+    const translations = {
+      th: {
+        form_title: "⚡ กรอกข้อมูลสั้นๆ",
+        form_subtitle: "เพียง 5 ข้อมูลสำคัญ ก็วิเคราะห์ธุรกิจได้แล้ว!",
+        selected_product: "🎯 สินค้าที่เลือก:",
+        quick_note: "✨ ใส่ข้อมูลง่ายๆ 5 ข้อ ระบบจะช่วยวิเคราะห์ให้เอง!",
+        label_product: "1. ชื่อสินค้า/บริการ *",
+        label_cost: "2. ต้นทุนต่อหน่วย (บาท) *",
+        label_price: "3. ราคาขายต่อหน่วย (บาท) *",
+        label_units: "4. จำนวนที่จะขายต่อเดือน (หน่วย) *",
+        label_expense: "5. ค่าใช้จ่ายคงที่ต่อเดือน (บาท) *",
+        help_text: "ค่าวัตถุดิบ + ค่าแรง",
+        btn_submit: "🚀 เริ่มวิเคราะห์เลย!",
+        back_home: "← กลับหน้าแรก"
+      },
+      en: {
+        form_title: "⚡ Quick Business Info",
+        form_subtitle: "Just 5 key data points to analyze your business!",
+        selected_product: "🎯 Selected Product:",
+        quick_note: "✨ Just fill out 5 fields, the system will analyze for you!",
+        label_product: "1. Product/Service Name *",
+        label_cost: "2. Cost per Unit (THB) *",
+        label_price: "3. Selling Price per Unit (THB) *",
+        label_units: "4. Monthly Sales Volume (Units) *",
+        label_expense: "5. Fixed Monthly Costs (THB) *",
+        help_text: "Materials + Labor",
+        btn_submit: "🚀 Analyze Now!",
+        back_home: "← Back to Home"
+      }
+    };
+
+    function setLanguage(lang) {
+      localStorage.setItem("language", lang);
+      translatePage(lang);
+    }
+
+    function translatePage(lang) {
+      const elements = document.querySelectorAll("[data-i18n]");
+      elements.forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (translations[lang] && translations[lang][key]) {
+          el.innerHTML = translations[lang][key]; // ใช้ innerHTML เพื่อให้รองรับ <span> ภายในข้อความ
+        }
+      });
+
+      // เปลี่ยนปุ่มให้แสดงภาษาที่เลือกไว้
+      const langButtons = document.querySelectorAll("button[onclick^='setLanguage']");
+      langButtons.forEach(btn => {
+        btn.disabled = btn.getAttribute("onclick").includes(lang);
+      });
+    }
+
+    // โหลดภาษาที่เคยเลือกไว้
+    const currentLang = localStorage.getItem("language") || "th";
+    window.addEventListener("DOMContentLoaded", () => translatePage(currentLang));
+  </script>
+</body>
+
+</html>

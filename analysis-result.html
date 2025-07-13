@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>ผลการวิเคราะห์เส้นทางสู่เป้าหมาย</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'IBM Plex Sans Thai', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      min-height: 100vh;
+      padding: 2rem;
+      color: white;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .section-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .metric-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .metric-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .metric-label {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+    }
+    .positive { color: #10b981; }
+    .negative { color: #ef4444; }
+    .neutral { color: #3b82f6; }
+    .warning { color: #f59e0b; }
+    .input-section {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #e2e8f0;
+    }
+    .form-group input {
+      width: 100%;
+      max-width: 300px;
+      padding: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    button {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-right: 1rem;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+    }
+    .comparison-section {
+      display: none;
+    }
+    .comparison-section.active {
+      display: block;
+    }
+    .nav-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      margin-top: 2rem;
+      margin-right: 1rem;
+      transition: all 0.3s ease;
+    }
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .alert-success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .alert-warning {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #f59e0b;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .alert-danger {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎯 ผลการวิเคราะห์เส้นทางสู่เป้าหมาย</h1>
+      <p>คำนวณจากข้อมูล 7 ตัวแปรสำคัญ</p>
+    </div>
+
+    <!-- แสดงข้อมูลที่นำเข้า -->
+    <div class="section-card">
+      <h3 style="margin-bottom: 1.5rem;">📊 ข้อมูลพื้นฐาน</h3>
+      <div class="metrics-grid" id="basicData"></div>
+    </div>
+
+    <!-- ผลการคำนวณหลัก -->
+    <div class="section-card">
+      <h3 style="margin-bottom: 1.5rem;">🎯 ผลการคำนวณเส้นทางสู่เป้าหมาย</h3>
+      <div class="metrics-grid" id="mainResults"></div>
+    </div>
+
+    <!-- ส่วนเปรียบเทียบยอดขายจริง -->
+    <div class="input-section">
+      <h3 style="margin-bottom: 1.5rem;">💡 วิเคราะห์ยอดขายจริง</h3>
+      <p style="margin-bottom: 1rem; color: #cbd5e1;">
+  หากคุณคิดว่ายอดขายต่อเดือนจริงของคุณเป็นเท่าไหร่ กรุณาแจ้งเรา เราจะช่วยแนะนำแนวทางให้
+</p>
+<p style="margin-top: -0.5rem; font-size: 0.9rem; color: #94a3b8;">
+  *ยอดขายที่คิดไว้ไม่ควรคลาดเคลื่อนมากเกินไปจากยอดขายที่ระบบคำนวณให้ เพราะอาจส่งผลต่อการวิเคราะห์
+</p>
+
+      </p>
+      <div class="form-group">
+        <label>ยอดขายจริงต่อเดือน (ชิ้น)</label>
+        <input type="number" id="actualSales" placeholder="เช่น 150">
+      </div>
+      <button onclick="analyzeActualSales()">วิเคราะห์ยอดขายจริง</button>
+    </div>
+
+    <!-- ผลการเปรียบเทียบ -->
+    <div id="comparisonResults" class="comparison-section"></div>
+
+    <a href="analyze.html" class="nav-link">← กลับหน้าศูนย์วิเคราะห์ธุรกิจครบวงจร</a>
+    <a href="index.html" class="nav-link">🏠 กลับหน้าแรก</a>
+  </div>
+
+  <script>
+    // ตัวแปรหลัก
+    let C, M, T, P, G, F, D;
+    let profitPerUnit, unitsPerMonth, unitsPerDay, actualRevenue, actualProfit;
+
+    function loadData() {
+      const pathData = JSON.parse(localStorage.getItem('pathAnalysisData') || '{}');
+
+      if (!pathData.productCost) {
+        alert('ไม่พบข้อมูลเส้นทางสู่เป้าหมาย กรุณากรอกข้อมูลก่อน');
+        window.location.href = 'analyze.html';
+        return;
+      }
+
+      // รับค่าตัวแปรจาก localStorage
+      C = parseFloat(pathData.productCost) || 0;
+      M = parseFloat(pathData.marketingCost) || 0;
+      T = parseFloat(pathData.shippingCost) || 0;
+      P = parseFloat(pathData.sellingPrice) || 0;
+      G = parseFloat(pathData.profitGoal) || 0;
+      F = parseFloat(pathData.fixedCosts) || 0;
+      D = parseFloat(pathData.sellingDays) || 30;
+
+      calculateMain();
+      displayBasicData();
+      displayMainResults();
+    }
+
+    function calculateMain() {
+      // 1. กำไรสุทธิต่อชิ้น = P-C-M-T
+      profitPerUnit = P - C - M - T;
+
+      // 2. จำนวนชิ้นที่ต้องขายต่อเดือนเพื่อบรรลุเป้าหมาย = (F+G)/กำไรต่อชิ้น ปัดเศษขึ้น
+      unitsPerMonth = Math.ceil((F + G) / profitPerUnit);
+
+      // 3. จำนวนชิ้นที่ต้องขายต่อวันที่ขายเพื่อบรรลุเป้าหมาย = จำนวนชิ้นที่ต้องขายต่อเดือนเพื่อบรรลุเป้าหมาย/D ปัดเศษขึ้น
+      unitsPerDay = Math.ceil(unitsPerMonth / D);
+
+      // 4. รายได้จริงที่จะได้ = จำนวนชิ้นที่ต้องขายต่อวันที่ขายเพื่อบรรลุเป้าหมาย*กำไรต่อชิ้น*D
+      actualRevenue = unitsPerDay * profitPerUnit * D;
+
+      // 5. กำไรจริงหลังหักต้นทุนคงที่ = รายได้จริงที่จะได้-F
+      actualProfit = actualRevenue - F;
+    }
+
+    function displayBasicData() {
+      const basicDataHTML = `
+        <div class="metric-card">
+          <div class="metric-value neutral">${C.toLocaleString()} ฿</div>
+          <div class="metric-label">ต้นทุนต่อชิ้น (C)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value neutral">${M.toLocaleString()} ฿</div>
+          <div class="metric-label">ค่าการตลาดต่อชิ้น (M)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value neutral">${T.toLocaleString()} ฿</div>
+          <div class="metric-label">ค่าขนส่งต่อชิ้น (T)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value positive">${P.toLocaleString()} ฿</div>
+          <div class="metric-label">ราคาขายต่อชิ้น (P)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value neutral">${G.toLocaleString()} ฿</div>
+          <div class="metric-label">เป้าหมายกำไรต่อเดือน (G)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value warning">${F.toLocaleString()} ฿</div>
+          <div class="metric-label">ต้นทุนคงที่ต่อเดือน (F)</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value neutral">${D} วัน</div>
+          <div class="metric-label">จำนวนวันที่ขายต่อเดือน (D)</div>
+        </div>
+      `;
+      document.getElementById('basicData').innerHTML = basicDataHTML;
+    }
+
+    function displayMainResults() {
+      const mainResultsHTML = `
+        <div class="metric-card">
+          <div class="metric-value ${profitPerUnit > 0 ? 'positive' : 'negative'}">${profitPerUnit.toLocaleString()} ฿</div>
+          <div class="metric-label">กำไรสุทธิต่อชิ้น</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value neutral">${unitsPerMonth.toLocaleString()} ชิ้น</div>
+          <div class="metric-label">ต้องขายต่อเดือน</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value neutral">${unitsPerDay.toLocaleString()} ชิ้น</div>
+          <div class="metric-label">ต้องขายต่อวัน</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value positive">${actualRevenue.toLocaleString()} ฿</div>
+          <div class="metric-label">รายได้จริงที่จะได้</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value ${actualProfit > 0 ? 'positive' : 'negative'}">${actualProfit.toLocaleString()} ฿</div>
+          <div class="metric-label">กำไรจริงหลังหักต้นทุนคงที่</div>
+        </div>
+      `;
+      document.getElementById('mainResults').innerHTML = mainResultsHTML;
+    }
+
+    function analyzeActualSales() {
+      const actualSalesInput = parseFloat(document.getElementById('actualSales').value);
+
+      if (actualSalesInput === 0) {
+  alert('คุณได้ลองขายสินค้าแล้วหรือยัง?');
+  return;
+}
+
+if (!actualSalesInput || actualSalesInput <= -1) {
+  alert('กรุณากรอกยอดขายจริงที่ถูกต้อง');
+  return;
+}
+
+
+      const comparisonDiv = document.getElementById('comparisonResults');
+      comparisonDiv.className = 'comparison-section active';
+
+      if (actualSalesInput < unitsPerMonth) {
+        // ขายน้อยกว่าเป้า
+        displayBelowTarget(actualSalesInput);
+      } else if (actualSalesInput > unitsPerMonth) {
+        // ขายมากกว่าเป้า
+        displayAboveTarget(actualSalesInput);
+      } else {
+        // ขายตรงเป้า
+        displayOnTarget();
+      }
+    }
+
+    function displayBelowTarget(actualSales) {
+      // 1. กำไรที่ทำได้จริง = (กำไรสุทธิต่อชิ้น*ยอดขายจริง)-F
+      const actualProfitReal = (profitPerUnit * actualSales) - F;
+
+      // 2. ขาดทุนจากเป้ากำไร = G-กำไรที่ทำได้จริง
+      const shortfall = G - actualProfitReal;
+
+      // 3. ต้องเพิ่มราคาขายเป็นต่อชิ้น = ((F+G)/ยอดขายจริง)+C+M+T
+      const newPrice = ((F + G) / actualSales) + C + M + T;
+      const priceIncrease = newPrice - P;
+
+      // 4. ต้องลดต้นทุนเป็นต่อชิ้น = P-((F+G)/ยอดขายจริง)
+      const newCost = P - ((F + G) / actualSales);
+      const costReduction = (C + M + T) - newCost;
+
+      // ตรวจสอบว่าการปรับราคาหรือต้นทุนมากกว่า 50% หรือไม่
+      const priceIncreasePercent = (priceIncrease / P) * 100;
+      const costReductionPercent = (costReduction / (C + M + T)) * 100;
+
+      let salesRecommendationHTML = '';
+
+      if (priceIncreasePercent >= 50 || costReductionPercent >= 50) {
+        // คำนวณยอดขายที่ต้องการเมื่อปรับราคาหรือต้นทุน 50%
+        const adjustedPrice50 = P * 1.5; // เพิ่มราคา 50%
+        const adjustedCost50 = (C + M + T) * 0.5; // ลดต้นทุน 50%
+
+        // คำนวณกำไรต่อชิ้นใหม่ (ใช้ตัวที่ดีกว่า)
+        const newProfitPerUnitPrice = adjustedPrice50 - C - M - T;
+        const newProfitPerUnitCost = P - adjustedCost50 ;
+        const betterProfitPerUnit = Math.max(newProfitPerUnitPrice, newProfitPerUnitCost);
+
+        // คำนวณยอดขายที่ต้องการใหม่
+        const requiredSalesAfterAdjust = Math.ceil((F + G) / betterProfitPerUnit);
+        const additionalSalesNeeded = Math.max(0, requiredSalesAfterAdjust - actualSales);
+
+        const adjustmentType = newProfitPerUnitPrice > newProfitPerUnitCost ? 'ราคา' : 'ต้นทุน';
+        const adjustmentValue = adjustmentType === 'ราคา' ? adjustedPrice50.toFixed(2) : adjustedCost50.toFixed(2);
+
+        salesRecommendationHTML = `
+          <div class="alert-warning">
+            <strong>⚠️ การปรับ${adjustmentType}มากกว่า 50% อาจส่งผลกระทบต่อธุรกิจ</strong><br>
+            <strong>💡 คำแนะนำ:</strong> แทนที่จะปรับ${adjustmentType}มากเกินไป ควรปรับ${adjustmentType} 50% และเพิ่มยอดขาย<br>
+            <strong>📊 แผนที่แนะนำ:</strong><br>
+            • ปรับ${adjustmentType}เป็น ${adjustmentValue} ฿<br>
+            • เพิ่มยอดขายอีก <strong>${additionalSalesNeeded.toLocaleString()} ชิ้น</strong> (รวมต้องขาย ${requiredSalesAfterAdjust.toLocaleString()} ชิ้น/เดือน)<br>
+            • จะได้กำไรตามเป้าหมาย ${G.toLocaleString()} ฿
+          </div>
+        `;
+      }
+
+      const resultHTML = `
+        <div class="section-card">
+          <div class="alert-danger">
+            <strong>⚠️ ยอดขายต่ำกว่าเป้าหมาย</strong><br>
+            คุณขายได้ ${actualSales.toLocaleString()} ชิ้น แต่ต้องขาย ${unitsPerMonth.toLocaleString()} ชิ้น
+          </div>
+
+          <h3 style="margin-bottom: 1.5rem;">📉 ผลการวิเคราะห์</h3>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-value ${actualProfitReal > 0 ? 'positive' : 'negative'}">${actualProfitReal.toLocaleString()} ฿</div>
+              <div class="metric-label">กำไรที่ทำได้จริง</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value negative">${shortfall.toLocaleString()} ฿</div>
+              <div class="metric-label">ขาดทุนจากเป้ากำไร</div>
+            </div>
+          </div>
+
+          <h4 style="margin: 1.5rem 0 1rem 0;">💡 แนวทางแก้ไข</h4>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-value warning">+${priceIncrease.toFixed(2)} ฿ (${priceIncreasePercent.toFixed(1)}%)</div>
+              <div class="metric-label">ต้องเพิ่มราคาขายต่อชิ้น<br>(เป็น ${newPrice.toFixed(2)} ฿)</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value positive">-${costReduction.toFixed(2)} ฿ (${costReductionPercent.toFixed(1)}%)</div>
+              <div class="metric-label">หรือลดต้นทุนรวมต่อชิ้น<br>(เหลือ ${newCost.toFixed(2)} ฿)</div>
+            </div>
+          </div>
+
+          ${salesRecommendationHTML}
+
+          ${actualProfitReal < 0 ? '<div class="alert-danger"><strong>🚨 คำแนะนำ:</strong> กำลังขาดทุน แนะนำให้เพิ่มยอดขายแทนการปรับราคา</div>' : ''}
+        </div>
+      `;
+
+      document.getElementById('comparisonResults').innerHTML = resultHTML;
+    }
+
+    function displayAboveTarget(actualSales) {
+      // 1. กำไรที่ทำได้จริง = (กำไรสุทธิต่อชิ้น*ยอดขายจริง)-F
+      const actualProfitReal = (profitPerUnit * actualSales) - F;
+
+      // 2. ทะลุเป้ากำไร = กำไรที่ทำได้จริง-G
+      const excess = actualProfitReal - G;
+
+      // 3. สามารถลดราคาขายเป็นต่อชิ้น = ((F+G)/ยอดขายจริง)+C+M+T
+      const newPrice = ((F + G) / actualSales) + C + M + T;
+      const priceReduction = P - newPrice;
+
+      // 4. สามารถเพิ่มต้นทุนเป็นต่อชิ้น = P-((F+G)/ยอดขายจริง)
+      const newMaxCost = P - ((F + G) / actualSales);
+      const costIncrease = newMaxCost - (C + M + T);
+
+      const resultHTML = `
+        <div class="section-card">
+          <div class="alert-success">
+            <strong>🎉 ยอดขายทะลุเป้าหมาย!</strong><br>
+            คุณขายได้ ${actualSales.toLocaleString()} ชิ้น เกินเป้า ${(actualSales - unitsPerMonth).toLocaleString()} ชิ้น
+          </div>
+
+          <h3 style="margin-bottom: 1.5rem;">📈 ผลการวิเคราะห์</h3>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-value positive">${actualProfitReal.toLocaleString()} ฿</div>
+              <div class="metric-label">กำไรที่ทำได้จริง</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value positive">${excess.toLocaleString()} ฿</div>
+              <div class="metric-label">ทะลุเป้ากำไร</div>
+            </div>
+          </div>
+
+          <h4 style="margin: 1.5rem 0 1rem 0;">💡 หากอยากให้อยู่ในเป้า</h4>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-value positive">-${priceReduction.toFixed(2)} ฿</div>
+              <div class="metric-label">สามารถลดราคาขาย<br>(เป็น ${newPrice.toFixed(2)} ฿)</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value warning">+${costIncrease.toFixed(2)} ฿</div>
+              <div class="metric-label">หรือเพิ่มต้นทุนรวม<br>(เป็น ${newMaxCost.toFixed(2)} ฿)</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('comparisonResults').innerHTML = resultHTML;
+    }
+
+    function displayOnTarget() {
+      const resultHTML = `
+        <div class="section-card">
+          <div class="alert-success">
+            <strong>🎯 ยอดขายตรงตามเป้าหมายพอดี!</strong><br>
+            ยินดีด้วย! คุณทำได้ตามเป้าหมายที่วางไว้อย่างแม่นยำ
+          </div>
+
+          <div style="text-align: center; padding: 2rem;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
+            <h3 style="color: #10b981;">ผลการดำเนินงานยอดเยี่ยม!</h3>
+            <p style="color: #cbd5e1; margin-top: 1rem;">
+              การวางแผนและการปฏิบัติของคุณสอดคล้องกันอย่างสมบูรณ์<br>
+              คุณสามารถบรรลุเป้าหมายกำไร ${G.toLocaleString()} ฿ ได้ตามที่ตั้งไว้
+            </p>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('comparisonResults').innerHTML = resultHTML;
+    }
+
+    // โหลดข้อมูลเมื่อเริ่มต้น
+    document.addEventListener('DOMContentLoaded', loadData);
+  </script>
+</body>
+</html>

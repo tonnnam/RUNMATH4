@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>บัญชีรายรับรายจ่ายรายวัน</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'IBM Plex Sans Thai', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      min-height: 100vh;
+      color: white;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .form-section {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #e2e8f0;
+    }
+    input, select {
+      padding: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    button {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+    }
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .summary-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .summary-title {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      margin-bottom: 0.5rem;
+    }
+    .summary-amount {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    .income { color: #10b981; }
+    .expense { color: #ef4444; }
+    .balance { color: #3b82f6; }
+    .chart-container {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    .transaction-list {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .transaction-item {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr 1fr 0.5fr;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      align-items: center;
+    }
+    .transaction-item:last-child {
+      border-bottom: none;
+    }
+    .delete-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .nav-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      margin-top: 2rem;
+      transition: all 0.3s ease;
+    }
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>💰 บัญชีรายรับรายจ่ายรายวัน</h1>
+      <p>บันทึกรายการเงินเข้า-ออกประจำวัน</p>
+    </div>
+
+    <div class="form-section">
+      <h3 style="margin-bottom: 1.5rem;">เพิ่มรายการใหม่</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>วันที่</label>
+          <input type="date" id="date" required>
+        </div>
+        <div class="form-group">
+          <label>ประเภท</label>
+          <select id="type" required>
+            <option value="">เลือกประเภท</option>
+            <option value="income">รายรับ</option>
+            <option value="expense">รายจ่าย</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>จำนวนเงิน (บาท)</label>
+          <input type="number" id="amount" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>รายละเอียด (ไม่บังคับ)</label>
+          <input type="text" id="description" placeholder="เช่น ขายสินค้า, ค่าเช่า, ค่าวัตถุดิบ (ไม่บังคับ)">
+        </div>
+        <div class="form-group">
+          <label>หมวดหมู่ (ไม่บังคับ)</label>
+          <select id="category">
+            <option value="">เลือกหมวดหมู่ (ไม่บังคับ)</option>
+            <option value="sales">รายได้จากขาย</option>
+            <option value="other-income">รายได้อื่นๆ</option>
+            <option value="materials">ค่าวัตถุดิบ</option>
+            <option value="rent">ค่าเช่า</option>
+            <option value="utilities">ค่าสาธารณูปโภค</option>
+            <option value="marketing">ค่าการตลาด</option>
+            <option value="transport">ค่าขนส่ง</option>
+            <option value="other-expense">ค่าใช้จ่ายอื่นๆ</option>
+          </select>
+        </div>
+      </div>
+      <button onclick="addTransaction()">เพิ่มรายการ</button>
+    </div>
+
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="summary-title">รายรับรวม (เดือนนี้)</div>
+        <div class="summary-amount income" id="totalIncome">0</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-title">รายจ่ายรวม (เดือนนี้)</div>
+        <div class="summary-amount expense" id="totalExpense">0</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-title">ยอดคงเหลือ</div>
+        <div class="summary-amount balance" id="balance">0</div>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <h3 style="margin-bottom: 1rem;">ฮิสโตแกรมสะสมรายรับรายจ่ายรายวัน</h3>
+      <canvas id="monthlyChart" width="400" height="200"></canvas>
+    </div>
+
+    <div class="transaction-list">
+      <h3 style="margin-bottom: 1rem;">รายการธุรกรรม</h3>
+      <div class="transaction-item" style="font-weight: 600; background: rgba(255,255,255,0.1);">
+        <div>วันที่</div>
+        <div>รายละเอียด</div>
+        <div>หมวดหมู่</div>
+        <div>จำนวน</div>
+        <div>ลบ</div>
+      </div>
+      <div id="transactionList"></div>
+    </div>
+
+    <a href="index.html" class="nav-link">← กลับหน้าแรก</a>
+  </div>
+
+  <script>
+    let transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
+    let chart;
+
+    function initDate() {
+      document.getElementById('date').value = new Date().toISOString().split('T')[0];
+    }
+
+    function addTransaction() {
+      const date = document.getElementById('date').value;
+      const type = document.getElementById('type').value;
+      const amount = parseFloat(document.getElementById('amount').value);
+      const description = document.getElementById('description').value || 'ไม่ระบุ';
+      const category = document.getElementById('category').value || 'ไม่ระบุ';
+
+      if (!date || !type || !amount) {
+        alert('กรุณากรอกข้อมูลที่จำเป็น: วันที่, ประเภท, และจำนวนเงิน');
+        return;
+      }
+
+      const transaction = {
+        id: Date.now(),
+        date,
+        type,
+        amount,
+        description,
+        category
+      };
+
+      transactions.push(transaction);
+      localStorage.setItem('transactions', JSON.stringify(transactions));
+
+      document.getElementById('amount').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('type').value = '';
+      document.getElementById('category').value = '';
+
+      updateDisplay();
+    }
+
+    function deleteTransaction(id) {
+      transactions = transactions.filter(t => t.id !== id);
+      localStorage.setItem('transactions', JSON.stringify(transactions));
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      updateSummary();
+      updateTransactionList();
+      updateChart();
+    }
+
+    function updateSummary() {
+      const currentMonth = new Date().toISOString().slice(0, 7);
+      const monthlyTransactions = transactions.filter(t => t.date.startsWith(currentMonth));
+
+      const totalIncome = monthlyTransactions
+        .filter(t => t.type === 'income')
+        .reduce((sum, t) => sum + t.amount, 0);
+
+      const totalExpense = monthlyTransactions
+        .filter(t => t.type === 'expense')
+        .reduce((sum, t) => sum + t.amount, 0);
+
+      const balance = totalIncome - totalExpense;
+
+      document.getElementById('totalIncome').textContent = totalIncome.toLocaleString() + ' ฿';
+      document.getElementById('totalExpense').textContent = totalExpense.toLocaleString() + ' ฿';
+      document.getElementById('balance').textContent = balance.toLocaleString() + ' ฿';
+    }
+
+    function updateTransactionList() {
+      const list = document.getElementById('transactionList');
+      const sortedTransactions = transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      list.innerHTML = sortedTransactions.map(t => `
+        <div class="transaction-item">
+          <div>${new Date(t.date).toLocaleDateString('th-TH')}</div>
+          <div>${t.description}</div>
+          <div>${getCategoryName(t.category)}</div>
+          <div class="${t.type}">${t.type === 'income' ? '+' : '-'}${t.amount.toLocaleString()} ฿</div>
+          <div><button class="delete-btn" onclick="deleteTransaction(${t.id})">ลบ</button></div>
+        </div>
+      `).join('');
+    }
+
+    function getCategoryName(category) {
+      const names = {
+        'sales': 'ขายสินค้า',
+        'other-income': 'รายได้อื่นๆ',
+        'materials': 'วัตถุดิบ',
+        'rent': 'ค่าเช่า',
+        'utilities': 'สาธารณูปโภค',
+        'marketing': 'การตลาด',
+        'transport': 'ขนส่ง',
+        'other-expense': 'ค่าใช้จ่ายอื่นๆ'
+      };
+      return names[category] || (category === 'ไม่ระบุ' ? 'ไม่ระบุ' : category || 'ไม่ระบุ');
+    }
+
+    function updateChart() {
+      // สร้างข้อมูลสะสมรายวัน
+      const dailyData = {};
+      
+      // จัดกลุ่มธุรกรรมตามวันที่
+      transactions.forEach(t => {
+        const date = t.date;
+        if (!dailyData[date]) {
+          dailyData[date] = { income: 0, expense: 0 };
+        }
+        dailyData[date][t.type] += t.amount;
+      });
+
+      // เรียงวันที่และคำนวณยอดสะสม
+      const sortedDates = Object.keys(dailyData).sort();
+      let cumulativeIncome = 0;
+      let cumulativeExpense = 0;
+      
+      const labels = [];
+      const incomeData = [];
+      const expenseData = [];
+
+      sortedDates.forEach(date => {
+        cumulativeIncome += dailyData[date].income;
+        cumulativeExpense += dailyData[date].expense;
+        
+        const [year, month, day] = date.split('-');
+        labels.push(`${day}/${month}`);
+        incomeData.push(cumulativeIncome);
+        expenseData.push(cumulativeExpense);
+      });
+
+      const ctx = document.getElementById('monthlyChart').getContext('2d');
+
+      chart = new Chart(ctx, {
+        type: 'histogram',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'รายรับสะสม',
+              data: incomeData,
+              backgroundColor: 'rgba(16, 185, 129, 0.8)',
+              borderColor: 'rgba(16, 185, 129, 1)',
+              borderWidth: 2
+            },
+            {
+              label: 'รายจ่ายสะสม',
+              data: expenseData,
+              backgroundColor: 'rgba(239, 68, 68, 0.8)',
+              borderColor: 'rgba(239, 68, 68, 1)',
+              borderWidth: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          interaction: {
+            intersect: false,
+            mode: 'index'
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'จำนวนเงิน (บาท)',
+                color: 'white'
+              },
+              ticks: {
+                color: 'white',
+                callback: function(value) {
+                  return value.toLocaleString() + ' ฿';
+                }
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'วันที่ในเดือน',
+                color: 'white'
+              },
+              ticks: {
+                color: 'white'
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: 'white'
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + ' ฿';
+                },
+                afterBody: function(tooltipItems) {
+                  const income = tooltipItems.find(item => item.datasetIndex === 0)?.parsed.y || 0;
+                  const expense = tooltipItems.find(item => item.datasetIndex === 1)?.parsed.y || 0;
+                  const net = income - expense;
+                  return `ยอดคงเหลือสะสม: ${net.toLocaleString()} ฿`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    initDate();
+    updateDisplay();
+  </script>
+</body>
+</html>

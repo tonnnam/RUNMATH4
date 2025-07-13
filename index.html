@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+<meta charset="UTF-8">
+<title>Math4Startup: AI-Powered Financial Decision Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'IBM Plex Sans Thai', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+min-height: 100vh;
+color: white;
+overflow-x: hidden;
+}
+
+.navbar {
+background: rgba(15, 23, 42, 0.95);
+backdrop-filter: blur(20px);
+padding: 1rem 2rem;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-content {
+max-width: 1200px;
+margin: 0 auto;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.logo {
+font-size: 1.5rem;
+font-weight: 700;
+color: #3b82f6;
+}
+
+.main-container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 4rem 2rem;
+}
+
+.hero-section {
+text-align: center;
+margin-bottom: 3rem;
+}
+
+.hero-title {
+font-size: 3.5rem;
+font-weight: 700;
+margin-bottom: 1.5rem;
+background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.hero-subtitle {
+font-size: 1.3rem;
+color: #cbd5e1;
+margin-bottom: 3rem;
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+line-height: 1.6;
+}
+
+.product-input-section {
+background: rgba(255, 255, 255, 0.08);
+backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 20px;
+padding: 3rem;
+margin-bottom: 4rem;
+text-align: center;
+}
+
+.input-group {
+max-width: 500px;
+margin: 0 auto 2rem;
+}
+
+.input-group label {
+display: block;
+font-size: 1.2rem;
+font-weight: 500;
+margin-bottom: 1rem;
+color: #e2e8f0;
+}
+
+.input-group input {
+width: 100%;
+padding: 1.2rem;
+border: 1px solid rgba(255, 255, 255, 0.2);
+border-radius: 12px;
+background: rgba(255, 255, 255, 0.1);
+color: white;
+font-size: 1.1rem;
+text-align: center;
+}
+
+.input-group input:focus {
+outline: none;
+border-color: #3b82f6;
+box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.cta-button {
+background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+color: white;
+border: none;
+padding: 1.2rem 3rem;
+border-radius: 12px;
+font-size: 1.1rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+}
+
+.cta-button:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+}
+
+.trending-section {
+background: rgba(255, 255, 255, 0.08);
+backdrop-filter: blur(20px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 20px;
+padding: 3rem;
+}
+
+.trending-title {
+text-align: center;
+font-size: 2rem;
+font-weight: 600;
+margin-bottom: 2rem;
+color: #f1f5f9;
+}
+
+.trending-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 1.5rem;
+}
+
+.trending-item {
+background: rgba(255, 255, 255, 0.05);
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 12px;
+padding: 1.5rem;
+text-align: center;
+transition: all 0.3s ease;
+cursor: pointer;
+}
+
+.trending-item:hover {
+transform: translateY(-3px);
+border-color: rgba(59, 130, 246, 0.5);
+}
+
+.trending-rank {
+font-size: 2rem;
+font-weight: 700;
+color: #3b82f6;
+margin-bottom: 0.5rem;
+}
+
+.trending-name {
+font-size: 1.1rem;
+font-weight: 500;
+margin-bottom: 0.5rem;
+color: #f1f5f9;
+}
+
+.trending-category {
+font-size: 0.9rem;
+color: #94a3b8;
+}
+
+.refresh-btn {
+background: rgba(255, 255, 255, 0.1);
+border: 1px solid rgba(255, 255, 255, 0.2);
+color: white;
+padding: 0.8rem 1.5rem;
+border-radius: 8px;
+cursor: pointer;
+transition: all 0.3s ease;
+margin: 0 auto 2rem;
+display: block;
+}
+
+.refresh-btn:hover {
+background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+.hero-title {
+font-size: 2.5rem;
+}
+
+.main-container {
+padding: 2rem 1rem;
+}
+
+.trending-grid {
+grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+}
+</style>
+</head>
+
+<body>
+<nav class="navbar">
+<select id="languageSelect" onchange="setLanguage(this.value)">
+<option value="th">ไทย</option>
+<option value="en">English</option>
+</select>
+
+<div class="nav-content">
+<div class="logo">📊 Math4Startup</div>
+</div>
+</nav>
+
+<div class="main-container">
+<div class="hero-section">
+<h1 data-i18n="heroTitle">Math4Startup: AI-Powered Financial Decision Engine</h1>
+<p data-i18n="heroSubtitle">เริ่มต้นด้วยการเลือกสินค้าที่คุณสนใจ หรือดูแนวโน้มสินค้าขายดีในตลาด</p>
+</div>
+
+<div class="product-input-section">
+<div class="input-group">
+<label for="productName" data-i18n="labelProduct">🛍️ ชื่อสินค้าหรือบริการที่คุณสนใจ</label>
+<input type="text" id="productName" placeholder="เช่น กาแฟ, เสื้อผ้า, คอร์สออนไลน์"
+data-i18n-placeholder="productPlaceholder">
+</div>
+<button class="cta-button" onclick="startAnalysis()" data-i18n="btnStart">เริ่มต้นวิเคราะห์ธุรกิจ →</button>
+</div>
+
+<div class="trending-section">
+<h2 class="trending-title" data-i18n="trendingTitle">🔥 ธุรกิจแนะนำในช่วงนี้</h2>
+<button class="refresh-btn" onclick="refreshTrending()" data-i18n="refreshBtn">🔄 รีเฟรชข้อมูล</button>
+<div class="trending-grid" id="trendingGrid">
+<!-- ข้อมูลจะถูกโหลดด้วย JavaScript -->
+</div>
+</div>
+</div>
+
+<script>
+
+async function loadTrendingProductsFromAPI() {
+try {
+const response = await fetch('https://pytrends-api-qu8c.onrender.com//api/trends'); // 🔁 เปลี่ยน URL ตรงนี้
+const data = await response.json();
+
+if (!data.trends || data.trends.length === 0) throw new Error("ไม่มีข้อมูล trends");
+renderTrends(data.trends.slice(0, 10));
+} catch (error) {
+console.error("❌ โหลดเทรนด์ล้มเหลว:", error);
+renderTrends(fallbackTrends);
+}
+}
+
+function renderTrends(trendList) {
+const lang = localStorage.getItem("language") || "th";
+const grid = document.getElementById('trendingGrid');
+grid.innerHTML = trendList.map((name, index) => `
+<div class="trending-item" onclick="selectProduct('${name}')">
+<div class="trending-rank">#${index + 1}</div>
+<div class="trending-name">${name}</div>
+<div class="trending-category">${translations[lang].trendingCategory}</div>
+</div>
+`).join('');
+}
+
+function selectProduct(productName) {
+document.getElementById('productName').value = productName;
+}
+
+function refreshTrending() {
+loadTrendingProductsFromAPI();
+}
+
+function startAnalysis() {
+const productName = document.getElementById('productName').value.trim();
+if (!productName) {
+alert('กรุณากรอกชื่อสินค้าหรือบริการ');
+return;
+}
+localStorage.setItem('selectedProduct', productName);
+window.location.href = 'form.html';
+}
+
+// เรียกตอนโหลดหน้า
+loadTrendingProductsFromAPI();
+</script>
+
+<script>
+const translations = {
+th: {
+heroTitle: "Math4Startup: เครื่องมือวิเคราะห์การเงินด้วย AI",
+heroSubtitle: "เริ่มต้นด้วยการเลือกสินค้าที่คุณสนใจ หรือดูแนวโน้มสินค้าขายดีในตลาด",
+labelProduct: "🛍️ ชื่อสินค้าหรือบริการที่คุณสนใจ",
+btnStart: "เริ่มต้นวิเคราะห์ธุรกิจ →",
+trendingTitle: "🔥 ธุรกิจแนะนำในช่วงนี้",
+refreshBtn: "🔄 รีเฟรชข้อมูล",
+trendingCategory: "หมวดหมู่ทั่วไป",
+productPlaceholder: "เช่น กาแฟ, เสื้อผ้า, คอร์สออนไลน์"
+},
+en: {
+heroTitle: "Math4Startup: AI-Powered Financial Decision Engine",
+heroSubtitle: "Start by entering a product or exploring trending business ideas.",
+labelProduct: "🛍️ Product or Service Name",
+btnStart: "Start Business Analysis →",
+trendingTitle: "🔥 Recommended Businesses Now",
+refreshBtn: "🔄 Refresh Data",
+trendingCategory: "General Category",
+productPlaceholder: "e.g. Coffee, Clothing, Online Course"
+}
+};
+
+function setLanguage(lang) {
+localStorage.setItem("language", lang);
+translatePage(lang);
+}
+
+function translatePage(lang) {
+const elements = document.querySelectorAll("[data-i18n]");
+elements.forEach(el => {
+const key = el.getAttribute("data-i18n");
+const translation = translations[lang]?.[key];
+if (translation) {
+if (el.tagName === "INPUT" && el.hasAttribute("placeholder")) {
+el.setAttribute("placeholder", translation);
+} else {
+el.textContent = translation;
+}
+}
+});
+
+// ตั้งค่าค่าภาษาใน dropdown ด้วย
+const select = document.getElementById("languageSelect");
+if (select) select.value = lang;
+}
+</script>
+<script>
+console.log("Script ทำงานแล้ว!");
+</script>
+</body>
+
+</html>
