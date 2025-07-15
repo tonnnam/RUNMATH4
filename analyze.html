@@ -201,37 +201,43 @@
 </head>
 
 <body>
-    <div class="container">
-      <div class="header">
-        <h1 data-i18n="dashboardTitle">📊 ศูนย์วิเคราะห์ธุรกิจครบวงจร</h1>
-        <p data-i18n="dashboardSubtitle">วิเคราะห์ธุรกิจ จัดการเงิน และเป้าหมายต่อเดือน</p>
-        <select id="languageSelect" onchange="setLanguage(this.value)" style="margin-bottom: 1rem;">
-          <option value="th">ไทย</option>
-          <option value="en">English</option>
-        </select>
-      </div>
+  <div class="container">
+    <div class="header">
+      <h1 data-i18n="dashboardTitle">📊 ศูนย์วิเคราะห์ธุรกิจครบวงจร</h1>
+      <p data-i18n="dashboardSubtitle">วิเคราะห์ธุรกิจ จัดการเงิน และเป้าหมายต่อเดือน</p>
+      <select id="languageSelect" onchange="setLanguage(this.value)" style="margin-bottom: 1rem;">
+        <option value="th" data-i18n="langThai">ไทย</option>
+        <option value="en" data-i18n="langEnglish">English</option>
+      </select>
+    </div>
 
-      <div class="product-info">
-        <h3><span data-i18n="productLabel">🎯 สินค้า/บริการ:</span> <span id="currentProduct">-</span></h3>
-        <p><span data-i18n="businessTypeLabel">ประเภทธุรกิจ:</span> <span id="currentBusinessType">-</span></p>
-      </div>
+    <div class="product-info">
+      <h3>
+        <span data-i18n="productLabel">🎯 สินค้า/บริการ:</span>
+        <span id="currentProduct">-</span>
+      </h3>
+      <p>
+        <span data-i18n="businessTypeLabel">ประเภทธุรกิจ:</span>
+        <span id="currentBusinessType">-</span>
+      </p>
+    </div>
 
-      <div class="tab-navigation">
-        <button class="tab-button active" onclick="switchTab('overview')" data-i18n="tabOverview">📈 ภาพรวม</button>
-        <button class="tab-button" onclick="switchTab('accounting')" data-i18n="tabAccounting">💰 บัญชีรายวัน</button>
-        <button class="tab-button" onclick="switchTab('path-analysis')" data-i18n="tabGoalAnalysis">🎯 วิเคราะห์เส้นทางสู่เป้าหมาย</button>
-      </div>
+    <div class="tab-navigation">
+      <button class="tab-button active" onclick="switchTab('overview')" data-i18n="tabOverview">📈 ภาพรวม</button>
+      <button class="tab-button" onclick="switchTab('accounting')" data-i18n="tabAccounting">💰 บัญชีรายวัน</button>
+      <button class="tab-button" onclick="switchTab('path-analysis')" data-i18n="tabGoalAnalysis">🎯 วิเคราะห์เส้นทางสู่เป้าหมาย</button>
+    </div>
 
-      <!-- แท็บภาพรวม -->
-      <div id="overview" class="tab-content active">
-        <div class="section-card">
-          <h3 style="margin-bottom: 1.5rem;" data-i18n="overviewHeader">📊 ผลการวิเคราะห์ธุรกิจ</h3>
-          <div class="metrics-grid" id="businessMetrics"></div>
-          <div class="chart-container">
-            <canvas id="overviewChart" width="400" height="200"></canvas>
-          </div>
-          <div id="businessInsights"></div>
+    <!-- แท็บภาพรวม -->
+    <div id="overview" class="tab-content active">
+      <div class="section-card">
+        <h3 style="margin-bottom: 1.5rem;" data-i18n="overviewHeader">📊 ผลการวิเคราะห์ธุรกิจ</h3>
+        <div class="metrics-grid" id="businessMetrics"></div>
+        <div class="chart-container">
+          <canvas id="overviewChart" width="400" height="200"></canvas>
         </div>
+        <div id="businessInsights"></div>
+      </div>
     </div>
       
     <!-- แท็บบัญชีรายวัน -->
