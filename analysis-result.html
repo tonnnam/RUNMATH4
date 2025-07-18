@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <title>ผลการวิเคราะห์เส้นทางสู่เป้าหมาย</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="i18n.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -155,50 +155,86 @@
       border-radius: 8px;
       margin-bottom: 1rem;
     }
+    .language-selector {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    .language-selector select {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    .language-selector select:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(59, 130, 246, 0.5);
+    }
+    .language-selector select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    .language-selector option {
+      background: #1e293b;
+      color: white;
+    }
   </style>
 </head>
 <body>
+  <div class="language-selector">
+    <select id="languageSelect" onchange="setLanguage(this.value)">
+      <option value="th" data-i18n="langThai">🇹🇭 ไทย</option>
+      <option value="en" data-i18n="langEnglish">🇺🇸 English</option>
+    </select>
+  </div>
+  
   <div class="container">
     <div class="header">
-      <h1>🎯 ผลการวิเคราะห์เส้นทางสู่เป้าหมาย</h1>
-      <p>คำนวณจากข้อมูล 7 ตัวแปรสำคัญ</p>
+      <h1 data-i18n="analysisResultTitle">🎯 ผลการวิเคราะห์เส้นทางสู่เป้าหมาย</h1>
+      <p data-i18n="analysisResultSubtitle">คำนวณจากข้อมูล 7 ตัวแปรสำคัญ</p>
     </div>
 
     <!-- แสดงข้อมูลที่นำเข้า -->
     <div class="section-card">
-      <h3 style="margin-bottom: 1.5rem;">📊 ข้อมูลพื้นฐาน</h3>
+      <h3 style="margin-bottom: 1.5rem;" data-i18n="basicDataTitle">📊 ข้อมูลพื้นฐาน</h3>
       <div class="metrics-grid" id="basicData"></div>
     </div>
 
     <!-- ผลการคำนวณหลัก -->
     <div class="section-card">
-      <h3 style="margin-bottom: 1.5rem;">🎯 ผลการคำนวณเส้นทางสู่เป้าหมาย</h3>
+      <h3 style="margin-bottom: 1.5rem;" data-i18n="mainResultsTitle">🎯 ผลการคำนวณเส้นทางสู่เป้าหมาย</h3>
       <div class="metrics-grid" id="mainResults"></div>
     </div>
 
     <!-- ส่วนเปรียบเทียบยอดขายจริง -->
     <div class="input-section">
-      <h3 style="margin-bottom: 1.5rem;">💡 วิเคราะห์ยอดขายจริง</h3>
-      <p style="margin-bottom: 1rem; color: #cbd5e1;">
-  หากคุณคิดว่ายอดขายต่อเดือนจริงของคุณเป็นเท่าไหร่ กรุณาแจ้งเรา เราจะช่วยแนะนำแนวทางให้
-</p>
-<p style="margin-top: -0.5rem; font-size: 0.9rem; color: #94a3b8;">
-  *ยอดขายที่คิดไว้ไม่ควรคลาดเคลื่อนมากเกินไปจากยอดขายที่ระบบคำนวณให้ เพราะอาจส่งผลต่อการวิเคราะห์
-</p>
-
+      <h3 style="margin-bottom: 1.5rem;" data-i18n="actualSalesAnalysis">💡 วิเคราะห์ยอดขายจริง</h3>
+      <p style="margin-bottom: 1rem; color: #cbd5e1;" data-i18n="actualSalesNote">
+        หากคุณคิดว่ายอดขายต่อเดือนจริงของคุณเป็นเท่าไหร่ กรุณาแจ้งเรา เราจะช่วยแนะนำแนวทางให้
+      </p>
+      <p style="margin-top: -0.5rem; font-size: 0.9rem; color: #94a3b8;" data-i18n="actualSalesWarning">
+        *ยอดขายที่คิดไว้ไม่ควรคลาดเคลื่อนมากเกินไปจากยอดขายที่ระบบคำนวณให้ เพราะอาจส่งผลต่อการวิเคราะห์
       </p>
       <div class="form-group">
-        <label>ยอดขายจริงต่อเดือน (ชิ้น)</label>
+        <label data-i18n="actualSalesInput">ยอดขายจริงต่อเดือน (ชิ้น)</label>
         <input type="number" id="actualSales" placeholder="เช่น 150">
       </div>
-      <button onclick="analyzeActualSales()">วิเคราะห์ยอดขายจริง</button>
+      <button onclick="analyzeActualSales()" data-i18n="btnAnalyzeActual">วิเคราะห์ยอดขายจริง</button>
     </div>
 
     <!-- ผลการเปรียบเทียบ -->
     <div id="comparisonResults" class="comparison-section"></div>
 
-    <a href="analyze.html" class="nav-link">← กลับหน้าศูนย์วิเคราะห์ธุรกิจครบวงจร</a>
-    <a href="index.html" class="nav-link">🏠 กลับหน้าแรก</a>
+    <a href="analyze.html" class="nav-link" data-i18n="navBackAnalyze">← กลับหน้าศูนย์วิเคราะห์ธุรกิจครบวงจร</a>
+    <a href="index.html" class="nav-link" data-i18n="navBackHome">🏠 กลับหน้าแรก</a>
   </div>
 
   <script>
