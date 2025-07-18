@@ -236,7 +236,36 @@ const translations = {
     // Doughnut chart labels
     chartProfitLabel: "กำไร",
     chartCostLabel: "ต้นทุนสินค้า",
-    chartExpenseFixedLabel: "ค่าใช้จ่าย"
+    chartExpenseFixedLabel: "ค่าใช้จ่าย",
+
+    // Metric labels ที่ขาดหาย
+    productCostPerUnit: "ต้นทุนต่อชิ้น (C)",
+    marketingCostPerUnit: "ค่าการตลาดต่อชิ้น (M)",
+    shippingCostPerUnit: "ค่าขนส่งต่อชิ้น (T)",
+    sellingPricePerUnit: "ราคาขายต่อชิ้น (P)",
+    profitGoalPerMonth: "เป้าหมายกำไรต่อเดือน (G)",
+    fixedCostPerMonth: "ต้นทุนคงที่ต่อเดือน (F)",
+    sellingDaysPerMonth: "จำนวนวันที่ขายต่อเดือน (D)",
+    netProfitPerUnit: "กำไรสุทธิต่อชิ้น",
+    mustSellPerMonth: "ต้องขายต่อเดือน",
+    mustSellPerDay: "ต้องขายต่อวัน",
+    actualRevenueExpected: "รายได้จริงที่จะได้",
+    actualProfitAfterFixed: "กำไรจริงหลังหักต้นทุนคงที่",
+
+    // Strong text labels
+    analysisResult: "ผลการวิเคราะห์",
+    recommendedSolution: "แนวทางแก้ไข",
+    belowTargetAlert: "ยอดขายต่ำกว่าเป้าหมาย",
+    aboveTargetAlert: "ยอดขายทะลุเป้าหมาย!",
+    onTargetAlert: "ยอดขายตรงตามเป้าหมายพอดี!",
+    adjustmentWarning: "การปรับมากกว่า 50% อาจส่งผลกระทบต่อธุรกิจ",
+    recommendedPlan: "แผนที่แนะนำ:",
+    performanceExcellent: "ผลการดำเนินงานยอดเยี่ยม!",
+    lossWarning: "คำแนะนำ:",
+    priceAdjustmentNeeded: "ต้องเพิ่มราคาขายต่อชิ้น",
+    costReductionNeeded: "หรือลดต้นทุนรวมต่อชิ้น",
+    canReducePrice: "สามารถลดราคาขาย",
+    canIncreaseCost: "หรือเพิ่มต้นทุนรวม"
   },
 
   en: {
@@ -473,7 +502,36 @@ const translations = {
     // Doughnut chart labels
     chartProfitLabel: "Profit",
     chartCostLabel: "Product Cost",
-    chartExpenseFixedLabel: "Fixed Expenses"
+    chartExpenseFixedLabel: "Fixed Expenses",
+
+    // Metric labels ที่ขาดหาย
+    productCostPerUnit: "Product Cost per Unit (C)",
+    marketingCostPerUnit: "Marketing Cost per Unit (M)",
+    shippingCostPerUnit: "Shipping Cost per Unit (T)",
+    sellingPricePerUnit: "Selling Price per Unit (P)",
+    profitGoalPerMonth: "Monthly Profit Goal (G)",
+    fixedCostPerMonth: "Monthly Fixed Cost (F)",
+    sellingDaysPerMonth: "Selling Days per Month (D)",
+    netProfitPerUnit: "Net Profit per Unit",
+    mustSellPerMonth: "Must Sell per Month",
+    mustSellPerDay: "Must Sell per Day",
+    actualRevenueExpected: "Actual Revenue Expected",
+    actualProfitAfterFixed: "Actual Profit After Fixed Costs",
+
+    // Strong text labels
+    analysisResult: "Analysis Result",
+    recommendedSolution: "Recommended Solution",
+    belowTargetAlert: "Sales Below Target",
+    aboveTargetAlert: "Sales Exceed Target!",
+    onTargetAlert: "Sales On Target!",
+    adjustmentWarning: "Adjustments over 50% may impact business",
+    recommendedPlan: "Recommended Plan:",
+    performanceExcellent: "Excellent Performance!",
+    lossWarning: "Recommendation:",
+    priceAdjustmentNeeded: "Must Increase Selling Price per Unit",
+    costReductionNeeded: "Or Reduce Total Cost per Unit",
+    canReducePrice: "Can Reduce Selling Price",
+    canIncreaseCost: "Or Increase Total Cost"
   }
 };
 
@@ -487,6 +545,14 @@ function setLanguage(lang) {
   languageSelects.forEach(select => {
     if (select) select.value = lang;
   });
+
+  // อัพเดทกราฟและข้อมูลใหม่ทันทีหลังเปลี่ยนภาษา
+  if (typeof updateAccountingCharts === 'function') {
+    setTimeout(() => updateAccountingCharts(), 100);
+  }
+  if (typeof displayBusinessOverview === 'function') {
+    setTimeout(() => displayBusinessOverview(), 100);
+  }
 }
 
 function translatePage() {
