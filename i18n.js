@@ -1,3 +1,4 @@
+
 // i18n.js - ระบบแปลภาษาสมบูรณ์
 
 const translations = {
@@ -108,6 +109,31 @@ const translations = {
     unitsPerDay: "ต้องขายต่อวัน",
     actualRevenue: "รายได้จริงที่จะได้",
     actualProfit: "กำไรจริงหลังหักต้นทุนคงที่",
+    
+    // Additional metric labels
+    totalCostPerUnit: "ต้นทุนรวมต่อชิ้น",
+    profitPerUnitGoal: "กำไรต่อชิ้นตามเป้า",
+    unitsNeededForGoal: "จำนวนที่ต้องขายเพื่อบรรลุเป้า",
+    unitsPerDayGoal: "ต้องขายต่อวันเพื่อบรรลุเป้า",
+    totalMonthlyCost: "ต้นทุนรวมต่อเดือน",
+    expectedMonthlyRevenue: "รายได้คาดหวังต่อเดือน",
+    expectedMonthlyProfit: "กำไรคาดหวังต่อเดือน",
+    profitGoalAchievable: "ความเป็นไปได้ของเป้าหมาย",
+    
+    // Status and evaluation labels
+    statusAchievable: "บรรลุได้",
+    statusDifficult: "ท้าทาย",
+    statusNotAchievable: "ยาก",
+    evaluationExcellent: "ยอดเยี่ยม",
+    evaluationGood: "ดี",
+    evaluationAverage: "ปานกลาง",
+    evaluationPoor: "ต้องปรับปรุง",
+    
+    // Section headers
+    businessAnalysisHeader: "การวิเคราะห์ธุรกิจ",
+    performanceMetricsHeader: "ตัวชี้วัดประสิทธิภาพ",
+    goalAnalysisHeader: "การวิเคราะห์เป้าหมาย",
+    financialSummaryHeader: "สรุปทางการเงิน",
 
     // Business insights
     insightsTitle: "💡 ข้อเสนะแนะ",
@@ -302,6 +328,31 @@ const translations = {
     unitsPerDay: "Units to Sell per Day",
     actualRevenue: "Actual Revenue Expected",
     actualProfit: "Actual Profit After Fixed Costs",
+    
+    // Additional metric labels
+    totalCostPerUnit: "Total Cost per Unit",
+    profitPerUnitGoal: "Profit per Unit Target",
+    unitsNeededForGoal: "Units Needed for Goal",
+    unitsPerDayGoal: "Units per Day for Goal",
+    totalMonthlyCost: "Total Monthly Cost",
+    expectedMonthlyRevenue: "Expected Monthly Revenue",
+    expectedMonthlyProfit: "Expected Monthly Profit",
+    profitGoalAchievable: "Goal Achievability",
+    
+    // Status and evaluation labels
+    statusAchievable: "Achievable",
+    statusDifficult: "Challenging",
+    statusNotAchievable: "Difficult",
+    evaluationExcellent: "Excellent",
+    evaluationGood: "Good",
+    evaluationAverage: "Average",
+    evaluationPoor: "Needs Improvement",
+    
+    // Section headers
+    businessAnalysisHeader: "Business Analysis",
+    performanceMetricsHeader: "Performance Metrics",
+    goalAnalysisHeader: "Goal Analysis",
+    financialSummaryHeader: "Financial Summary",
 
     // Business insights
     insightsTitle: "💡 Recommendations",
