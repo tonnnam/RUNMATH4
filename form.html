@@ -141,18 +141,55 @@
       text-align: center;
       color: #10b981;
     }
+
+    .language-selector {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .language-selector select {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .language-selector select:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(59, 130, 246, 0.5);
+    }
+
+    .language-selector select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .language-selector option {
+      background: #1e293b;
+      color: white;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
+    <div class="language-selector">
+      <select id="languageSelect" onchange="setLanguage(this.value)">
+        <option value="th" data-i18n="langThai">🇹🇭 ไทย</option>
+        <option value="en" data-i18n="langEnglish">🇺🇸 English</option>
+      </select>
+    </div>
+    
     <div class="header">
-      <div style="margin-top: 1rem;">
-        <select id="languageSelect" onchange="setLanguage(this.value)">
-          <option value="th">ไทย</option>
-          <option value="en">English</option>
-        </select>
-      </div>
       <h1 data-i18n="form_title">⚡ กรอกข้อมูลสั้นๆ</h1>
       <p data-i18n="form_subtitle">เพียง 5 ข้อมูลสำคัญ ก็วิเคราะห์ธุรกิจได้แล้ว!</p>
     </div>
@@ -169,30 +206,30 @@
       <form id="businessForm">
 
         <div class="form-group">
-          <label data-i18n="label_product">1. ชื่อสินค้า/บริการ <span class="required">*</span></label>
+          <label data-i18n="label_product">1. ชื่อสินค้า/บริการ <span class="required" data-i18n="required_field">*</span></label>
           <input type="text" id="productName" required placeholder="เช่น กาแฟคั่วสด">
         </div>
 
         <div class="form-group">
           <label data-i18n="label_cost">2. ต้นทุนต่อหน่วย (บาท) <span class="required">*</span></label>
-          <input type="number" id="cost" step="0.01" required placeholder="เช่น 15">
-          <div class="help-text" data-i18n="quick_note">ค่าวัตถุดิบ + ค่าแรง</div>
+          <input type="number" id="cost" step="0.01" required placeholder="เช่น 15" data-i18n-placeholder="costPlaceholder">
+          <div class="help-text" data-i18n="help_text_cost">ค่าวัตถุดิบ + ค่าแรง</div>
         </div>
 
         <div class="form-group">
           <label data-i18n="label_price">3. ราคาขายต่อหน่วย (บาท) <span class="required">*</span></label>
-          <input type="number" id="price" step="0.01" required placeholder="เช่น 25">
+          <input type="number" id="price" step="0.01" required placeholder="เช่น 25" data-i18n-placeholder="pricePlaceholder">
         </div>
 
         <div class="form-group">
           <label data-i18n="label_units">4. จำนวนที่จะขายต่อเดือน (หน่วย) <span class="required">*</span></label>
-          <input type="number" id="units" required placeholder="เช่น 500">
+          <input type="number" id="units" required placeholder="เช่น 500" data-i18n-placeholder="unitsPlaceholder">
         </div>
 
         <div class="form-group">
           <label data-i18n="label_expense">5. ค่าใช้จ่ายคงที่ต่อเดือน (บาท) <span class="required">*</span></label>
-          <input type="number" id="expense" step="0.01" required placeholder="เช่น 3000">
-          <div class="help_text" data-i18n="help_text">ค่าเช่า + ค่าไฟ + เงินเดือน</div>
+          <input type="number" id="expense" step="0.01" required placeholder="เช่น 3000" data-i18n-placeholder="expensePlaceholder">
+          <div class="help-text" data-i18n="help_text">ค่าเช่า + ค่าไฟ + เงินเดือน</div>
         </div>
 
         <button type="submit" class="submit-button" data-i18n="btn_submit">🚀 เริ่มวิเคราะห์เลย!</button>
@@ -228,7 +265,9 @@
       });
 
       if (!isValid) {
-        alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+        const lang = localStorage.getItem('language') || 'th';
+        const message = lang === 'th' ? 'กรุณากรอกข้อมูลให้ครบถ้วน' : 'Please fill in all required fields';
+        alert(message);
         return;
       }
       // ตรวจสอบว่าราคาขายมากกว่าต้นทุนหรือไม่
@@ -236,7 +275,9 @@
       const price = parseFloat(document.getElementById('price').value);
 
       if (price <= cost) {
-        alert('❗ ราคาขายต้องมากกว่าต้นทุน');
+        const lang = localStorage.getItem('language') || 'th';
+        const message = lang === 'th' ? '❗ ราคาขายต้องมากกว่าต้นทุน' : '❗ Selling price must be higher than cost';
+        alert(message);
         document.getElementById('price').style.borderColor = '#ef4444';
         document.getElementById('price').focus();
         return; // หยุดการส่งฟอร์ม
@@ -276,63 +317,39 @@
 
   </script>
 
+  <script src="i18n.js"></script>
   <script>
-    // ✅ ระบบแปลภาษา 2 ภาษา
-    const translations = {
-      th: {
-        form_title: "⚡ กรอกข้อมูลสั้นๆ",
-        form_subtitle: "เพียง 5 ข้อมูลสำคัญ ก็วิเคราะห์ธุรกิจได้แล้ว!",
-        selected_product: "🎯 สินค้าที่เลือก:",
-        quick_note: "✨ ใส่ข้อมูลง่ายๆ 5 ข้อ ระบบจะช่วยวิเคราะห์ให้เอง!",
-        label_product: "1. ชื่อสินค้า/บริการ *",
-        label_cost: "2. ต้นทุนต่อหน่วย (บาท) *",
-        label_price: "3. ราคาขายต่อหน่วย (บาท) *",
-        label_units: "4. จำนวนที่จะขายต่อเดือน (หน่วย) *",
-        label_expense: "5. ค่าใช้จ่ายคงที่ต่อเดือน (บาท) *",
-        help_text: "ค่าวัตถุดิบ + ค่าแรง",
-        btn_submit: "🚀 เริ่มวิเคราะห์เลย!",
-        back_home: "← กลับหน้าแรก"
-      },
-      en: {
-        form_title: "⚡ Quick Business Info",
-        form_subtitle: "Just 5 key data points to analyze your business!",
-        selected_product: "🎯 Selected Product:",
-        quick_note: "✨ Just fill out 5 fields, the system will analyze for you!",
-        label_product: "1. Product/Service Name *",
-        label_cost: "2. Cost per Unit (THB) *",
-        label_price: "3. Selling Price per Unit (THB) *",
-        label_units: "4. Monthly Sales Volume (Units) *",
-        label_expense: "5. Fixed Monthly Costs (THB) *",
-        help_text: "Materials + Labor",
-        btn_submit: "🚀 Analyze Now!",
-        back_home: "← Back to Home"
-      }
-    };
+        // Set default language to Thai
+        let currentLanguage = localStorage.getItem('language') || 'th';
 
-    function setLanguage(lang) {
-      localStorage.setItem("language", lang);
-      translatePage(lang);
-    }
+        // Function to translate the page
+        function translatePage() {
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(element => {
+                const translationKey = element.getAttribute('data-i18n');
+                if (i18n[currentLanguage] && i18n[currentLanguage][translationKey]) {
+                    element.textContent = i18n[currentLanguage][translationKey];
+                }
 
-    function translatePage(lang) {
-      const elements = document.querySelectorAll("[data-i18n]");
-      elements.forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (translations[lang] && translations[lang][key]) {
-          el.innerHTML = translations[lang][key]; // ใช้ innerHTML เพื่อให้รองรับ <span> ภายในข้อความ
+                // Translate placeholder if applicable
+                const placeholderKey = element.getAttribute('data-i18n-placeholder');
+                if (placeholderKey && i18n[currentLanguage] && i18n[currentLanguage][placeholderKey]) {
+                    element.setAttribute('placeholder', i18n[currentLanguage][placeholderKey]);
+                }
+            });
         }
-      });
 
-      // เปลี่ยนปุ่มให้แสดงภาษาที่เลือกไว้
-      const langButtons = document.querySelectorAll("button[onclick^='setLanguage']");
-      langButtons.forEach(btn => {
-        btn.disabled = btn.getAttribute("onclick").includes(lang);
-      });
-    }
+        // Function to set the language and translate the page
+        function setLanguage(language) {
+            currentLanguage = language;
+            localStorage.setItem('language', language);
+            translatePage();
+        }
 
-    // โหลดภาษาที่เคยเลือกไว้
-    const currentLang = localStorage.getItem("language") || "th";
-    window.addEventListener("DOMContentLoaded", () => translatePage(currentLang));
+        // Translate the page when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(currentLanguage); // Set to the stored language or default
+        });
   </script>
 </body>
 
