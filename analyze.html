@@ -9,11 +9,14 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'IBM Plex Sans Thai', sans-serif;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      font-family: 'IBM Plex Sans Thai', 'Segoe UI', 'Roboto', 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1d35 25%, #2a2d45 50%, #1e293b 75%, #334155 100%);
+      background-attachment: fixed;
       min-height: 100vh;
       padding: 2rem;
-      color: white;
+      color: #f8fafc;
+      letter-spacing: -0.01em;
+      line-height: 1.6;
     }
     .container {
       max-width: 1200px;
@@ -84,25 +87,61 @@
       margin-bottom: 2rem;
     }
     .metric-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 1.5rem;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    .metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+      opacity: 0.8;
+    }
+    .metric-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      border-color: rgba(59, 130, 246, 0.3);
     }
     .metric-value {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
     }
     .metric-label {
       font-size: 0.9rem;
       color: #cbd5e1;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
-    .positive { color: #10b981; }
-    .negative { color: #ef4444; }
-    .neutral { color: #3b82f6; }
-    .warning { color: #f59e0b; }
+    .positive { 
+      color: #22c55e; 
+      text-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+    }
+    .negative { 
+      color: #ef4444; 
+      text-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    }
+    .neutral { 
+      color: #3b82f6; 
+      text-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    }
+    .warning { 
+      color: #f59e0b; 
+      text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+    }
     .chart-container {
       margin-bottom: 2rem;
     }
@@ -263,7 +302,10 @@
     <!-- แท็บภาพรวม -->
     <div id="overview" class="tab-content active">
       <div class="section-card">
-        <h3 style="margin-bottom: 1.5rem;" data-i18n="overviewHeader">📊 ผลการวิเคราะห์ธุรกิจ</h3>
+        <h3 style="margin-bottom: 2rem; font-size: 1.5rem; font-weight: 700; color: #f1f5f9; text-align: center; position: relative; padding-bottom: 1rem;" data-i18n="overviewHeader">
+          📊 ผลการวิเคราะห์ธุรกิจ
+          <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border-radius: 2px;"></div>
+        </h3>
         <div class="metrics-grid" id="businessMetrics"></div>
         <div class="chart-container">
           <canvas id="overviewChart" width="400" height="200"></canvas>
@@ -275,7 +317,10 @@
     <!-- แท็บบัญชีรายวัน -->
     <div id="accounting" class="tab-content">
       <div class="section-card">
-        <h3 style="margin-bottom: 1.5rem;" data-i18n="addTransactionTitle">💰 เพิ่มรายการรายรับรายจ่าย</h3>
+        <h3 style="margin-bottom: 2rem; font-size: 1.5rem; font-weight: 700; color: #f1f5f9; text-align: center; position: relative; padding-bottom: 1rem;" data-i18n="addTransactionTitle">
+          💰 เพิ่มรายการรายรับรายจ่าย
+          <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 3px; background: linear-gradient(90deg, #22c55e, #16a34a); border-radius: 2px;"></div>
+        </h3>
         <div class="form-row">
           <div class="form-group">
             <label data-i18n="transactionDate">วันที่</label>
@@ -591,21 +636,39 @@
           datasets: [{
             label: getTranslation('chartIncomeLabel'),
             data: incomeData,
-            backgroundColor: 'rgba(16, 185, 129, 0.8)',
-            borderColor: 'rgba(16, 185, 129, 1)',
-            borderWidth: 2
+            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+            borderColor: '#22c55e',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#22c55e',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 5
           }, {
             label: getTranslation('chartExpenseLabel'),
             data: expenseData,
-            backgroundColor: 'rgba(239, 68, 68, 0.8)',
-            borderColor: 'rgba(239, 68, 68, 1)',
-            borderWidth: 2
+            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+            borderColor: '#ef4444',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#ef4444',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 5
           }, {
             label: getTranslation('chartBalanceLabel'),
             data: balanceData,
-            backgroundColor: 'rgba(251, 191, 36, 0.8)',
-            borderColor: 'rgba(251, 191, 36, 1)',
-            borderWidth: 2
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            borderColor: '#3b82f6',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#3b82f6',
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
+            pointRadius: 5
           }]
         },
         options: {
@@ -717,8 +780,20 @@
           ],
           datasets: [{
             data: [Math.max(0, profit), cost, businessData.expense],
-            backgroundColor: ['#10b981', '#3b82f6', '#ef4444'],
-            borderWidth: 0
+            backgroundColor: [
+              'linear-gradient(135deg, #22c55e, #16a34a)',
+              'linear-gradient(135deg, #3b82f6, #2563eb)', 
+              'linear-gradient(135deg, #f59e0b, #d97706)'
+            ],
+            borderWidth: 0,
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            hoverBackgroundColor: [
+              '#22c55e',
+              '#3b82f6',
+              '#f59e0b'
+            ],
+            hoverBorderWidth: 2,
+            hoverBorderColor: '#ffffff'
           }]
         },
         options: {
