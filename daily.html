@@ -6,14 +6,216 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* [CSS เหมือนเดิมทุกประการ ไม่ตัดทอนเพื่อให้คุณดูได้ครบ] */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans Thai', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+      min-height: 100vh;
+      color: white;
+      padding: 2rem;
+    }
+
+    .language-selector {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .language-selector select {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .language-selector select:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(59, 130, 246, 0.5);
+    }
+
+    .language-selector select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .language-selector option {
+      background: #1e293b;
+      color: white;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .form-section {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #e2e8f0;
+    }
+
+    input, select {
+      padding: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    button {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+    }
+
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .summary-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .summary-title {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      margin-bottom: 0.5rem;
+    }
+
+    .summary-amount {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .income { color: #10b981; }
+    .expense { color: #ef4444; }
+    .balance { color: #3b82f6; }
+
+    .chart-container {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .transaction-list {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .transaction-item {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr 1fr 0.5fr;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      align-items: center;
+    }
+
+    .nav-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
   </style>
 </head>
 <body>
-  <select id="languageSelect" onchange="setLanguage(this.value)" style="margin: 0 0 1rem 1rem; padding: 0.5rem; border-radius: 8px;">
-    <option value="th">ไทย</option>
-    <option value="en">English</option>
-  </select>
+  <script src="i18n.js"></script>
+  <div class="language-selector">
+    <select id="languageSelect" onchange="setLanguage(this.value)">
+      <option value="th" data-i18n="langThai">🇹🇭 ไทย</option>
+      <option value="en" data-i18n="langEnglish">🇺🇸 English</option>
+    </select>
+  </div>
 
   <div class="container">
     <div class="header">
@@ -44,20 +246,20 @@
       <div class="form-row">
         <div class="form-group">
           <label data-i18n="labelDesc">รายละเอียด</label>
-          <input type="text" id="description" required placeholder="เช่น ขายสินค้า, ค่าเช่า" />
+          <input type="text" id="description" required data-i18n-placeholder="transactionDescPlaceholder" placeholder="เช่น ขายสินค้า, ค่าเช่า" />
         </div>
         <div class="form-group">
           <label data-i18n="labelCategory">หมวดหมู่</label>
           <select id="category" required>
             <option value="">--</option>
-            <option value="sales">ขายสินค้า</option>
-            <option value="other-income">รายได้อื่นๆ</option>
-            <option value="materials">วัตถุดิบ</option>
-            <option value="rent">ค่าเช่า</option>
-            <option value="utilities">สาธารณูปโภค</option>
-            <option value="marketing">การตลาด</option>
-            <option value="transport">ขนส่ง</option>
-            <option value="other-expense">ค่าใช้จ่ายอื่นๆ</option>
+            <option value="sales" data-i18n="categorySalesName">ขายสินค้า</option>
+            <option value="other-income" data-i18n="categoryOtherIncomeName">รายได้อื่นๆ</option>
+            <option value="materials" data-i18n="categoryMaterialsName">วัตถุดิบ</option>
+            <option value="rent" data-i18n="categoryRentName">ค่าเช่า</option>
+            <option value="utilities" data-i18n="categoryUtilitiesName">สาธารณูปโภค</option>
+            <option value="marketing" data-i18n="categoryMarketingName">การตลาด</option>
+            <option value="transport" data-i18n="categoryTransportName">ขนส่ง</option>
+            <option value="other-expense" data-i18n="categoryOtherExpenseName">ค่าใช้จ่ายอื่นๆ</option>
           </select>
         </div>
       </div>
