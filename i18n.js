@@ -264,8 +264,48 @@ const translations = {
     lossWarning: "คำแนะนำ:",
     priceAdjustmentNeeded: "ต้องเพิ่มราคาขายต่อชิ้น",
     costReductionNeeded: "หรือลดต้นทุนรวมต่อชิ้น",
-    canReducePrice: "สามารถลดราคาขาย",
-    canIncreaseCost: "หรือเพิ่มต้นทุนรวม"
+    canReducePrice: "สามารถลดราขาย",
+    canIncreaseCost: "หรือเพิ่มต้นทุนรวม",
+
+    // Labels ที่ขาดหายใน analysis-result
+    productCostLabel: "ต้นทุนสินค้าต่อชิ้น (C)",
+    marketingCostLabel: "ค่าการตลาดต่อชิ้น (M)",
+    shippingCostLabel: "ค่าขนส่งต่อชิ้น (T)",
+    sellingPriceLabel: "ราคาขายต่อชิ้น (P)",
+    profitGoalLabel: "เป้าหมายกำไรต่อเดือน (G)",
+    fixedCostsLabel: "ต้นทุนคงที่ต่อเดือน (F)",
+    sellingDaysLabel: "จำนวนวันที่ขายต่อเดือน (D)",
+    profitPerUnitLabel: "กำไรสุทธิต่อชิ้น",
+    unitsPerMonthLabel: "ต้องขายต่อเดือน",
+    unitsPerDayLabel: "ต้องขายต่อวัน",
+    actualRevenueLabel: "รายได้จริงที่จะได้",
+    actualProfitLabel: "กำไรจริงหลังหักต้นทุนคงที่",
+
+    // ข้อความเพิ่มเติมสำหรับการวิเคราะห์
+    analysisResults: "ผลการวิเคราะห์",
+    actualProfitMade: "กำไรที่ทำได้จริง",
+    profitShortfall: "ขาดทุนจากเป้ากำไร",
+    increasePrice: "ต้องเพิ่มราคาขายต่อชิ้น",
+    reduceCost: "หรือลดต้นทุนรวมต่อชิ้น",
+    salesAchieved: "คุณขายได้",
+    units: "ชิ้น",
+    butNeedToSell: "แต่ต้องขาย",
+    exceedTargetBy: "เกินเป้า",
+    profitExceedsTarget: "ทะลุเป้ากำไร",
+    ifWantToStayOnTarget: "หากอยากให้อยู่ในเป้า",
+    congratulations: "ยินดีด้วย! คุณทำได้ตามเป้าหมายที่วางไว้อย่างแม่นยำ",
+    excellentPerformance: "ผลการดำเนินงานยอดเยี่ยม!",
+    planningAndExecution: "การวางแผนและการปฏิบัติของคุณสอดคล้องกันอย่างสมบูรณ์<br>คุณสามารถบรรลุเป้าหมายกำไร",
+    warningAdjustment: "⚠️ การปรับมากกว่า 50% อาจส่งผลกระทบต่อธุรกิจ",
+    recommendationAdjustment: "💡 คำแนะนำ:",
+    adjustType: "ปรับ",
+    increaseSales: "เพิ่มยอดขายอีก",
+    totalSales: "รวมต้องขาย",
+    profitTarget: "จะได้กำไรตามเป้าหมาย",
+    belowTarget: "⚠️ ยอดขายต่ำกว่าเป้าหมาย",
+    aboveTarget: "🎉 ยอดขายทะลุเป้าหมาย!",
+    onTarget: "🎯 ยอดขายตรงตามเป้าหมายพอดี!",
+    lossRecommendation: "🚨 คำแนะนำ:"</old_str>
   },
 
   en: {
@@ -531,7 +571,47 @@ const translations = {
     priceAdjustmentNeeded: "Must Increase Selling Price per Unit",
     costReductionNeeded: "Or Reduce Total Cost per Unit",
     canReducePrice: "Can Reduce Selling Price",
-    canIncreaseCost: "Or Increase Total Cost"
+    canIncreaseCost: "Or Increase Total Cost",
+
+    // Labels ที่ขาดหายใน analysis-result
+    productCostLabel: "Product Cost per Unit (C)",
+    marketingCostLabel: "Marketing Cost per Unit (M)",
+    shippingCostLabel: "Shipping Cost per Unit (T)",
+    sellingPriceLabel: "Selling Price per Unit (P)",
+    profitGoalLabel: "Monthly Profit Goal (G)",
+    fixedCostsLabel: "Monthly Fixed Costs (F)",
+    sellingDaysLabel: "Selling Days per Month (D)",
+    profitPerUnitLabel: "Net Profit per Unit",
+    unitsPerMonthLabel: "Must Sell per Month",
+    unitsPerDayLabel: "Must Sell per Day",
+    actualRevenueLabel: "Actual Revenue Expected",
+    actualProfitLabel: "Actual Profit After Fixed Costs",
+
+    // ข้อความเพิ่มเติมสำหรับการวิเคราะห์
+    analysisResults: "Analysis Results",
+    actualProfitMade: "Actual Profit Made",
+    profitShortfall: "Profit Shortfall from Target",
+    increasePrice: "Must Increase Selling Price per Unit",
+    reduceCost: "Or Reduce Total Cost per Unit",
+    salesAchieved: "You sold",
+    units: "units",
+    butNeedToSell: "but need to sell",
+    exceedTargetBy: "exceeding target by",
+    profitExceedsTarget: "Profit Exceeds Target",
+    ifWantToStayOnTarget: "If you want to stay on target",
+    congratulations: "Congratulations! You achieved your target exactly as planned",
+    excellentPerformance: "Excellent Performance!",
+    planningAndExecution: "Your planning and execution are perfectly aligned<br>You can achieve your profit target of",
+    warningAdjustment: "⚠️ Adjustments over 50% may impact business",
+    recommendationAdjustment: "💡 Recommendation:",
+    adjustType: "Adjust",
+    increaseSales: "Increase sales by",
+    totalSales: "total sales required",
+    profitTarget: "to achieve profit target of",
+    belowTarget: "⚠️ Sales Below Target",
+    aboveTarget: "🎉 Sales Exceed Target!",
+    onTarget: "🎯 Sales On Target!",
+    lossRecommendation: "🚨 Recommendation:"</old_str>
   }
 };
 
@@ -553,6 +633,36 @@ function setLanguage(lang) {
   if (typeof displayBusinessOverview === 'function') {
     setTimeout(() => displayBusinessOverview(), 100);
   }
+  if (typeof displayBasicData === 'function') {
+    setTimeout(() => displayBasicData(), 100);
+  }
+  if (typeof displayMainResults === 'function') {
+    setTimeout(() => displayMainResults(), 100);
+  }
+  
+  // รีเฟรชเนื้อหาในหน้าปัจจุบัน
+  setTimeout(() => {
+    // อัพเดท metric labels
+    document.querySelectorAll('.metric-label').forEach(element => {
+      const textContent = element.textContent.trim();
+      // ค้นหาและแปลข้อความที่ตรงกัน
+      Object.keys(translations[lang]).forEach(key => {
+        if (translations['th'][key] === textContent || translations['en'][key] === textContent) {
+          element.textContent = translations[lang][key];
+        }
+      });
+    });
+    
+    // อัพเดท strong tags
+    document.querySelectorAll('strong').forEach(element => {
+      const textContent = element.textContent.trim();
+      Object.keys(translations[lang]).forEach(key => {
+        if (translations['th'][key] === textContent || translations['en'][key] === textContent) {
+          element.textContent = translations[lang][key];
+        }
+      });
+    });
+  }, 150);
 }
 
 function translatePage() {
