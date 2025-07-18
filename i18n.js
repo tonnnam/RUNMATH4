@@ -177,6 +177,24 @@ const translations = {
     btnAnalyzeActual: "วิเคราะห์ยอดขายจริง",
     navBackAnalyze: "← กลับหน้าศูนย์วิเคราะห์ธุรกิจครบวงจร",
     navBackHome: "🏠 กลับหน้าแรก",
+    
+    // Analysis result metric labels  
+    pathAnalysisResultTitle: "🎯 ผลการวิเคราะห์เส้นทางสู่เป้าหมาย",
+    pathProductCostLabel: "ต้นทุนสินค้าต่อชิ้น",
+    pathMarketingCostLabel: "ค่าการตลาดต่อชิ้น", 
+    pathShippingCostLabel: "ค่าขนส่งต่อชิ้น",
+    pathSellingPriceLabel: "ราคาขายต่อชิ้น",
+    pathProfitGoalLabel: "เป้าหมายกำไรต่อเดือน",
+    pathFixedCostsLabel: "ต้นทุนคงที่ต่อเดือน",
+    pathSellingDaysLabel: "จำนวนวันที่ขายต่อเดือน",
+    
+    // Results comparison labels
+    actualVsPredictedTitle: "📊 เปรียบเทียบยอดขายจริงกับที่คำนวณ",
+    actualSalesAnalysisTitle: "📈 ผลการวิเคราะห์ยอดขายจริง",
+    actualProfitLabel: "กำไรจากยอดขายจริง",
+    actualRevenueLabel: "รายได้จากยอดขายจริง",
+    differenceFromPredicted: "ความแตกต่างจากที่คำนวณ",
+    recommendationTitle: "💡 คำแนะนำ",
 
     // Business type names
     businessTypeRetail: "ขายปลีก",
@@ -396,6 +414,24 @@ const translations = {
     btnAnalyzeActual: "Analyze Actual Sales",
     navBackAnalyze: "← Back to Business Analysis Center",
     navBackHome: "🏠 Back to Home",
+    
+    // Analysis result metric labels
+    pathAnalysisResultTitle: "🎯 Path to Goal Analysis Results",
+    pathProductCostLabel: "Product Cost per Unit",
+    pathMarketingCostLabel: "Marketing Cost per Unit",
+    pathShippingCostLabel: "Shipping Cost per Unit", 
+    pathSellingPriceLabel: "Selling Price per Unit",
+    pathProfitGoalLabel: "Monthly Profit Goal",
+    pathFixedCostsLabel: "Monthly Fixed Costs",
+    pathSellingDaysLabel: "Selling Days per Month",
+    
+    // Results comparison labels
+    actualVsPredictedTitle: "📊 Actual vs Predicted Sales Comparison",
+    actualSalesAnalysisTitle: "📈 Actual Sales Analysis Results",
+    actualProfitLabel: "Profit from Actual Sales",
+    actualRevenueLabel: "Revenue from Actual Sales",
+    differenceFromPredicted: "Difference from Predicted",
+    recommendationTitle: "💡 Recommendations",
 
     // Business type names
     businessTypeRetail: "Retail",
