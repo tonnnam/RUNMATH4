@@ -5,6 +5,7 @@
   <title>ศูนย์วิเคราะห์ธุรกิจครบวงจร</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="i18n.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -197,6 +198,35 @@
     .nav-link:hover {
       background: rgba(255, 255, 255, 0.2);
     }
+    .language-selector {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .language-selector select {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    .language-selector select:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(59, 130, 246, 0.5);
+    }
+    .language-selector select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    .language-selector option {
+      background: #1e293b;
+      color: white;
+    }
   </style>
 </head>
 
@@ -205,10 +235,12 @@
     <div class="header">
       <h1 data-i18n="dashboardTitle">📊 ศูนย์วิเคราะห์ธุรกิจครบวงจร</h1>
       <p data-i18n="dashboardSubtitle">วิเคราะห์ธุรกิจ จัดการเงิน และเป้าหมายต่อเดือน</p>
-      <select id="languageSelect" onchange="setLanguage(this.value)" style="margin-bottom: 1rem;">
-        <option value="th" data-i18n="langThai">ไทย</option>
-        <option value="en" data-i18n="langEnglish">English</option>
-      </select>
+      <div class="language-selector">
+        <select id="languageSelect" onchange="setLanguage(this.value)">
+          <option value="th" data-i18n="langThai">🇹🇭 ไทย</option>
+          <option value="en" data-i18n="langEnglish">🇺🇸 English</option>
+        </select>
+      </div>
     </div>
 
     <div class="product-info">
@@ -239,66 +271,66 @@
         <div id="businessInsights"></div>
       </div>
     </div>
-      
+
     <!-- แท็บบัญชีรายวัน -->
     <div id="accounting" class="tab-content">
       <div class="section-card">
-        <h3 style="margin-bottom: 1.5rem;">💰 เพิ่มรายการรายรับรายจ่าย</h3>
+        <h3 style="margin-bottom: 1.5rem;" data-i18n="addTransactionTitle">💰 เพิ่มรายการรายรับรายจ่าย</h3>
         <div class="form-row">
           <div class="form-group">
-            <label>วันที่</label>
+            <label data-i18n="transactionDate">วันที่</label>
             <input type="date" id="transactionDate" required>
           </div>
           <div class="form-group">
-            <label>ประเภท</label>
+            <label data-i18n="transactionType">ประเภท</label>
             <select id="transactionType" required>
-              <option value="">เลือกประเภท</option>
-              <option value="income">รายรับ</option>
-              <option value="expense">รายจ่าย</option>
+              <option value="" data-i18n="transactionSelectType">เลือกประเภท</option>
+              <option value="income" data-i18n="transactionIncome">รายรับ</option>
+              <option value="expense" data-i18n="transactionExpense">รายจ่าย</option>
             </select>
           </div>
           <div class="form-group">
-            <label>จำนวนเงิน (บาท)</label>
+            <label data-i18n="transactionAmount">จำนวนเงิน (บาท)</label>
             <input type="number" id="transactionAmount" required>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>รายละเอียด</label>
-            <input type="text" id="transactionDescription" placeholder="เช่น ขายสินค้า, ค่าเช่า">
+            <label data-i18n="transactionDescription">รายละเอียด</label>
+            <input type="text" id="transactionDescription" data-i18n-placeholder="transactionDescPlaceholder" placeholder="เช่น ขายสินค้า, ค่าเช่า">
           </div>
           <div class="form-group">
-            <label>หมวดหมู่</label>
+            <label data-i18n="transactionCategory">หมวดหมู่</label>
             <select id="transactionCategory" required>
-              <option value="">เลือกหมวดหมู่</option>
-              <option value="sales">รายได้จากขาย</option>
-              <option value="other-income">รายได้อื่นๆ</option>
-              <option value="materials">ค่าวัตถุดิบ</option>
-              <option value="rent">ค่าเช่า</option>
-              <option value="utilities">ค่าสาธารณูปโภค</option>
-              <option value="marketing">ค่าการตลาด</option>
-              <option value="transport">ค่าขนส่ง</option>
-              <option value="other-expense">ค่าใช้จ่ายอื่นๆ</option>
+              <option value="" data-i18n="transactionSelectCategory">เลือกหมวดหมู่</option>
+              <option value="sales" data-i18n="categorySales">รายได้จากขาย</option>
+              <option value="other-income" data-i18n="categoryOtherIncome">รายได้อื่นๆ</option>
+              <option value="materials" data-i18n="categoryMaterials">ค่าวัตถุดิบ</option>
+              <option value="rent" data-i18n="categoryRent">ค่าเช่า</option>
+              <option value="utilities" data-i18n="categoryUtilities">ค่าสาธารณูปโภค</option>
+              <option value="marketing" data-i18n="categoryMarketing">ค่าการตลาด</option>
+              <option value="transport" data-i18n="categoryTransport">ค่าขนส่ง</option>
+              <option value="other-expense" data-i18n="categoryOtherExpense">ค่าใช้จ่ายอื่นๆ</option>
             </select>
           </div>
         </div>
-        <button onclick="addTransaction()">เพิ่มรายการ</button>
+        <button onclick="addTransaction()" data-i18n="btnAddTransaction">เพิ่มรายการ</button>
       </div>
 
       <div class="section-card">
-        <h3 style="margin-bottom: 1.5rem;">📊 สรุปยอดรายเดือน</h3>
+        <h3 style="margin-bottom: 1.5rem;" data-i18n="monthlySummaryTitle">📊 สรุปยอดรายเดือน</h3>
         <div class="metrics-grid">
           <div class="metric-card">
             <div class="metric-value positive" id="monthlyIncome">0 ฿</div>
-            <div class="metric-label">รายรับรวม</div>
+            <div class="metric-label" data-i18n="monthlyIncomeTotal">รายรับรวม</div>
           </div>
           <div class="metric-card">
             <div class="metric-value negative" id="monthlyExpense">0 ฿</div>
-            <div class="metric-label">รายจ่ายรวม</div>
+            <div class="metric-label" data-i18n="monthlyExpenseTotal">รายจ่ายรวม</div>
           </div>
           <div class="metric-card">
             <div class="metric-value neutral" id="monthlyBalance">0 ฿</div>
-            <div class="metric-label">ยอดคงเหลือ</div>
+            <div class="metric-label" data-i18n="monthlyBalance">ยอดคงเหลือ</div>
           </div>
         </div>
         <div class="chart-container">
@@ -307,14 +339,14 @@
       </div>
 
       <div class="section-card">
-        <h3 style="margin-bottom: 1.5rem;">📋 รายการธุรกรรม</h3>
+        <h3 style="margin-bottom: 1.5rem;" data-i18n="transactionListTitle">📋 รายการธุรกรรม</h3>
         <div class="transaction-list">
           <div class="transaction-item" style="font-weight: 600; background: rgba(255,255,255,0.1);">
-            <div>วันที่</div>
-            <div>รายละเอียด</div>
-            <div>หมวดหมู่</div>
-            <div>จำนวน</div>
-            <div>ลบ</div>
+            <div data-i18n="transactionListDate">วันที่</div>
+            <div data-i18n="transactionListDescription">รายละเอียด</div>
+            <div data-i18n="transactionListCategory">หมวดหมู่</div>
+            <div data-i18n="transactionListAmount">จำนวน</div>
+            <div data-i18n="transactionListDelete">ลบ</div>
           </div>
           <div id="transactionsList"></div>
         </div>
@@ -324,62 +356,62 @@
     <!-- แท็บวิเคราะห์เส้นทางสู่เป้าหมาย -->
     <div id="path-analysis" class="tab-content">
       <div class="section-card">
-        <h3 style="margin-bottom: 1.5rem;">🎯 วิเคราะห์เส้นทางสู่เป้าหมาย</h3>
-        <p style="margin-bottom: 1.5rem; color: #cbd5e1;">
+        <h3 style="margin-bottom: 1.5rem;" data-i18n="pathAnalysisTitle">🎯 วิเคราะห์เส้นทางสู่เป้าหมาย</h3>
+        <p style="margin-bottom: 1.5rem; color: #cbd5e1;" data-i18n="pathAnalysisSubtitle">
           กรอกข้อมูลเพื่อวิเคราะห์เส้นทางการดำเนินธุรกิจและแผนการบรรลุเป้าหมาย
         </p>
 
         <form id="pathAnalysisForm">
           <div class="form-row">
             <div class="form-group">
-              <label>ต้นทุนสินค้าต่อชิ้น (บาท)</label>
+              <label data-i18n="pathProductCost">ต้นทุนสินค้าต่อชิ้น (บาท)</label>
               <input type="number" id="productCost" step="0.01" placeholder="เช่น 15.00" required>
             </div>
             <div class="form-group">
-              <label>ค่าการตลาดต่อชิ้น (บาท)</label>
+              <label data-i18n="pathMarketingCost">ค่าการตลาดต่อชิ้น (บาท)</label>
               <input type="number" id="marketingCost" step="0.01" placeholder="เช่น 5.00" required>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>ค่าขนส่งต่อชิ้น (บาท)</label>
+              <label data-i18n="pathShippingCost">ค่าขนส่งต่อชิ้น (บาท)</label>
               <input type="number" id="shippingCost" step="0.01" placeholder="เช่น 10.00" required>
             </div>
             <div class="form-group">
-              <label>ราคาขายต่อชิ้น (บาท)</label>
+              <label data-i18n="pathSellingPrice">ราคาขายต่อชิ้น (บาท)</label>
               <input type="number" id="sellingPrice" step="0.01" placeholder="เช่น 50.00" required>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>เป้าหมายกำไรต่อเดือน (บาท)</label>
+              <label data-i18n="pathProfitGoal">เป้าหมายกำไรต่อเดือน (บาท)</label>
               <input type="number" id="profitGoal" placeholder="เช่น 20000" required>
             </div>
             <div class="form-group">
-              <label>ต้นทุนคงที่ต่อเดือน (บาท)</label>
+              <label data-i18n="pathFixedCosts">ต้นทุนคงที่ต่อเดือน (บาท)</label>
               <input type="number" id="fixedCosts" placeholder="เช่น 8000" required>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>จำนวนวันที่ขายต่อเดือน (วัน)</label>
+              <label data-i18n="pathSellingDays">จำนวนวันที่ขายต่อเดือน (วัน)</label>
               <input type="number" id="sellingDays" placeholder="เช่น 20" required>
             </div>
           </div>
 
           <div style="margin-top: 2rem;">
-            <button type="button" onclick="goToAnalysisResult()" style="width: 100%; background: linear-gradient(135deg, #10b981, #059669);">📊 ผลการวิเคราะห์</button>
+            <button type="button" onclick="goToAnalysisResult()" style="width: 100%; background: linear-gradient(135deg, #10b981, #059669);" data-i18n="pathAnalysisResult">📊 ผลการวิเคราะห์</button>
           </div>
         </form>
       </div>
     </div>
 
     <div class="nav-links">
-      <a href="form.html" class="nav-link">📝 แก้ไขข้อมูลธุรกิจ</a>
-      <a href="index.html" class="nav-link">← กลับหน้าแรก</a>
+      <a href="form.html" class="nav-link" data-i18n="editBusinessData">📝 แก้ไขข้อมูลธุรกิจ</a>
+      <a href="index.html" class="nav-link" data-i18n="backHome">← กลับหน้าแรก</a>
     </div>
   </div>
 
@@ -840,6 +872,6 @@
   </script>
 
    <script src="i18n.js"></script>
-      
+
 </body>
 </html>
