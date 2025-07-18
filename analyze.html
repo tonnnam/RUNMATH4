@@ -543,8 +543,7 @@
 
       updateAccountingSummary();
       updateTransactionsList();
-      // อัพเดทกราฟทันทีหลังเพิ่มรายการ
-      setTimeout(() => updateAccountingCharts(), 50);
+      updateAccountingCharts();
     }
 
     function deleteTransaction(id) {
@@ -629,11 +628,6 @@
       });
 
       const ctx = document.getElementById('accountingChart').getContext('2d');
-
-      // ทำลายกราฟเก่าก่อนสร้างใหม่
-      if (window.accountingChart) {
-        window.accountingChart.destroy();
-      }
 
       window.accountingChart = new Chart(ctx, {
         type: 'line',
@@ -735,7 +729,7 @@
                     getTranslation('chartTooltipExpense').replace('{amount}', expense.toLocaleString()),
                     getTranslation('chartTooltipBalance').replace('{amount}', balance.toLocaleString())
                   ];
-                                }
+                }
               }
             }
           }
@@ -756,50 +750,27 @@
       const metricsHTML = `
         <div class="metric-card">
           <div class="metric-value neutral">${revenue.toLocaleString()} ฿</div>
-          <div class="metric-label" data-i18n="monthlyRevenue">รายได้ต่อเดือน</div>
+          <div class="metric-label">รายได้ต่อเดือน</div>
         </div>
         <div class="metric-card">
           <div class="metric-value ${profit > 0 ? 'positive' : 'negative'}">${profit.toLocaleString()} ฿</div>
-          <div class="metric-label" data-i18n="monthlyProfit">กำไรต่อเดือน</div>
+          <div class="metric-label">กำไรต่อเดือน</div>
         </div>
         <div class="metric-card">
           <div class="metric-value ${profitMargin > 20 ? 'positive' : profitMargin > 10 ? 'warning' : 'negative'}">${profitMargin.toFixed(1)}%</div>
-          <div class="metric-label" data-i18n="profitMargin">อัตรากำไร</div>
+          <div class="metric-label">อัตรากำไร</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${breakeven}</div>
-          <div class="metric-label" data-i18n="breakeven">จุดคุ้มทุน (หน่วย)</div>
+          <div class="metric-label">จุดคุ้มทุน (หน่วย)</div>
         </div>
       `;
 
       document.getElementById('businessMetrics').innerHTML = metricsHTML;
 
       // สร้างกราฟ
-      createOverviewChart(profit, cost, businessData.expense);
-
-      // แสดงข้อเสนแนะ
-      const insights = generateBusinessInsights(profitMargin, profit, breakeven);
-      document.getElementById('businessInsights').innerHTML = `
-        <h4 style="margin-bottom: 1rem;" data-i18n="insightsTitle">💡 ข้อเสนแนะ</h4>
-        <div class="insights-list">
-          ${insights.map(insight => `<div class="insight-item">${insight}</div>`).join('')}
-        </div>
-      `;
-
-      // แปลภาษาหลังจากอัพเดท HTML
-      translatePage();
-    }
-
-    function createOverviewChart(profit, cost, expense) {
-      const ctx = document.getElementById('overviewChart');
-      if (!ctx) return;
-
-      const context = ctx.getContext('2d');
-      if (window.overviewChart) {
-        window.overviewChart.destroy();
-      }
-
-      window.overviewChart = new Chart(context, {
+      const ctx = document.getElementById('overviewChart').getContext('2d');
+      new Chart(ctx, {
         type: 'doughnut',
         data: {
           labels: [
@@ -808,18 +779,18 @@
             getTranslation('chartExpenseFixedLabel')
           ],
           datasets: [{
-            data: [Math.max(0, profit), cost, expense],
+            data: [Math.max(0, profit), cost, businessData.expense],
             backgroundColor: [
-              '#22c55e',  // เขียว
-              '#ef4444',  // แดง
-              '#f59e0b'   // เหลือง
+              '#10b981',
+              '#3b82f6', 
+              '#f59e0b'
             ],
             borderWidth: 3,
             borderColor: 'rgba(255, 255, 255, 0.2)',
             hoverBackgroundColor: [
-              '#16a34a',  // เขียวเข้ม
-              '#dc2626',  // แดงเข้ม
-              '#d97706'   // เหลืองเข้ม
+              '#059669',
+              '#2563eb',
+              '#d97706'
             ],
             hoverBorderWidth: 4,
             hoverBorderColor: '#ffffff'
@@ -827,7 +798,6 @@
         },
         options: {
           responsive: true,
-          maintainAspectRatio: true,
           plugins: {
             legend: {
               labels: {
@@ -845,16 +815,20 @@
               titleColor: 'white',
               bodyColor: 'white',
               borderColor: 'rgba(59, 130, 246, 0.5)',
-              borderWidth: 1,
-              callbacks: {
-                label: function(context) {
-                  return context.label + ': ' + context.parsed.toLocaleString() + ' ฿';
-                }
-              }
+              borderWidth: 1
             }
           }
         }
       });
+
+      // แสดงข้อเสนะแนะ
+      const insights = generateBusinessInsights(profitMargin, profit, breakeven);
+      document.getElementById('businessInsights').innerHTML = `
+        <h4 style="margin-bottom: 1rem;">💡 ข้อเสนะแนะ</h4>
+        <div class="insights-list">
+          ${insights.map(insight => `<div class="insight-item">${insight}</div>`).join('')}
+        </div>
+      `;
     }
 
     function generateBusinessInsights(profitMargin, profit, breakeven) {
