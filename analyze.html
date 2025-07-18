@@ -438,16 +438,7 @@
     }
 
     function getBusinessTypeName(type) {
-      const types = {
-        'retail': 'ขายปลีก',
-        'wholesale': 'ขายส่ง',
-        'service': 'บริการ',
-        'food': 'อาหารและเครื่องดื่ม',
-        'online': 'ออนไลน์/E-commerce',
-        'manufacturing': 'ผลิต',
-        'consulting': 'ที่ปรึกษา'
-      };
-      return types[type] || type;
+      return getBusinessTypeDisplayName(type);
     }
 
     // ระบบแท็บ
@@ -554,13 +545,7 @@
     }
 
     function getCategoryName(category) {
-      const names = {
-        'sales': 'ขายสินค้า', 'other-income': 'รายได้อื่นๆ',
-        'materials': 'วัตถุดิบ', 'rent': 'ค่าเช่า',
-        'utilities': 'สาธารณูปโภค', 'marketing': 'การตลาด',
-        'transport': 'ขนส่ง', 'other-expense': 'ค่าใช้จ่ายอื่นๆ'
-      };
-      return names[category] || category;
+      return getCategoryDisplayName(category);
     }
 
     function updateAccountingCharts() {
@@ -604,19 +589,19 @@
         data: {
           labels: labels,
           datasets: [{
-            label: 'รายรับสะสม',
+            label: getTranslation('chartIncomeLabel'),
             data: incomeData,
             backgroundColor: 'rgba(16, 185, 129, 0.8)',
             borderColor: 'rgba(16, 185, 129, 1)',
             borderWidth: 2
           }, {
-            label: 'รายจ่ายสะสม',
+            label: getTranslation('chartExpenseLabel'),
             data: expenseData,
             backgroundColor: 'rgba(239, 68, 68, 0.8)',
             borderColor: 'rgba(239, 68, 68, 1)',
             borderWidth: 2
           }, {
-            label: 'ยอดเงินคงเหลือ',
+            label: getTranslation('chartBalanceLabel'),
             data: balanceData,
             backgroundColor: 'rgba(251, 191, 36, 0.8)',
             borderColor: 'rgba(251, 191, 36, 1)',
@@ -634,7 +619,7 @@
               beginAtZero: true,
               title: {
                 display: true,
-                text: 'จำนวนเงิน (บาท)',
+                text: getTranslation('chartAmountAxis'),
                 color: 'white'
               },
               ticks: {
@@ -650,7 +635,7 @@
             x: {
               title: {
                 display: true,
-                text: 'วันที่ในเดือน',
+                text: getTranslation('chartDateAxis'),
                 color: 'white'
               },
               ticks: {
@@ -677,9 +662,9 @@
                   const expense = tooltipItems.find(item => item.datasetIndex === 1)?.parsed.y || 0;
                   const balance = tooltipItems.find(item => item.datasetIndex === 2)?.parsed.y || 0;
                   return [
-                    `รายรับสะสม: ${income.toLocaleString()} ฿`,
-                    `รายจ่ายสะสม: ${expense.toLocaleString()} ฿`,
-                    `ยอดคงเหลือ: ${balance.toLocaleString()} ฿`
+                    getTranslation('chartTooltipIncome').replace('{amount}', income.toLocaleString()),
+                    getTranslation('chartTooltipExpense').replace('{amount}', expense.toLocaleString()),
+                    getTranslation('chartTooltipBalance').replace('{amount}', balance.toLocaleString())
                   ];
                 }
               }
@@ -725,7 +710,11 @@
       new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['กำไร', 'ต้นทุนสินค้า', 'ค่าใช้จ่าย'],
+          labels: [
+            getTranslation('chartProfitLabel'), 
+            getTranslation('chartCostLabel'), 
+            getTranslation('chartExpenseFixedLabel')
+          ],
           datasets: [{
             data: [Math.max(0, profit), cost, businessData.expense],
             backgroundColor: ['#10b981', '#3b82f6', '#ef4444'],
@@ -752,22 +741,22 @@
       const insights = [];
 
       if (profitMargin > 25) {
-        insights.push('🎉 อัตรากำไรสูงมาก ธุรกิจมีศักยภาพดีเยี่ยม');
+        insights.push(getTranslation('insightHighProfit'));
       } else if (profitMargin < 5) {
-        insights.push('⚠️ อัตรากำไรต่ำ ควรลดต้นทุนหรือเพิ่มราคา');
+        insights.push(getTranslation('insightLowProfit'));
       }
 
       if (profit > 0) {
-        insights.push('✅ ธุรกิจมีกำไร ควรขยายการตลาดเพื่อเพิ่มยอดขาย');
+        insights.push(getTranslation('insightProfitable'));
       } else {
-        insights.push('🔴 ธุรกิจขาดทุน ต้องปรับกลยุทธ์ด่วน');
+        insights.push(getTranslation('insightLoss'));
       }
 
       if (breakeven > 0) {
-        insights.push(`📊 ต้องขายอย่างน้อย ${breakeven} หน่วยต่อเดือนเพื่อคุ้มทุน`);
+        insights.push(getTranslation('insightBreakeven').replace('{breakeven}', breakeven.toLocaleString()));
       }
 
-      insights.push('📈 บันทึกรายรับรายจ่ายจริงเพื่อเปรียบเทียบกับแผน');
+      insights.push(getTranslation('insightTracking'));
 
       return insights;
     }
