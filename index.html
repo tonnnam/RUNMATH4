@@ -32,11 +32,40 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-content {
-max-width: 1200px;
-margin: 0 auto;
-display: flex;
-justify-content: space-between;
-align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.language-selector select {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.language-selector select:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.language-selector select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.language-selector option {
+  background: #1e293b;
+  color: white;
 }
 
 .logo {
@@ -224,15 +253,16 @@ grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 
 <body>
 <nav class="navbar">
-<select id="languageSelect" onchange="setLanguage(this.value)">
-<option value="th">ไทย</option>
-<option value="en">English</option>
-</select>
-
-<div class="nav-content">
-<div class="logo">📊 Math4Startup</div>
-</div>
-</nav>
+    <div class="nav-content">
+      <div class="logo">📊 Math4Startup</div>
+      <div class="language-selector">
+        <select id="languageSelect" onchange="setLanguage(this.value)">
+          <option value="th" data-i18n="langThai">🇹🇭 ไทย</option>
+          <option value="en" data-i18n="langEnglish">🇺🇸 English</option>
+        </select>
+      </div>
+    </div>
+  </nav>
 
 <div class="main-container">
 <div class="hero-section">
@@ -258,11 +288,17 @@ data-i18n-placeholder="productPlaceholder">
 </div>
 </div>
 
+<script src="i18n.js"></script>
 <script>
+
+const fallbackTrends = [
+  "กาแฟคั่วสด", "เสื้อผ้าออนไลน์", "คอร์สออนไลน์", "อาหารคลีน", "ขนมหวาน",
+  "เครื่องสำอาง", "ผลิتภัณฑ์ธรรมชาติ", "เสื้อผ้าเด็ก", "อุปกรณ์ออกกำลังกาย", "บริการส่งอาหาร"
+];
 
 async function loadTrendingProductsFromAPI() {
 try {
-const response = await fetch('https://pytrends-api-qu8c.onrender.com//api/trends'); // 🔁 เปลี่ยน URL ตรงนี้
+const response = await fetch('https://pytrends-api-qu8c.onrender.com//api/trends');
 const data = await response.json();
 
 if (!data.trends || data.trends.length === 0) throw new Error("ไม่มีข้อมูล trends");
@@ -294,9 +330,11 @@ loadTrendingProductsFromAPI();
 }
 
 function startAnalysis() {
+const lang = localStorage.getItem("language") || "th";
 const productName = document.getElementById('productName').value.trim();
 if (!productName) {
-alert('กรุณากรอกชื่อสินค้าหรือบริการ');
+const alertMsg = lang === "th" ? "กรุณากรอกชื่อสินค้าหรือบริการ" : "Please enter product or service name";
+alert(alertMsg);
 return;
 }
 localStorage.setItem('selectedProduct', productName);
@@ -305,55 +343,6 @@ window.location.href = 'form.html';
 
 // เรียกตอนโหลดหน้า
 loadTrendingProductsFromAPI();
-</script>
-
-<script>
-const translations = {
-th: {
-heroTitle: "Math4Startup: เครื่องมือวิเคราะห์การเงินด้วย AI",
-heroSubtitle: "เริ่มต้นด้วยการเลือกสินค้าที่คุณสนใจ หรือดูแนวโน้มสินค้าขายดีในตลาด",
-labelProduct: "🛍️ ชื่อสินค้าหรือบริการที่คุณสนใจ",
-btnStart: "เริ่มต้นวิเคราะห์ธุรกิจ →",
-trendingTitle: "🔥 ธุรกิจแนะนำในช่วงนี้",
-refreshBtn: "🔄 รีเฟรชข้อมูล",
-trendingCategory: "หมวดหมู่ทั่วไป",
-productPlaceholder: "เช่น กาแฟ, เสื้อผ้า, คอร์สออนไลน์"
-},
-en: {
-heroTitle: "Math4Startup: AI-Powered Financial Decision Engine",
-heroSubtitle: "Start by entering a product or exploring trending business ideas.",
-labelProduct: "🛍️ Product or Service Name",
-btnStart: "Start Business Analysis →",
-trendingTitle: "🔥 Recommended Businesses Now",
-refreshBtn: "🔄 Refresh Data",
-trendingCategory: "General Category",
-productPlaceholder: "e.g. Coffee, Clothing, Online Course"
-}
-};
-
-function setLanguage(lang) {
-localStorage.setItem("language", lang);
-translatePage(lang);
-}
-
-function translatePage(lang) {
-const elements = document.querySelectorAll("[data-i18n]");
-elements.forEach(el => {
-const key = el.getAttribute("data-i18n");
-const translation = translations[lang]?.[key];
-if (translation) {
-if (el.tagName === "INPUT" && el.hasAttribute("placeholder")) {
-el.setAttribute("placeholder", translation);
-} else {
-el.textContent = translation;
-}
-}
-});
-
-// ตั้งค่าค่าภาษาใน dropdown ด้วย
-const select = document.getElementById("languageSelect");
-if (select) select.value = lang;
-}
 </script>
 <script>
 console.log("Script ทำงานแล้ว!");
