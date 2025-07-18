@@ -781,24 +781,43 @@
           datasets: [{
             data: [Math.max(0, profit), cost, businessData.expense],
             backgroundColor: [
-              'linear-gradient(135deg, #22c55e, #16a34a)',
-              'linear-gradient(135deg, #3b82f6, #2563eb)', 
-              'linear-gradient(135deg, #f59e0b, #d97706)'
-            ],
-            borderWidth: 0,
-            borderColor: 'rgba(255, 255, 255, 0.1)',
-            hoverBackgroundColor: [
-              '#22c55e',
-              '#3b82f6',
+              '#10b981',
+              '#3b82f6', 
               '#f59e0b'
             ],
-            hoverBorderWidth: 2,
+            borderWidth: 3,
+            borderColor: 'rgba(255, 255, 255, 0.2)',
+            hoverBackgroundColor: [
+              '#059669',
+              '#2563eb',
+              '#d97706'
+            ],
+            hoverBorderWidth: 4,
             hoverBorderColor: '#ffffff'
           }]
         },
         options: {
           responsive: true,
-          plugins: {legend: {labels: {color: 'white'}}}
+          plugins: {
+            legend: {
+              labels: {
+                color: 'white',
+                font: {
+                  family: 'IBM Plex Sans Thai',
+                  size: 13,
+                  weight: '500'
+                },
+                padding: 20
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              titleColor: 'white',
+              bodyColor: 'white',
+              borderColor: 'rgba(59, 130, 246, 0.5)',
+              borderWidth: 1
+            }
+          }
         }
       });
 
