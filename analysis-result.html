@@ -286,66 +286,70 @@
       const basicDataHTML = `
         <div class="metric-card">
           <div class="metric-value neutral">${C.toLocaleString()} ฿</div>
-          <div class="metric-label">ต้นทุนต่อชิ้น (C)</div>
+          <div class="metric-label" data-i18n="productCostLabel">ต้นทุนต่อชิ้น (C)</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${M.toLocaleString()} ฿</div>
-          <div class="metric-label">ค่าการตลาดต่อชิ้น (M)</div>
+          <div class="metric-label" data-i18n="marketingCostLabel">ค่าการตลาดต่อชิ้น (M)</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${T.toLocaleString()} ฿</div>
-          <div class="metric-label">ค่าขนส่งต่อชิ้น (T)</div>
+          <div class="metric-label" data-i18n="shippingCostLabel">ค่าขนส่งต่อชิ้น (T)</div>
         </div>
         <div class="metric-card">
           <div class="metric-value positive">${P.toLocaleString()} ฿</div>
-          <div class="metric-label">ราคาขายต่อชิ้น (P)</div>
+          <div class="metric-label" data-i18n="sellingPriceLabel">ราคาขายต่อชิ้น (P)</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${G.toLocaleString()} ฿</div>
-          <div class="metric-label">เป้าหมายกำไรต่อเดือน (G)</div>
+          <div class="metric-label" data-i18n="profitGoalLabel">เป้าหมายกำไรต่อเดือน (G)</div>
         </div>
         <div class="metric-card">
           <div class="metric-value warning">${F.toLocaleString()} ฿</div>
-          <div class="metric-label">ต้นทุนคงที่ต่อเดือน (F)</div>
+          <div class="metric-label" data-i18n="fixedCostsLabel">ต้นทุนคงที่ต่อเดือน (F)</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${D} วัน</div>
-          <div class="metric-label">จำนวนวันที่ขายต่อเดือน (D)</div>
+          <div class="metric-label" data-i18n="sellingDaysLabel">จำนวนวันที่ขายต่อเดือน (D)</div>
         </div>
       `;
       document.getElementById('basicData').innerHTML = basicDataHTML;
+            // แปลภาษาหลังจากอัพเดท HTML
+      translatePage();
     }
 
     function displayMainResults() {
       const mainResultsHTML = `
         <div class="metric-card">
           <div class="metric-value ${profitPerUnit > 0 ? 'positive' : 'negative'}">${profitPerUnit.toLocaleString()} ฿</div>
-          <div class="metric-label">กำไรสุทธิต่อชิ้น</div>
+          <div class="metric-label" data-i18n="profitPerUnitLabel">กำไรสุทธิต่อชิ้น</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${unitsPerMonth.toLocaleString()} ชิ้น</div>
-          <div class="metric-label">ต้องขายต่อเดือน</div>
+          <div class="metric-label" data-i18n="unitsPerMonthLabel">ต้องขายต่อเดือน</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${unitsPerDay.toLocaleString()} ชิ้น</div>
-          <div class="metric-label">ต้องขายต่อวัน</div>
+          <div class="metric-label" data-i18n="unitsPerDayLabel">ต้องขายต่อวัน</div>
         </div>
         <div class="metric-card">
           <div class="metric-value positive">${actualRevenue.toLocaleString()} ฿</div>
-          <div class="metric-label">รายได้จริงที่จะได้</div>
+          <div class="metric-label" data-i18n="actualRevenueLabel">รายได้จริงที่จะได้</div>
         </div>
         <div class="metric-card">
           <div class="metric-value ${actualProfit > 0 ? 'positive' : 'negative'}">${actualProfit.toLocaleString()} ฿</div>
-          <div class="metric-label">กำไรจริงหลังหักต้นทุนคงที่</div>
+          <div class="metric-label" data-i18n="actualProfitLabel">กำไรจริงหลังหักต้นทุนคงที่</div>
         </div>
       `;
       document.getElementById('mainResults').innerHTML = mainResultsHTML;
+            // แปลภาษาหลังจากอัพเดท HTML
+      translatePage();
     }
 
     function analyzeActualSales() {
       const actualSalesInput = parseFloat(document.getElementById('actualSales').value);
 
-      if (actualSalesInput === 0) {
+if (actualSalesInput === 0) {
   alert('คุณได้ลองขายสินค้าแล้วหรือยัง?');
   return;
 }
@@ -411,12 +415,12 @@ if (!actualSalesInput || actualSalesInput <= -1) {
 
         salesRecommendationHTML = `
           <div class="alert-warning">
-            <strong>⚠️ การปรับ${adjustmentType}มากกว่า 50% อาจส่งผลกระทบต่อธุรกิจ</strong><br>
-            <strong>💡 คำแนะนำ:</strong> แทนที่จะปรับ${adjustmentType}มากเกินไป ควรปรับ${adjustmentType} 50% และเพิ่มยอดขาย<br>
-            <strong>📊 แผนที่แนะนำ:</strong><br>
-            • ปรับ${adjustmentType}เป็น ${adjustmentValue} ฿<br>
-            • เพิ่มยอดขายอีก <strong>${additionalSalesNeeded.toLocaleString()} ชิ้น</strong> (รวมต้องขาย ${requiredSalesAfterAdjust.toLocaleString()} ชิ้น/เดือน)<br>
-            • จะได้กำไรตามเป้าหมาย ${G.toLocaleString()} ฿
+            <strong data-i18n="warningAdjustment">⚠️ การปรับ${adjustmentType}มากกว่า 50% อาจส่งผลกระทบต่อธุรกิจ</strong><br>
+            <strong data-i18n="recommendationAdjustment">💡 คำแนะนำ:</strong> แทนที่จะปรับ${adjustmentType}มากเกินไป ควรปรับ${adjustmentType} 50% และเพิ่มยอดขาย<br>
+            <strong data-i18n="recommendedPlan">📊 แผนที่แนะนำ:</strong><br>
+            • <span data-i18n="adjustType">ปรับ${adjustmentType}</span>เป็น ${adjustmentValue} ฿<br>
+            • <span data-i18n="increaseSales">เพิ่มยอดขายอีก</span> <strong>${additionalSalesNeeded.toLocaleString()} ชิ้น</strong> (<span data-i18n="totalSales">รวมต้องขาย</span> ${requiredSalesAfterAdjust.toLocaleString()} ชิ้น/เดือน)<br>
+            • <span data-i18n="profitTarget">จะได้กำไรตามเป้าหมาย</span> ${G.toLocaleString()} ฿
           </div>
         `;
       }
@@ -424,19 +428,19 @@ if (!actualSalesInput || actualSalesInput <= -1) {
       const resultHTML = `
         <div class="section-card">
           <div class="alert-danger">
-            <strong>⚠️ ยอดขายต่ำกว่าเป้าหมาย</strong><br>
-            คุณขายได้ ${actualSales.toLocaleString()} ชิ้น แต่ต้องขาย ${unitsPerMonth.toLocaleString()} ชิ้น
+            <strong data-i18n="belowTarget">⚠️ ยอดขายต่ำกว่าเป้าหมาย</strong><br>
+            <span data-i18n="salesAchieved">คุณขายได้</span> ${actualSales.toLocaleString()} <span data-i18n="units">ชิ้น</span> <span data-i18n="butNeedToSell">แต่ต้องขาย</span> ${unitsPerMonth.toLocaleString()} <span data-i18n="units">ชิ้น</span>
           </div>
 
-          <h3 style="margin-bottom: 1.5rem;">📉 ผลการวิเคราะห์</h3>
+          <h3 style="margin-bottom: 1.5rem;" data-i18n="analysisResults">📉 ผลการวิเคราะห์</h3>
           <div class="metrics-grid">
             <div class="metric-card">
               <div class="metric-value ${actualProfitReal > 0 ? 'positive' : 'negative'}">${actualProfitReal.toLocaleString()} ฿</div>
-              <div class="metric-label">กำไรที่ทำได้จริง</div>
+              <div class="metric-label" data-i18n="actualProfitMade">กำไรที่ทำได้จริง</div>
             </div>
             <div class="metric-card">
               <div class="metric-value negative">${shortfall.toLocaleString()} ฿</div>
-              <div class="metric-label">ขาดทุนจากเป้ากำไร</div>
+              <div class="metric-label" data-i18n="profitShortfall">ขาดทุนจากเป้ากำไร</div>
             </div>
           </div>
 
@@ -444,21 +448,23 @@ if (!actualSalesInput || actualSalesInput <= -1) {
           <div class="metrics-grid">
             <div class="metric-card">
               <div class="metric-value warning">+${priceIncrease.toFixed(2)} ฿ (${priceIncreasePercent.toFixed(1)}%)</div>
-              <div class="metric-label">ต้องเพิ่มราคาขายต่อชิ้น<br>(เป็น ${newPrice.toFixed(2)} ฿)</div>
+              <div class="metric-label" data-i18n="increasePrice">ต้องเพิ่มราคาขายต่อชิ้น<br>(เป็น ${newPrice.toFixed(2)} ฿)</div>
             </div>
             <div class="metric-card">
               <div class="metric-value positive">-${costReduction.toFixed(2)} ฿ (${costReductionPercent.toFixed(1)}%)</div>
-              <div class="metric-label">หรือลดต้นทุนรวมต่อชิ้น<br>(เหลือ ${newCost.toFixed(2)} ฿)</div>
+              <div class="metric-label" data-i18n="reduceCost">หรือลดต้นทุนรวมต่อชิ้น<br>(เหลือ ${newCost.toFixed(2)} ฿)</div>
             </div>
           </div>
 
           ${salesRecommendationHTML}
 
-          ${actualProfitReal < 0 ? '<div class="alert-danger"><strong>🚨 คำแนะนำ:</strong> กำลังขาดทุน แนะนำให้เพิ่มยอดขายแทนการปรับราคา</div>' : ''}
+          ${actualProfitReal < 0 ? '<div class="alert-danger"><strong data-i18n="lossRecommendation">🚨 คำแนะนำ:</strong> กำลังขาดทุน แนะนำให้เพิ่มยอดขายแทนการปรับราคา</div>' : ''}
         </div>
       `;
 
       document.getElementById('comparisonResults').innerHTML = resultHTML;
+      // แปลภาษาหลังจากอัพเดท HTML
+      translatePage();
     }
 
     function displayAboveTarget(actualSales) {
@@ -479,51 +485,53 @@ if (!actualSalesInput || actualSalesInput <= -1) {
       const resultHTML = `
         <div class="section-card">
           <div class="alert-success">
-            <strong>🎉 ยอดขายทะลุเป้าหมาย!</strong><br>
-            คุณขายได้ ${actualSales.toLocaleString()} ชิ้น เกินเป้า ${(actualSales - unitsPerMonth).toLocaleString()} ชิ้น
+            <strong data-i18n="aboveTarget">🎉 ยอดขายทะลุเป้าหมาย!</strong><br>
+            <span data-i18n="salesAchieved">คุณขายได้</span> ${actualSales.toLocaleString()} <span data-i18n="units">ชิ้น</span> <span data-i18n="exceedTargetBy">เกินเป้า</span> ${(actualSales - unitsPerMonth).toLocaleString()} <span data-i18n="units">ชิ้น</span>
           </div>
 
-          <h3 style="margin-bottom: 1.5rem;">📈 ผลการวิเคราะห์</h3>
+          <h3 style="margin-bottom: 1.5rem;" data-i18n="analysisResults">📈 ผลการวิเคราะห์</h3>
           <div class="metrics-grid">
             <div class="metric-card">
               <div class="metric-value positive">${actualProfitReal.toLocaleString()} ฿</div>
-              <div class="metric-label">กำไรที่ทำได้จริง</div>
+              <div class="metric-label" data-i18n="actualProfitMade">กำไรที่ทำได้จริง</div>
             </div>
             <div class="metric-card">
               <div class="metric-value positive">${excess.toLocaleString()} ฿</div>
-              <div class="metric-label">ทะลุเป้ากำไร</div>
+              <div class="metric-label" data-i18n="profitExceedsTarget">ทะลุเป้ากำไร</div>
             </div>
           </div>
 
-          <h4 style="margin: 1.5rem 0 1rem 0;">💡 หากอยากให้อยู่ในเป้า</h4>
+          <h4 style="margin: 1.5rem 0 1rem 0;" data-i18n="ifWantToStayOnTarget">💡 หากอยากให้อยู่ในเป้า</h4>
           <div class="metrics-grid">
             <div class="metric-card">
               <div class="metric-value positive">-${priceReduction.toFixed(2)} ฿</div>
-              <div class="metric-label">สามารถลดราคาขาย<br>(เป็น ${newPrice.toFixed(2)} ฿)</div>
+              <div class="metric-label" data-i18n="canReducePrice">สามารถลดราคาขาย<br>(เป็น ${newPrice.toFixed(2)} ฿)</div>
             </div>
             <div class="metric-card">
               <div class="metric-value warning">+${costIncrease.toFixed(2)} ฿</div>
-              <div class="metric-label">หรือเพิ่มต้นทุนรวม<br>(เป็น ${newMaxCost.toFixed(2)} ฿)</div>
+              <div class="metric-label" data-i18n="canIncreaseCost">หรือเพิ่มต้นทุนรวม<br>(เป็น ${newMaxCost.toFixed(2)} ฿)</div>
             </div>
           </div>
         </div>
       `;
 
       document.getElementById('comparisonResults').innerHTML = resultHTML;
+      // แปลภาษาหลังจากอัพเดท HTML
+      translatePage();
     }
 
     function displayOnTarget() {
       const resultHTML = `
         <div class="section-card">
           <div class="alert-success">
-            <strong>🎯 ยอดขายตรงตามเป้าหมายพอดี!</strong><br>
-            ยินดีด้วย! คุณทำได้ตามเป้าหมายที่วางไว้อย่างแม่นยำ
+            <strong data-i18n="onTarget">🎯 ยอดขายตรงตามเป้าหมายพอดี!</strong><br>
+            <span data-i18n="congratulations">ยินดีด้วย! คุณทำได้ตามเป้าหมายที่วางไว้อย่างแม่นยำ</span>
           </div>
 
           <div style="text-align: center; padding: 2rem;">
             <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
-            <h3 style="color: #10b981;">ผลการดำเนินงานยอดเยี่ยม!</h3>
-            <p style="color: #cbd5e1; margin-top: 1rem;">
+            <h3 style="color: #10b981;" data-i18n="excellentPerformance">ผลการดำเนินงานยอดเยี่ยม!</h3>
+            <p style="color: #cbd5e1; margin-top: 1rem;" data-i18n="planningAndExecution">
               การวางแผนและการปฏิบัติของคุณสอดคล้องกันอย่างสมบูรณ์<br>
               คุณสามารถบรรลุเป้าหมายกำไร ${G.toLocaleString()} ฿ ได้ตามที่ตั้งไว้
             </p>
@@ -532,10 +540,13 @@ if (!actualSalesInput || actualSalesInput <= -1) {
       `;
 
       document.getElementById('comparisonResults').innerHTML = resultHTML;
+      // แปลภาษาหลังจากอัพเดท HTML
+      translatePage();
     }
 
     // โหลดข้อมูลเมื่อเริ่มต้น
     document.addEventListener('DOMContentLoaded', loadData);
+    document.addEventListener('DOMContentLoaded', translatePage);
   </script>
 </body>
 </html>
