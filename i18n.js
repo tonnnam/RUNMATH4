@@ -1,4 +1,3 @@
-
 // i18n.js - ระบบแปลภาษาสมบูรณ์
 
 const translations = {
@@ -170,7 +169,30 @@ const translations = {
     categoryUtilitiesName: "สาธารณูปโภค",
     categoryMarketingName: "การตลาด",
     categoryTransportName: "ขนส่ง",
-    categoryOtherExpenseName: "ค่าใช้จ่ายอื่นๆ"
+    categoryOtherExpenseName: "ค่าใช้จ่ายอื่นๆ",
+
+    // Business insights messages
+    insightHighProfit: "🎉 อัตรากำไรสูงมาก ธุรกิจมีศักยภาพดีเยี่ยม",
+    insightLowProfit: "⚠️ อัตรากำไรต่ำ ควรลดต้นทุนหรือเพิ่มราคา",
+    insightProfitable: "✅ ธุรกิจมีกำไร ควรขยายการตลาดเพื่อเพิ่มยอดขาย",
+    insightLoss: "🔴 ธุรกิจขาดทุน ต้องปรับกลยุทธ์ด่วน",
+    insightBreakeven: "📊 ต้องขายอย่างน้อย {breakeven} หน่วยต่อเดือนเพื่อคุ้มทุน",
+    insightTracking: "📈 บันทึกรายรับรายจ่ายจริงเพื่อเปรียบเทียบกับแผน",
+
+    // Chart labels
+    chartIncomeLabel: "รายรับสะสม",
+    chartExpenseLabel: "รายจ่ายสะสม",
+    chartBalanceLabel: "ยอดเงินคงเหลือ",
+    chartAmountAxis: "จำนวนเงิน (บาท)",
+    chartDateAxis: "วันที่ในเดือน",
+    chartTooltipIncome: "รายรับสะสม: {amount} ฿",
+    chartTooltipExpense: "รายจ่ายสะสม: {amount} ฿",
+    chartTooltipBalance: "ยอดคงเหลือ: {amount} ฿",
+
+    // Doughnut chart labels
+    chartProfitLabel: "กำไร",
+    chartCostLabel: "ต้นทุนสินค้า",
+    chartExpenseFixedLabel: "ค่าใช้จ่าย"
   },
 
   en: {
@@ -341,7 +363,30 @@ const translations = {
     categoryUtilitiesName: "Utilities",
     categoryMarketingName: "Marketing",
     categoryTransportName: "Transport",
-    categoryOtherExpenseName: "Other Expenses"
+    categoryOtherExpenseName: "Other Expenses",
+
+    // Business insights messages
+    insightHighProfit: "🎉 Excellent profit margin! Your business has great potential",
+    insightLowProfit: "⚠️ Low profit margin. Consider reducing costs or increasing prices",
+    insightProfitable: "✅ Business is profitable. Consider expanding marketing to increase sales",
+    insightLoss: "🔴 Business is losing money. Need immediate strategy adjustment",
+    insightBreakeven: "📊 Need to sell at least {breakeven} units per month to break even",
+    insightTracking: "📈 Track actual income and expenses to compare with plan",
+
+    // Chart labels
+    chartIncomeLabel: "Cumulative Income",
+    chartExpenseLabel: "Cumulative Expenses",
+    chartBalanceLabel: "Account Balance",
+    chartAmountAxis: "Amount (THB)",
+    chartDateAxis: "Date in Month",
+    chartTooltipIncome: "Cumulative Income: {amount} ฿",
+    chartTooltipExpense: "Cumulative Expenses: {amount} ฿",
+    chartTooltipBalance: "Balance: {amount} ฿",
+
+    // Doughnut chart labels
+    chartProfitLabel: "Profit",
+    chartCostLabel: "Product Cost",
+    chartExpenseFixedLabel: "Fixed Expenses"
   }
 };
 
