@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <title>เทรนด์ธุรกิจ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="7" fill="#15203A"/>
+          <path d="M5 20 L23 8" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M5 11 L23 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Math4Startup
+      </a>
+      <nav class="main-nav" aria-label="Main">
+        <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
+        <a href="analyze.html" data-i18n="navFinance">การเงิน</a>
+        <a href="trends.html" data-i18n="navTrends" aria-current="page">เทรนด์</a>
+        <a href="news.html" data-i18n="navNews">ข่าว</a>
+        <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
+      </nav>
+      <div class="lang">
+        <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language">
+          <option value="th" data-i18n="langThai">ไทย</option>
+          <option value="en" data-i18n="langEnglish">English</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="header">
+      <h1 data-i18n="trendsTitle">เทรนด์ธุรกิจตอนนี้</h1>
+      <p data-i18n="trendsSubtitle">สินค้าและธุรกิจที่คนค้นหามาก เลือกอันที่สนใจเพื่อวิเคราะห์ต่อ</p>
+    </div>
+
+    <section class="section-card">
+      <div class="card-head">
+        <h3 data-i18n="trendsListTitle">10 อันดับที่คนสนใจ</h3>
+        <button type="button" class="chip" id="reloadBtn" data-i18n="refreshBtn">รีเฟรชข้อมูล</button>
+      </div>
+      <p class="help-text" id="trendNote" hidden data-i18n="trendsFallback">โหลดข้อมูลสดไม่สำเร็จ จึงแสดงรายการตัวอย่างแทน</p>
+      <ol class="trend-list with-action" id="trendList"></ol>
+    </section>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script src="lib.js"></script>
+  <script>
+    const listEl = document.getElementById('trendList');
+    const noteEl = document.getElementById('trendNote');
+    const reloadBtn = document.getElementById('reloadBtn');
+    let current = [];
+
+    function render() {
+      const go = Lib.esc(getTranslation('trendsAnalyze'));
+      listEl.innerHTML = current.map((name, i) => `
+        <li><a class="trend-row" href="form.html" data-name="${Lib.esc(name)}">
+          <span class="rank">${i + 1}</span><span class="name">${Lib.esc(name)}</span><span class="go">${go}</span>
+        </a></li>`).join('');
+    }
+
+    async function load() {
+      reloadBtn.disabled = true;
+      noteEl.hidden = true;
+      listEl.innerHTML = '<li class="skeleton"></li>'.repeat(10);
+      const { items, fallback } = await Lib.fetchTrends();
+      current = items;
+      noteEl.hidden = !fallback;
+      render();
+      reloadBtn.disabled = false;
+    }
+
+    listEl.addEventListener('click', e => {
+      const a = e.target.closest('a[data-name]');
+      if (a) localStorage.setItem('selectedProduct', a.dataset.name);
+    });
+    reloadBtn.addEventListener('click', load);
+    document.getElementById('languageSelect').addEventListener('change', () => { if (current.length) render(); });
+
+    load();
+  </script>
+</body>
+
+</html>
