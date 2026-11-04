@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ที่ปรึกษาธุรกิจ AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="7" fill="#15203A"/>
+          <path d="M5 20 L23 8" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M5 11 L23 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Math4Startup
+      </a>
+      <nav class="main-nav" aria-label="Main">
+        <a href="analyze.html" data-i18n="navFinance">การเงิน</a>
+        <a href="advisor.html" data-i18n="navAdvisor" aria-current="page">ที่ปรึกษา AI</a>
+      </nav>
+      <div class="lang">
+        <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language">
+          <option value="th" data-i18n="langThai">ไทย</option>
+          <option value="en" data-i18n="langEnglish">English</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="header">
+      <h1 data-i18n="advisorTitle">ที่ปรึกษาธุรกิจ AI</h1>
+      <p data-i18n="advisorSubtitle">ถามเรื่องราคา ต้นทุน การตลาด หรือแผนธุรกิจ ที่ปรึกษาจะใช้ตัวเลขของคุณประกอบคำตอบ</p>
+    </div>
+
+    <section class="section-card" id="ctxCard"></section>
+
+    <section class="section-card">
+      <div class="chat-log" id="chatLog" aria-live="polite"></div>
+
+      <div class="starters" id="starters">
+        <button type="button" class="chip" data-i18n="advisorStarter1">ราคาขายของฉันเหมาะสมไหม</button>
+        <button type="button" class="chip" data-i18n="advisorStarter2">จะเพิ่มกำไรได้อย่างไร</button>
+        <button type="button" class="chip" data-i18n="advisorStarter3">ควรเริ่มทำการตลาดอย่างไรด้วยงบน้อย</button>
+      </div>
+
+      <form class="chat-form" id="chatForm">
+        <textarea id="chatInput" class="field" rows="2" maxlength="1000" aria-label="Message"
+          placeholder="พิมพ์คำถามของคุณ..." data-i18n-placeholder="advisorPlaceholder"></textarea>
+        <button type="submit" data-i18n="advisorSend">ส่ง</button>
+      </form>
+      <p class="help-text" data-i18n="advisorDisclaimer">คำตอบเป็นแนวทางทั่วไปจาก AI ไม่ใช่คำปรึกษาทางการเงินหรือกฎหมายโดยผู้เชี่ยวชาญ</p>
+    </section>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script>
+    const log = document.getElementById('chatLog');
+    const form = document.getElementById('chatForm');
+    const input = document.getElementById('chatInput');
+    const starters = document.getElementById('starters');
+    const ctxCard = document.getElementById('ctxCard');
+    let history = [];
+    let busy = false;
+
+    const lang = () => localStorage.getItem('language') || 'th';
+    const t = key => getTranslation(key);
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const fmt = n => Number(n).toLocaleString('th-TH', { maximumFractionDigits: 1 });
+
+    function loadBiz() {
+      try {
+        const d = JSON.parse(localStorage.getItem('businessData') || 'null');
+        if (d && d.price > 0 && d.cost >= 0 && d.units >= 0 && d.expense >= 0) return d;
+      } catch (e) { }
+      return null;
+    }
+
+    function renderContext() {
+      const wasChecked = !document.getElementById('useCtx') || document.getElementById('useCtx').checked;
+      const biz = loadBiz();
+      if (!biz) {
+        ctxCard.innerHTML = `<p>${esc(t('advisorNoContext'))}</p><a class="nav-link" href="form.html">${esc(t('advisorNoContextLink'))}</a>`;
+        return;
+      }
+      const unit = biz.price - biz.cost;
+      const profit = unit * biz.units - biz.expense;
+      const be = unit > 0 ? Math.ceil(biz.expense / unit) : '-';
+      const margin = biz.price > 0 ? (unit / biz.price) * 100 : 0;
+      ctxCard.innerHTML = `
+        <h3 class="card-title">${esc(t('advisorContextTitle'))}: <span>${esc(biz.productName)}</span></h3>
+        <div class="metrics-grid">
+          <div class="metric-card"><div class="metric-value">${fmt(biz.price * biz.units)} ฿</div><div class="metric-label">${esc(t('monthlyRevenue'))}</div></div>
+          <div class="metric-card"><div class="metric-value ${profit >= 0 ? 'positive' : 'negative'}">${fmt(profit)} ฿</div><div class="metric-label">${esc(t('monthlyProfit'))}</div></div>
+          <div class="metric-card"><div class="metric-value">${margin.toFixed(1)}%</div><div class="metric-label">${esc(t('profitMargin'))}</div></div>
+          <div class="metric-card"><div class="metric-value">${be}</div><div class="metric-label">${esc(t('breakeven'))}</div></div>
+        </div>
+        <label class="check"><input type="checkbox" id="useCtx" ${wasChecked ? 'checked' : ''}> ${esc(t('advisorUseContext'))}</label>`;
+    }
+
+    function addMsg(role, text, pending) {
+      const el = document.createElement('div');
+      el.className = 'msg ' + (role === 'user' ? 'msg-user' : 'msg-ai') + (pending ? ' pending' : '');
+      el.textContent = text;
+      log.appendChild(el);
+      el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      return el;
+    }
+
+    async function send(text) {
+      text = text.trim();
+      if (!text || busy) return;
+      busy = true;
+      starters.hidden = true;
+      input.value = '';
+      addMsg('user', text);
+      history.push({ role: 'user', content: text });
+      const pending = addMsg('assistant', t('advisorThinking'), true);
+
+      try {
+        const biz = loadBiz();
+        const useCtx = document.getElementById('useCtx');
+        const context = (biz && useCtx && useCtx.checked)
+          ? { productName: biz.productName, price: biz.price, cost: biz.cost, units: biz.units, expense: biz.expense }
+          : null;
+        const res = await fetch('/api/advisor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: history.slice(-10), lang: lang(), context })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.reply) throw new Error(data.error || 'error');
+        pending.textContent = data.reply;
+        pending.classList.remove('pending');
+        history.push({ role: 'assistant', content: data.reply });
+      } catch (err) {
+        console.error(err);
+        pending.textContent = t('advisorError');
+        pending.classList.remove('pending');
+        pending.classList.add('error');
+        history.pop(); // drop the unanswered question so a retry doesn't duplicate it
+      }
+      busy = false;
+    }
+
+    form.addEventListener('submit', e => { e.preventDefault(); send(input.value); });
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(input.value); }
+    });
+    starters.addEventListener('click', e => {
+      const chip = e.target.closest('.chip');
+      if (chip) send(chip.textContent);
+    });
+
+    renderContext();
+    document.getElementById('languageSelect').addEventListener('change', renderContext);
+  </script>
+</body>
+
+</html>
