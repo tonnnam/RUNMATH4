@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ข่าวธุรกิจและเศรษฐกิจ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="7" fill="#15203A"/>
+          <path d="M5 20 L23 8" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M5 11 L23 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Math4Startup
+      </a>
+      <nav class="main-nav" aria-label="Main">
+        <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
+        <a href="analyze.html" data-i18n="navFinance">การเงิน</a>
+        <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
+        <a href="news.html" data-i18n="navNews" aria-current="page">ข่าว</a>
+        <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
+      </nav>
+      <div class="lang">
+        <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language">
+          <option value="th" data-i18n="langThai">ไทย</option>
+          <option value="en" data-i18n="langEnglish">English</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="header">
+      <h1 data-i18n="newsTitle">ข่าวธุรกิจและเศรษฐกิจ</h1>
+      <p data-i18n="newsSubtitle">รวมหัวข้อข่าวล่าสุดจากหลายแหล่ง กดเพื่ออ่านต่อที่ต้นฉบับ</p>
+    </div>
+
+    <section class="section-card">
+      <div class="filters" id="catFilters">
+        <button type="button" class="chip" data-cat="all" aria-pressed="true" data-i18n="newsAll">ทั้งหมด</button>
+        <button type="button" class="chip" data-cat="economy" aria-pressed="false" data-i18n="newsEconomy">เศรษฐกิจ</button>
+        <button type="button" class="chip" data-cat="startup" aria-pressed="false" data-i18n="newsStartup">สตาร์ทอัป</button>
+        <button type="button" class="chip" data-cat="marketing" aria-pressed="false" data-i18n="newsMarketing">การตลาด</button>
+      </div>
+      <div class="filters" id="langFilters">
+        <button type="button" class="chip" data-lg="all" aria-pressed="true" data-i18n="newsLangAll">ทุกภาษา</button>
+        <button type="button" class="chip" data-lg="th" aria-pressed="false" data-i18n="newsLangTh">ข่าวไทย</button>
+        <button type="button" class="chip" data-lg="en" aria-pressed="false" data-i18n="newsLangEn">ข่าวอังกฤษ</button>
+        <button type="button" class="chip" id="reloadBtn" data-i18n="refreshBtn">รีเฟรชข้อมูล</button>
+      </div>
+
+      <ul class="news-list" id="newsList"></ul>
+      <p class="help-text" data-i18n="newsNote">แสดงเฉพาะหัวข้อข่าวและลิงก์ไปยังต้นฉบับ เนื้อหาเป็นของสำนักข่าวเจ้าของ</p>
+    </section>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script>
+    const list = document.getElementById('newsList');
+    let all = [];
+    let cat = 'all';
+    let lg = 'all';
+
+    const lang = () => localStorage.getItem('language') || 'th';
+    const t = key => getTranslation(key);
+
+    function ago(ms) {
+      if (!ms) return '';
+      const rtf = new Intl.RelativeTimeFormat(lang() === 'th' ? 'th' : 'en', { numeric: 'auto' });
+      const mins = Math.round((ms - Date.now()) / 60000);
+      if (Math.abs(mins) < 60) return rtf.format(mins, 'minute');
+      const hrs = Math.round(mins / 60);
+      if (Math.abs(hrs) < 48) return rtf.format(hrs, 'hour');
+      return rtf.format(Math.round(hrs / 24), 'day');
+    }
+
+    function message(text, isError) {
+      list.innerHTML = '';
+      const li = document.createElement('li');
+      li.className = 'news-msg' + (isError ? ' error' : '');
+      li.textContent = text;
+      list.appendChild(li);
+    }
+
+    function render() {
+      const items = all.filter(i => (cat === 'all' || i.cat === cat) && (lg === 'all' || i.lang === lg));
+      if (!items.length) return message(t('newsEmpty'), false);
+      list.innerHTML = '';
+      for (const i of items) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.className = 'news-item';
+        a.href = i.link;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        const title = document.createElement('div');
+        title.className = 'news-title';
+        title.textContent = i.title;
+        const meta = document.createElement('div');
+        meta.className = 'news-meta';
+        meta.textContent = [i.source, ago(i.time)].filter(Boolean).join(' · ');
+        a.append(title, meta);
+        li.appendChild(a);
+        list.appendChild(li);
+      }
+    }
+
+    async function load() {
+      list.innerHTML = '<li class="skeleton"></li>'.repeat(8);
+      try {
+        const res = await fetch('/api/news');
+        const data = await res.json();
+        if (!res.ok || !Array.isArray(data.items)) throw new Error('bad response');
+        all = data.items;
+        render();
+      } catch (err) {
+        console.error(err);
+        message(t('newsError'), true);
+      }
+    }
+
+    function pick(container, attr, value) {
+      container.querySelectorAll('[' + attr + ']').forEach(b => b.setAttribute('aria-pressed', String(b.getAttribute(attr) === value)));
+    }
+    document.getElementById('catFilters').addEventListener('click', e => {
+      const b = e.target.closest('[data-cat]'); if (!b) return;
+      cat = b.dataset.cat; pick(e.currentTarget, 'data-cat', cat); render();
+    });
+    document.getElementById('langFilters').addEventListener('click', e => {
+      const b = e.target.closest('[data-lg]'); if (!b) return;
+      lg = b.dataset.lg; pick(e.currentTarget, 'data-lg', lg); render();
+    });
+    document.getElementById('reloadBtn').addEventListener('click', load);
+    document.getElementById('languageSelect').addEventListener('change', () => { if (all.length) render(); });
+
+    load();
+  </script>
+</body>
+
+</html>
