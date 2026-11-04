@@ -2,6 +2,22 @@
 
 const translations = {
   th: {
+    navFinance: "การเงิน",
+    navAdvisor: "ที่ปรึกษา AI",
+    advisorTitle: "ที่ปรึกษาธุรกิจ AI",
+    advisorSubtitle: "ถามเรื่องราคา ต้นทุน การตลาด หรือแผนธุรกิจ ที่ปรึกษาจะใช้ตัวเลขของคุณประกอบคำตอบ",
+    advisorContextTitle: "ข้อมูลธุรกิจที่ใช้ประกอบคำตอบ",
+    advisorUseContext: "ใช้ข้อมูลนี้ประกอบคำตอบ",
+    advisorNoContext: "ยังไม่มีข้อมูลธุรกิจ กรอกฟอร์มสั้นๆ เพื่อให้คำแนะนำตรงกับธุรกิจของคุณ",
+    advisorNoContextLink: "กรอกข้อมูลธุรกิจ",
+    advisorPlaceholder: "พิมพ์คำถามของคุณ...",
+    advisorSend: "ส่ง",
+    advisorThinking: "กำลังคิด...",
+    advisorError: "ขออภัย ตอนนี้ตอบไม่ได้ ลองใหม่อีกครั้ง",
+    advisorDisclaimer: "คำตอบเป็นแนวทางทั่วไปจาก AI ไม่ใช่คำปรึกษาทางการเงินหรือกฎหมายโดยผู้เชี่ยวชาญ",
+    advisorStarter1: "ราคาขายของฉันเหมาะสมไหม",
+    advisorStarter2: "จะเพิ่มกำไรได้อย่างไร",
+    advisorStarter3: "ควรเริ่มทำการตลาดอย่างไรด้วยงบน้อย",
     // Index page
     heroTitle: "Math4Startup: เครื่องมือวิเคราะห์การเงินด้วย AI",
     heroSubtitle: "เริ่มต้นด้วยการเลือกสินค้าที่คุณสนใจ หรือดูแนวโน้มสินค้าขายดีในตลาด",
@@ -239,6 +255,22 @@ const translations = {
   },
 
   en: {
+    navFinance: "Finance",
+    navAdvisor: "AI Advisor",
+    advisorTitle: "AI Business Advisor",
+    advisorSubtitle: "Ask about pricing, costs, marketing or your plan. The advisor uses your numbers in its answers.",
+    advisorContextTitle: "Business data used",
+    advisorUseContext: "Use this data in answers",
+    advisorNoContext: "No business data yet. Fill in the short form to get advice tailored to your business.",
+    advisorNoContextLink: "Enter business data",
+    advisorPlaceholder: "Type your question...",
+    advisorSend: "Send",
+    advisorThinking: "Thinking...",
+    advisorError: "Sorry, something went wrong. Please try again.",
+    advisorDisclaimer: "AI answers are general guidance, not professional financial or legal advice.",
+    advisorStarter1: "Is my selling price right?",
+    advisorStarter2: "How can I increase my profit?",
+    advisorStarter3: "How should I start marketing on a small budget?",
     // Index page
     heroTitle: "Math4Startup: AI-Powered Financial Decision Engine",
     heroSubtitle: "Start by entering a product or exploring trending business ideas.",
