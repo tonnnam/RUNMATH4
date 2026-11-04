@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ภาพรวมธุรกิจ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="7" fill="#15203A"/>
+          <path d="M5 20 L23 8" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M5 11 L23 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Math4Startup
+      </a>
+      <nav class="main-nav" aria-label="Main">
+        <a href="overview.html" data-i18n="navOverview" aria-current="page">ภาพรวม</a>
+        <a href="analyze.html" data-i18n="navFinance">การเงิน</a>
+        <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
+        <a href="news.html" data-i18n="navNews">ข่าว</a>
+        <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
+      </nav>
+      <div class="lang">
+        <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language">
+          <option value="th" data-i18n="langThai">ไทย</option>
+          <option value="en" data-i18n="langEnglish">English</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="header">
+      <h1 data-i18n="overviewTitle">ภาพรวมธุรกิจ</h1>
+      <p data-i18n="overviewSubtitle">ตัวเลขการเงิน ข่าว และเทรนด์ล่าสุด ในหน้าเดียว</p>
+    </div>
+
+    <section class="section-card" id="finCard"></section>
+
+    <div class="ov-grid">
+      <section class="section-card">
+        <div class="card-head">
+          <h3 data-i18n="ovNewsTitle">ข่าวเด่น</h3>
+          <a href="news.html" data-i18n="ovViewAll">ดูทั้งหมด</a>
+        </div>
+        <ul class="mini-list" id="ovNews"></ul>
+      </section>
+      <section class="section-card">
+        <div class="card-head">
+          <h3 data-i18n="ovTrendsTitle">เทรนด์ตอนนี้</h3>
+          <a href="trends.html" data-i18n="ovViewAll">ดูทั้งหมด</a>
+        </div>
+        <ul class="mini-list" id="ovTrends"></ul>
+      </section>
+    </div>
+
+    <section class="section-card cta-card">
+      <div>
+        <h3 data-i18n="ovAdvisorTitle">ถามที่ปรึกษา AI</h3>
+        <p class="help-text" data-i18n="ovAdvisorText">ขอคำแนะนำเรื่องราคา ต้นทุน และการตลาดจากตัวเลขของคุณ</p>
+      </div>
+      <a class="btn-link" href="advisor.html" data-i18n="ovAdvisorBtn">เปิดที่ปรึกษา</a>
+    </section>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script src="lib.js"></script>
+  <script>
+    const t = key => getTranslation(key);
+    const finCard = document.getElementById('finCard');
+    const newsEl = document.getElementById('ovNews');
+    const trendsEl = document.getElementById('ovTrends');
+    let newsItems = null;
+
+    function renderFinance() {
+      const biz = Lib.loadBiz();
+      if (!biz) {
+        finCard.innerHTML = `<h3 class="card-title">${Lib.esc(t('ovFinanceTitle'))}</h3>
+          <p>${Lib.esc(t('advisorNoContext'))}</p>
+          <div class="nav-links"><a class="nav-link" href="form.html">${Lib.esc(t('advisorNoContextLink'))}</a></div>`;
+        return;
+      }
+      const c = Lib.calc(biz);
+      finCard.innerHTML = `
+        <h3 class="card-title">${Lib.esc(t('ovFinanceTitle'))}: <span>${Lib.esc(biz.productName)}</span></h3>
+        <div class="metrics-grid">
+          <div class="metric-card"><div class="metric-value">${Lib.fmt(c.revenue)} ฿</div><div class="metric-label">${Lib.esc(t('monthlyRevenue'))}</div></div>
+          <div class="metric-card"><div class="metric-value ${c.profit >= 0 ? 'positive' : 'negative'}">${Lib.fmt(c.profit)} ฿</div><div class="metric-label">${Lib.esc(t('monthlyProfit'))}</div></div>
+          <div class="metric-card"><div class="metric-value">${c.margin.toFixed(1)}%</div><div class="metric-label">${Lib.esc(t('profitMargin'))}</div></div>
+          <div class="metric-card"><div class="metric-value">${c.breakeven === null ? '-' : Lib.fmt(c.breakeven)}</div><div class="metric-label">${Lib.esc(t('breakeven'))}</div></div>
+        </div>
+        <div class="nav-links">
+          <a class="nav-link" href="analyze.html">${Lib.esc(t('ovFullAnalysis'))}</a>
+          <a class="nav-link" href="form.html">${Lib.esc(t('ovUpdateData'))}</a>
+        </div>`;
+    }
+
+    function message(el, text, isError) {
+      el.innerHTML = '';
+      const li = document.createElement('li');
+      li.className = 'news-msg' + (isError ? ' error' : '');
+      li.textContent = text;
+      el.appendChild(li);
+    }
+
+    function renderNews() {
+      if (!newsItems) return;
+      if (!newsItems.length) return message(newsEl, t('newsEmpty'), false);
+      newsEl.innerHTML = '';
+      for (const i of newsItems.slice(0, 5)) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = i.link; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        const title = document.createElement('div');
+        title.className = 'news-title'; title.textContent = i.title;
+        const meta = document.createElement('div');
+        meta.className = 'news-meta'; meta.textContent = [i.source, Lib.ago(i.time)].filter(Boolean).join(' · ');
+        a.append(title, meta); li.appendChild(a); newsEl.appendChild(li);
+      }
+    }
+
+    async function loadNews() {
+      newsEl.innerHTML = '<li class="skeleton"></li>'.repeat(4);
+      try { newsItems = await Lib.fetchNews(); renderNews(); }
+      catch (e) { console.error(e); message(newsEl, t('newsError'), true); }
+    }
+
+    async function loadTrends() {
+      trendsEl.innerHTML = '<li class="skeleton"></li>'.repeat(4);
+      const { items } = await Lib.fetchTrends();
+      trendsEl.innerHTML = items.slice(0, 5).map((name, i) =>
+        `<li><a class="row" href="form.html" data-name="${Lib.esc(name)}"><span class="rank">${i + 1}</span> ${Lib.esc(name)}</a></li>`).join('');
+    }
+
+    trendsEl.addEventListener('click', e => {
+      const a = e.target.closest('a[data-name]');
+      if (a) localStorage.setItem('selectedProduct', a.dataset.name);
+    });
+    document.getElementById('languageSelect').addEventListener('change', () => { renderFinance(); renderNews(); });
+
+    renderFinance();
+    loadNews();
+    loadTrends();
+  </script>
+</body>
+
+</html>
