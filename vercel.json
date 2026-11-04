@@ -1,5 +1,6 @@
 {
   "functions": {
-    "api/advisor.js": { "maxDuration": 30 }
+    "api/advisor.js": { "maxDuration": 30 },
+    "api/news.js": { "maxDuration": 15 }
   }
 }
