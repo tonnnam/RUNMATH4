@@ -3,223 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <title>บัญชีรายรับรายจ่ายรายวัน</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'IBM Plex Sans Thai', sans-serif;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-      min-height: 100vh;
-      color: white;
-      padding: 2rem;
-    }
-
-    .language-selector {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    .language-selector select {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      color: white;
-      padding: 0.8rem 1.2rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      outline: none;
-    }
-
-    .language-selector select:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(59, 130, 246, 0.5);
-    }
-
-    .language-selector select:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-
-    .language-selector option {
-      background: #1e293b;
-      color: white;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 2rem;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .header h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .form-section {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    label {
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      color: #e2e8f0;
-    }
-
-    input, select {
-      padding: 0.8rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-size: 1rem;
-    }
-
-    input:focus, select:focus {
-      outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-
-    button {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-    }
-
-    .summary-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .summary-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 1.5rem;
-      text-align: center;
-    }
-
-    .summary-title {
-      font-size: 0.9rem;
-      color: #cbd5e1;
-      margin-bottom: 0.5rem;
-    }
-
-    .summary-amount {
-      font-size: 1.8rem;
-      font-weight: 700;
-    }
-
-    .income { color: #10b981; }
-    .expense { color: #ef4444; }
-    .balance { color: #f59e0b; }
-
-    .chart-container {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .transaction-list {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    .transaction-item {
-      display: grid;
-      grid-template-columns: 1fr 2fr 1fr 1fr 0.5fr;
-      gap: 1rem;
-      padding: 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      align-items: center;
-    }
-
-    .nav-link {
-      display: inline-block;
-      color: white;
-      text-decoration: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .nav-link:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="7" fill="#15203A"/>
+          <path d="M5 20 L23 8" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M5 11 L23 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Math4Startup
+      </a>
+      <div class="lang">
+        <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language">
+          <option value="th" data-i18n="langThai">ไทย</option>
+          <option value="en" data-i18n="langEnglish">English</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
   <script src="i18n.js"></script>
-  <div class="language-selector">
-    <select id="languageSelect" onchange="setLanguage(this.value)">
-      <option value="th" data-i18n="langThai">🇹🇭 ไทย</option>
-      <option value="en" data-i18n="langEnglish">🇺🇸 English</option>
-    </select>
-  </div>
+  
 
   <div class="container">
     <div class="header">
-      <h1 data-i18n="headerTitle">💰 บัญชีรายรับรายจ่ายรายวัน</h1>
+      <h1 data-i18n="headerTitle">บัญชีรายรับรายจ่ายรายวัน</h1>
       <p data-i18n="headerSubtitle">บันทึกรายการเงินเข้า-ออกประจำวัน</p>
     </div>
 
@@ -288,7 +106,7 @@
 
     <div class="transaction-list">
       <h3 style="margin-bottom: 1rem;" data-i18n="transactionListTitle">รายการธุรกรรม</h3>
-      <div class="transaction-item" style="font-weight: 600; background: rgba(255,255,255,0.1);">
+      <div class="transaction-item" style="font-weight: 600; background: var(--mark-soft);">
         <div data-i18n="colDate">วันที่</div>
         <div data-i18n="colDesc">รายละเอียด</div>
         <div data-i18n="colCategory">หมวดหมู่</div>
@@ -301,11 +119,11 @@
     <a href="index.html" class="nav-link" data-i18n="backHome">← กลับหน้าแรก</a>
   </div>
 
-  <!-- ✅ สคริปต์สองภาษา -->
+  <!-- สคริปต์สองภาษา -->
   <script>
     const translations = {
       th: {
-        headerTitle: "💰 บัญชีรายรับรายจ่ายรายวัน",
+        headerTitle: "บัญชีรายรับรายจ่ายรายวัน",
         headerSubtitle: "บันทึกรายการเงินเข้า-ออกประจำวัน",
         formTitle: "เพิ่มรายการใหม่",
         labelDate: "วันที่",
@@ -330,7 +148,7 @@
         deleteBtn: "ลบ"
       },
       en: {
-        headerTitle: "💰 Daily Income & Expense Tracker",
+        headerTitle: "Daily Income & Expense Tracker",
         headerSubtitle: "Track your daily income and expenses",
         formTitle: "Add New Transaction",
         labelDate: "Date",
@@ -386,7 +204,7 @@
     });
   </script>
 
-  <!-- 🔁 ใส่สคริปต์การเงินของคุณต่อด้านล่าง (addTransaction, updateDisplay, updateChart ฯลฯ) -->
+  <!-- ใส่สคริปต์การเงินของคุณต่อด้านล่าง (addTransaction, updateDisplay, updateChart ฯลฯ) -->
   <script>
     // ... (คงไว้ตามเดิม เช่น addTransaction, updateChart, updateDisplay, getCategoryName)
   </script>
