@@ -1,4 +1,3 @@
-
 // i18n.js - ระบบแปลภาษาสมบูรณ์
 
 const translations = {
@@ -6,26 +5,26 @@ const translations = {
     // Index page
     heroTitle: "Math4Startup: เครื่องมือวิเคราะห์การเงินด้วย AI",
     heroSubtitle: "เริ่มต้นด้วยการเลือกสินค้าที่คุณสนใจ หรือดูแนวโน้มสินค้าขายดีในตลาด",
-    labelProduct: "🛍️ ชื่อสินค้าหรือบริการที่คุณสนใจ",
-    btnStart: "เริ่มต้นวิเคราะห์ธุรกิจ →",
-    trendingTitle: "🔥 ธุรกิจแนะนำในช่วงนี้",
-    refreshBtn: "🔄 รีเฟรชข้อมูล",
+    labelProduct: "ชื่อสินค้าหรือบริการที่คุณสนใจ",
+    btnStart: "เริ่มต้นวิเคราะห์ธุรกิจ",
+    trendingTitle: "ธุรกิจแนะนำในช่วงนี้",
+    refreshBtn: "รีเฟรชข้อมูล",
     trendingCategory: "หมวดหมู่ทั่วไป",
     productPlaceholder: "เช่น กาแฟ, เสื้อผ้า, คอร์สออนไลน์",
     langThai: "ไทย",
     langEnglish: "English",
 
     // Form page
-    form_title: "⚡ กรอกข้อมูลสั้นๆ",
+    form_title: "กรอกข้อมูลสั้นๆ",
     form_subtitle: "เพียง 5 ข้อมูลสำคัญ ก็วิเคราะห์ธุรกิจได้แล้ว!",
-    selected_product: "🎯 สินค้าที่เลือก:",
-    quick_note: "✨ ใส่ข้อมูลง่ายๆ 5 ข้อ ระบบจะช่วยวิเคราะห์ให้เอง!",
+    selected_product: "สินค้าที่เลือก:",
+    quick_note: "ใส่ข้อมูลง่ายๆ 5 ข้อ ระบบจะช่วยวิเคราะห์ให้เอง!",
     label_product: "1. ชื่อสินค้า/บริการ",
     label_cost: "2. ต้นทุนต่อชิ้น (บาท)",
     label_price: "3. ราคาขายต่อชิ้น (บาท)",
     label_units: "4. จำนวนที่จะขายต่อเดือน (หน่วย)",
     label_expense: "5. ค่าใช้จ่ายประจำเดือน (บาท)",
-    btn_analyze: "🚀 วิเคราะห์ธุรกิจเลย!",
+    btn_analyze: "วิเคราะห์ธุรกิจเลย!",
     productPlaceholder_form: "เช่น กาแฟคั่วสด",
     costPlaceholder: "เช่น 15",
     pricePlaceholder: "เช่น 35",
@@ -33,26 +32,26 @@ const translations = {
     expensePlaceholder: "เช่น 10000",
     help_text: "ค่าเช่า + ค่าไฟ + เงินเดือน",
     help_text_cost: "ค่าวัตถุดิบ + ค่าแรง",
-    btn_submit: "🚀 เริ่มวิเคราะห์เลย!",
+    btn_submit: "เริ่มวิเคราะห์เลย!",
     back_home: "← กลับหน้าแรก",
     required_field: "จำเป็น",
     validation_complete: "กรุณากรอกข้อมูลให้ครบถ้วน",
-    validation_price_higher: "❗ ราคาขายต้องมากกว่าต้นทุน",
+    validation_price_higher: "ราคาขายต้องมากกว่าต้นทุน",
 
     // Analyze page - Complete translations
-    dashboardTitle: "📊 ศูนย์วิเคราะห์ธุรกิจครบวงจร",
+    dashboardTitle: "ศูนย์วิเคราะห์ธุรกิจครบวงจร",
     dashboardSubtitle: "วิเคราะห์ธุรกิจ จัดการเงิน และเป้าหมายต่อเดือน",
-    productLabel: "🎯 สินค้า/บริการ:",
+    productLabel: "สินค้า/บริการ:",
     businessTypeLabel: "ประเภทธุรกิจ:",
-    tabOverview: "📈 ภาพรวม",
-    tabAccounting: "💰 บัญชีรายวัน",
-    tabGoalAnalysis: "🎯 วิเคราะห์เส้นทางสู่เป้าหมาย",
-    overviewHeader: "📊 ผลการวิเคราะห์ธุรกิจ",
+    tabOverview: "ภาพรวม",
+    tabAccounting: "บัญชีรายวัน",
+    tabGoalAnalysis: "วิเคราะห์เส้นทางสู่เป้าหมาย",
+    overviewHeader: "ผลการวิเคราะห์ธุรกิจ",
     langThai: "ไทย",
     langEnglish: "English",
 
     // Accounting tab translations
-    addTransactionTitle: "💰 เพิ่มรายการรายรับรายจ่าย",
+    addTransactionTitle: "เพิ่มรายการรายรับรายจ่าย",
     transactionDate: "วันที่",
     transactionType: "ประเภท",
     transactionSelectType: "เลือกประเภท",
@@ -74,13 +73,13 @@ const translations = {
     btnAddTransaction: "เพิ่มรายการ",
     
     // Monthly summary
-    monthlySummaryTitle: "📊 สรุปยอดรายเดือน",
+    monthlySummaryTitle: "สรุปยอดรายเดือน",
     monthlyIncomeTotal: "รายรับรวม",
     monthlyExpenseTotal: "รายจ่ายรวม",
     monthlyBalance: "ยอดคงเหลือ",
     
     // Transaction list
-    transactionListTitle: "📋 รายการธุรกรรม",
+    transactionListTitle: "รายการธุรกรรม",
     transactionListDate: "วันที่",
     transactionListDescription: "รายละเอียด",
     transactionListCategory: "หมวดหมู่",
@@ -88,7 +87,7 @@ const translations = {
     transactionListDelete: "ลบ",
 
     // Path analysis tab
-    pathAnalysisTitle: "🎯 วิเคราะห์เส้นทางสู่เป้าหมาย",
+    pathAnalysisTitle: "วิเคราะห์เส้นทางสู่เป้าหมาย",
     pathAnalysisSubtitle: "กรอกข้อมูลเพื่อวิเคราะห์เส้นทางการดำเนินธุรกิจและแผนการบรรลุเป้าหมาย",
     pathProductCost: "ต้นทุนสินค้าต่อชิ้น (บาท)",
     pathMarketingCost: "ค่าการตลาดต่อชิ้น (บาท)",
@@ -97,7 +96,7 @@ const translations = {
     pathProfitGoal: "เป้าหมายกำไรต่อเดือน (บาท)",
     pathFixedCosts: "ต้นทุนคงที่ต่อเดือน (บาท)",
     pathSellingDays: "จำนวนวันที่ขายต่อเดือน (วัน)",
-    pathAnalysisResult: "📊 ผลการวิเคราะห์",
+    pathAnalysisResult: "ผลการวิเคราะห์",
 
     // Business overview metrics
     monthlyRevenue: "รายได้ต่อเดือน",
@@ -136,11 +135,11 @@ const translations = {
     financialSummaryHeader: "สรุปทางการเงิน",
 
     // Business insights
-    insightsTitle: "💡 ข้อเสนะแนะ",
-    editBusinessData: "📝 แก้ไขข้อมูลธุรกิจ",
+    insightsTitle: "ข้อเสนอแนะ",
+    editBusinessData: "แก้ไขข้อมูลธุรกิจ",
 
     // Daily accounting page
-    headerTitle: "💰 บัญชีรายรับรายจ่ายรายวัน",
+    headerTitle: "บัญชีรายรับรายจ่ายรายวัน",
     headerSubtitle: "บันทึกรายการเงินเข้า-ออกประจำวัน",
     formTitle: "เพิ่มรายการใหม่",
     labelDate: "วันที่",
@@ -165,21 +164,21 @@ const translations = {
     deleteBtn: "ลบ",
 
     // Analysis result page
-    analysisResultTitle: "📊 ผลการวิเคราะห์ธุรกิจ",
+    analysisResultTitle: "ผลการวิเคราะห์ธุรกิจ",
     analysisResultSubtitle: "คำนวณจากข้อมูล 7 ตัวแปรสำคัญ",
     monthlyCost: "ต้นทุนต่อเดือน",
-    basicDataTitle: "📊 ข้อมูลพื้นฐาน",
-    mainResultsTitle: "🎯 ผลการคำนวณเส้นทางสู่เป้าหมาย",
-    actualSalesAnalysis: "💡 วิเคราะห์ยอดขายจริง",
+    basicDataTitle: "ข้อมูลพื้นฐาน",
+    mainResultsTitle: "ผลการคำนวณเส้นทางสู่เป้าหมาย",
+    actualSalesAnalysis: "วิเคราะห์ยอดขายจริง",
     actualSalesNote: "หากคุณคิดว่ายอดขายต่อเดือนจริงของคุณเป็นเท่าไหร่ กรุณาแจ้งเรา เราจะช่วยแนะนำแนวทางให้",
     actualSalesWarning: "*ยอดขายที่คิดไว้ไม่ควรคลาดเคลื่อนมากเกินไปจากยอดขายที่ระบบคำนวณให้ เพราะอาจส่งผลต่อการวิเคราะห์",
     actualSalesInput: "ยอดขายจริงต่อเดือน (ชิ้น)",
     btnAnalyzeActual: "วิเคราะห์ยอดขายจริง",
     navBackAnalyze: "← กลับหน้าศูนย์วิเคราะห์ธุรกิจครบวงจร",
-    navBackHome: "🏠 กลับหน้าแรก",
+    navBackHome: "กลับหน้าแรก",
     
     // Analysis result metric labels  
-    pathAnalysisResultTitle: "🎯 ผลการวิเคราะห์เส้นทางสู่เป้าหมาย",
+    pathAnalysisResultTitle: "ผลการวิเคราะห์เส้นทางสู่เป้าหมาย",
     pathProductCostLabel: "ต้นทุนสินค้าต่อชิ้น",
     pathMarketingCostLabel: "ค่าการตลาดต่อชิ้น", 
     pathShippingCostLabel: "ค่าขนส่งต่อชิ้น",
@@ -189,12 +188,12 @@ const translations = {
     pathSellingDaysLabel: "จำนวนวันที่ขายต่อเดือน",
     
     // Results comparison labels
-    actualVsPredictedTitle: "📊 เปรียบเทียบยอดขายจริงกับที่คำนวณ",
-    actualSalesAnalysisTitle: "📈 ผลการวิเคราะห์ยอดขายจริง",
+    actualVsPredictedTitle: "เปรียบเทียบยอดขายจริงกับที่คำนวณ",
+    actualSalesAnalysisTitle: "ผลการวิเคราะห์ยอดขายจริง",
     actualProfitLabel: "กำไรจากยอดขายจริง",
     actualRevenueLabel: "รายได้จากยอดขายจริง",
     differenceFromPredicted: "ความแตกต่างจากที่คำนวณ",
-    recommendationTitle: "💡 คำแนะนำ",
+    recommendationTitle: "คำแนะนำ",
 
     // Business type names
     businessTypeRetail: "ขายปลีก",
@@ -216,12 +215,12 @@ const translations = {
     categoryOtherExpenseName: "ค่าใช้จ่ายอื่นๆ",
 
     // Business insights messages
-    insightHighProfit: "🎉 อัตรากำไรสูงมาก ธุรกิจมีศักยภาพดีเยี่ยม",
-    insightLowProfit: "⚠️ อัตรากำไรต่ำ ควรลดต้นทุนหรือเพิ่มราคา",
-    insightProfitable: "✅ ธุรกิจมีกำไร ควรขยายการตลาดเพื่อเพิ่มยอดขาย",
-    insightLoss: "🔴 ธุรกิจขาดทุน ต้องปรับกลยุทธ์ด่วน",
-    insightBreakeven: "📊 ต้องขายอย่างน้อย {breakeven} หน่วยต่อเดือนเพื่อคุ้มทุน",
-    insightTracking: "📈 บันทึกรายรับรายจ่ายจริงเพื่อเปรียบเทียบกับแผน",
+    insightHighProfit: "อัตรากำไรสูงมาก ธุรกิจมีศักยภาพดีเยี่ยม",
+    insightLowProfit: "อัตรากำไรต่ำ ควรลดต้นทุนหรือเพิ่มราคา",
+    insightProfitable: "ธุรกิจมีกำไร ควรขยายการตลาดเพื่อเพิ่มยอดขาย",
+    insightLoss: "ธุรกิจขาดทุน ต้องปรับกลยุทธ์ด่วน",
+    insightBreakeven: "ต้องขายอย่างน้อย {breakeven} หน่วยต่อเดือนเพื่อคุ้มทุน",
+    insightTracking: "บันทึกรายรับรายจ่ายจริงเพื่อเปรียบเทียบกับแผน",
 
     // Chart labels
     chartIncomeLabel: "รายรับสะสม",
@@ -243,26 +242,26 @@ const translations = {
     // Index page
     heroTitle: "Math4Startup: AI-Powered Financial Decision Engine",
     heroSubtitle: "Start by entering a product or exploring trending business ideas.",
-    labelProduct: "🛍️ Product or Service Name",
-    btnStart: "Start Business Analysis →",
-    trendingTitle: "🔥 Recommended Businesses Now",
-    refreshBtn: "🔄 Refresh Data",
+    labelProduct: "Product or Service Name",
+    btnStart: "Start Business Analysis",
+    trendingTitle: "Recommended Businesses Now",
+    refreshBtn: "Refresh Data",
     trendingCategory: "General Category",
     productPlaceholder: "e.g. Coffee, Clothing, Online Course",
     langThai: "ไทย",
     langEnglish: "English",
 
     // Form page
-    form_title: "⚡ Quick Business Info",
+    form_title: "Quick Business Info",
     form_subtitle: "Just 5 key data points to analyze your business!",
-    selected_product: "🎯 Selected Product:",
-    quick_note: "✨ Enter 5 simple details and let the system analyze for you!",
+    selected_product: "Selected Product:",
+    quick_note: "Enter 5 simple details and let the system analyze for you!",
     label_product: "1. Product/Service Name",
     label_cost: "2. Cost per Unit (THB)",
     label_price: "3. Selling Price per Unit (THB)",
     label_units: "4. Monthly Sales Volume (Units)",
     label_expense: "5. Monthly Fixed Expenses (THB)",
-    btn_analyze: "🚀 Analyze Business Now!",
+    btn_analyze: "Analyze Business Now!",
     productPlaceholder_form: "e.g. Fresh Roasted Coffee",
     costPlaceholder: "e.g. 15",
     pricePlaceholder: "e.g. 35",
@@ -270,26 +269,26 @@ const translations = {
     expensePlaceholder: "e.g. 10000",
     help_text: "Rent + Utilities + Salary",
     help_text_cost: "Materials + Labor",
-    btn_submit: "🚀 Start Analysis Now!",
+    btn_submit: "Start Analysis Now!",
     back_home: "← Back to Home",
     required_field: "Required",
     validation_complete: "Please fill in all required fields",
-    validation_price_higher: "❗ Selling price must be higher than cost",
+    validation_price_higher: "Selling price must be higher than cost",
 
     // Analyze page - Complete translations
-    dashboardTitle: "📊 All-in-One Business Analysis Center",
+    dashboardTitle: "All-in-One Business Analysis Center",
     dashboardSubtitle: "Analyze your business, manage finances, and set monthly goals",
-    productLabel: "🎯 Product/Service:",
+    productLabel: "Product/Service:",
     businessTypeLabel: "Business Type:",
-    tabOverview: "📈 Overview",
-    tabAccounting: "💰 Daily Accounting",
-    tabGoalAnalysis: "🎯 Path to Goal Analysis",
-    overviewHeader: "📊 Business Analysis Result",
+    tabOverview: "Overview",
+    tabAccounting: "Daily Accounting",
+    tabGoalAnalysis: "Path to Goal Analysis",
+    overviewHeader: "Business Analysis Result",
     langThai: "ไทย",
     langEnglish: "English",
 
     // Accounting tab translations
-    addTransactionTitle: "💰 Add Income & Expense Entry",
+    addTransactionTitle: "Add Income & Expense Entry",
     transactionDate: "Date",
     transactionType: "Type",
     transactionSelectType: "Select Type",
@@ -311,13 +310,13 @@ const translations = {
     btnAddTransaction: "Add Entry",
     
     // Monthly summary
-    monthlySummaryTitle: "📊 Monthly Summary",
+    monthlySummaryTitle: "Monthly Summary",
     monthlyIncomeTotal: "Total Income",
     monthlyExpenseTotal: "Total Expenses",
     monthlyBalance: "Balance",
     
     // Transaction list
-    transactionListTitle: "📋 Transaction List",
+    transactionListTitle: "Transaction List",
     transactionListDate: "Date",
     transactionListDescription: "Description",
     transactionListCategory: "Category",
@@ -325,7 +324,7 @@ const translations = {
     transactionListDelete: "Delete",
 
     // Path analysis tab
-    pathAnalysisTitle: "🎯 Path to Goal Analysis",
+    pathAnalysisTitle: "Path to Goal Analysis",
     pathAnalysisSubtitle: "Enter data to analyze your business path and goal achievement plan",
     pathProductCost: "Product Cost per Unit (THB)",
     pathMarketingCost: "Marketing Cost per Unit (THB)",
@@ -334,7 +333,7 @@ const translations = {
     pathProfitGoal: "Monthly Profit Goal (THB)",
     pathFixedCosts: "Monthly Fixed Costs (THB)",
     pathSellingDays: "Selling Days per Month (Days)",
-    pathAnalysisResult: "📊 Analysis Result",
+    pathAnalysisResult: "Analysis Result",
 
     // Business overview metrics
     monthlyRevenue: "Monthly Revenue",
@@ -373,11 +372,11 @@ const translations = {
     financialSummaryHeader: "Financial Summary",
 
     // Business insights
-    insightsTitle: "💡 Recommendations",
-    editBusinessData: "📝 Edit Business Data",
+    insightsTitle: "Recommendations",
+    editBusinessData: "Edit Business Data",
 
     // Daily accounting page
-    headerTitle: "💰 Daily Income & Expense Tracking",
+    headerTitle: "Daily Income & Expense Tracking",
     headerSubtitle: "Record daily financial transactions",
     formTitle: "Add New Entry",
     labelDate: "Date",
@@ -402,21 +401,21 @@ const translations = {
     deleteBtn: "Delete",
 
     // Analysis result page
-    analysisResultTitle: "📊 Business Analysis Results",
+    analysisResultTitle: "Business Analysis Results",
     analysisResultSubtitle: "Calculated from 7 key variables",
     monthlyCost: "Monthly Cost",
-    basicDataTitle: "📊 Basic Data",
-    mainResultsTitle: "🎯 Path to Goal Analysis Results",
-    actualSalesAnalysis: "💡 Actual Sales Analysis",
+    basicDataTitle: "Basic Data",
+    mainResultsTitle: "Path to Goal Analysis Results",
+    actualSalesAnalysis: "Actual Sales Analysis",
     actualSalesNote: "If you think your actual monthly sales are different, please let us know and we'll provide recommendations",
     actualSalesWarning: "*Estimated sales should not deviate too much from system-calculated sales as it may affect analysis",
     actualSalesInput: "Actual Monthly Sales (Units)",
     btnAnalyzeActual: "Analyze Actual Sales",
     navBackAnalyze: "← Back to Business Analysis Center",
-    navBackHome: "🏠 Back to Home",
+    navBackHome: "Back to Home",
     
     // Analysis result metric labels
-    pathAnalysisResultTitle: "🎯 Path to Goal Analysis Results",
+    pathAnalysisResultTitle: "Path to Goal Analysis Results",
     pathProductCostLabel: "Product Cost per Unit",
     pathMarketingCostLabel: "Marketing Cost per Unit",
     pathShippingCostLabel: "Shipping Cost per Unit", 
@@ -426,12 +425,12 @@ const translations = {
     pathSellingDaysLabel: "Selling Days per Month",
     
     // Results comparison labels
-    actualVsPredictedTitle: "📊 Actual vs Predicted Sales Comparison",
-    actualSalesAnalysisTitle: "📈 Actual Sales Analysis Results",
+    actualVsPredictedTitle: "Actual vs Predicted Sales Comparison",
+    actualSalesAnalysisTitle: "Actual Sales Analysis Results",
     actualProfitLabel: "Profit from Actual Sales",
     actualRevenueLabel: "Revenue from Actual Sales",
     differenceFromPredicted: "Difference from Predicted",
-    recommendationTitle: "💡 Recommendations",
+    recommendationTitle: "Recommendations",
 
     // Business type names
     businessTypeRetail: "Retail",
@@ -453,12 +452,12 @@ const translations = {
     categoryOtherExpenseName: "Other Expenses",
 
     // Business insights messages
-    insightHighProfit: "🎉 Excellent profit margin! Your business has great potential",
-    insightLowProfit: "⚠️ Low profit margin. Consider reducing costs or increasing prices",
-    insightProfitable: "✅ Business is profitable. Consider expanding marketing to increase sales",
-    insightLoss: "🔴 Business is losing money. Need immediate strategy adjustment",
-    insightBreakeven: "📊 Need to sell at least {breakeven} units per month to break even",
-    insightTracking: "📈 Track actual income and expenses to compare with plan",
+    insightHighProfit: "Excellent profit margin! Your business has great potential",
+    insightLowProfit: "Low profit margin. Consider reducing costs or increasing prices",
+    insightProfitable: "Business is profitable. Consider expanding marketing to increase sales",
+    insightLoss: "Business is losing money. Need immediate strategy adjustment",
+    insightBreakeven: "Need to sell at least {breakeven} units per month to break even",
+    insightTracking: "Track actual income and expenses to compare with plan",
 
     // Chart labels
     chartIncomeLabel: "Cumulative Income",
