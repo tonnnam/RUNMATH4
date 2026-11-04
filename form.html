@@ -3,241 +3,87 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>กรอกข้อมูลธุรกิจ</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'IBM Plex Sans Thai', sans-serif;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-      min-height: 100vh;
-      color: white;
-      padding: 2rem;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .header h1 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .selected-product {
-      background: rgba(59, 130, 246, 0.1);
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-
-    .form-container {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 3rem;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    label {
-      display: block;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      color: #e2e8f0;
-      font-size: 1rem;
-    }
-
-    input,
-    select {
-      width: 100%;
-      padding: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    input:focus,
-    select:focus {
-      outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-
-    .submit-button {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      color: white;
-      border: none;
-      padding: 1.2rem 3rem;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      width: 100%;
-      margin-top: 2rem;
-    }
-
-    .submit-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
-    }
-
-    .nav-link {
-      display: inline-block;
-      color: white;
-      text-decoration: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      margin-top: 2rem;
-      transition: all 0.3s ease;
-    }
-
-    .nav-link:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .required {
-      color: #ef4444;
-    }
-
-    .help-text {
-      font-size: 0.85rem;
-      color: #94a3b8;
-      margin-top: 0.25rem;
-    }
-
-    .quick-note {
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 2rem;
-      text-align: center;
-      color: #10b981;
-    }
-
-    .language-selector {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    .language-selector select {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
-      color: white;
-      padding: 0.8rem 1.2rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      outline: none;
-    }
-
-    .language-selector select:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(59, 130, 246, 0.5);
-    }
-
-    .language-selector select:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-
-    .language-selector option {
-      background: #1e293b;
-      color: white;
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="container">
-    <div class="language-selector">
-      <select id="languageSelect" onchange="setLanguage(this.value)">
-        <option value="th" data-i18n="langThai">🇹🇭 ไทย</option>
-        <option value="en" data-i18n="langEnglish">🇺🇸 English</option>
-      </select>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="7" fill="#15203A"/>
+          <path d="M5 20 L23 8" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M5 11 L23 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Math4Startup
+      </a>
+      <div class="lang">
+        <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language">
+          <option value="th" data-i18n="langThai">ไทย</option>
+          <option value="en" data-i18n="langEnglish">English</option>
+        </select>
+      </div>
     </div>
-    
-    <div class="header">
-      <h1 data-i18n="form_title">⚡ กรอกข้อมูลสั้นๆ</h1>
+  </header>
+
+  <main class="wrap narrow">
+    <div class="page-head">
+      <h1 data-i18n="form_title">กรอกข้อมูลสั้นๆ</h1>
       <p data-i18n="form_subtitle">เพียง 5 ข้อมูลสำคัญ ก็วิเคราะห์ธุรกิจได้แล้ว!</p>
     </div>
 
-    <div class="selected-product">
-      <h3 data-i18n="selected_product">🎯 สินค้าที่เลือก: <span id="selectedProductName">-</span></h3>
+    <div class="selected">
+      <span data-i18n="selected_product">สินค้าที่เลือก:</span>
+      <strong id="selectedProductName">-</strong>
     </div>
 
-    <div class="quick-note">
-      <strong data-i18n="quick_note">✨ ใส่ข้อมูลง่ายๆ 5 ข้อ ระบบจะช่วยวิเคราะห์ให้เอง!</strong>
-    </div>
+    <p class="note" data-i18n="quick_note">ใส่ข้อมูลง่ายๆ 5 ข้อ ระบบจะช่วยวิเคราะห์ให้เอง!</p>
 
-    <div class="form-container">
-      <form id="businessForm">
+    <div class="sheet form-sheet">
+      <form id="businessForm" novalidate>
 
         <div class="form-group">
-          <label data-i18n="label_product">1. ชื่อสินค้า/บริการ <span class="required" data-i18n="required_field">*</span></label>
-          <input type="text" id="productName" required placeholder="เช่น กาแฟคั่วสด">
+          <label for="productName"><span data-i18n="label_product">1. ชื่อสินค้า/บริการ</span> <span class="required">*</span></label>
+          <input class="field" type="text" id="productName" required placeholder="เช่น กาแฟคั่วสด">
         </div>
 
-        <div class="form-group">
-          <label data-i18n="label_cost">2. ต้นทุนต่อหน่วย (บาท) <span class="required">*</span></label>
-          <input type="number" id="cost" step="0.01" required placeholder="เช่น 15" data-i18n-placeholder="costPlaceholder">
-          <div class="help-text" data-i18n="help_text_cost">ค่าวัตถุดิบ + ค่าแรง</div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="cost"><span data-i18n="label_cost">2. ต้นทุนต่อหน่วย (บาท)</span> <span class="required">*</span></label>
+            <div class="affix"><span>฿</span><input class="field" type="number" id="cost" step="0.01" required placeholder="เช่น 15" data-i18n-placeholder="costPlaceholder"></div>
+            <div class="help-text" data-i18n="help_text_cost">ค่าวัตถุดิบ + ค่าแรง</div>
+          </div>
+
+          <div class="form-group">
+            <label for="price"><span data-i18n="label_price">3. ราคาขายต่อหน่วย (บาท)</span> <span class="required">*</span></label>
+            <div class="affix"><span>฿</span><input class="field" type="number" id="price" step="0.01" required placeholder="เช่น 25" data-i18n-placeholder="pricePlaceholder"></div>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label data-i18n="label_price">3. ราคาขายต่อหน่วย (บาท) <span class="required">*</span></label>
-          <input type="number" id="price" step="0.01" required placeholder="เช่น 25" data-i18n-placeholder="pricePlaceholder">
+        <div class="grid-2">
+          <div class="form-group">
+            <label for="units"><span data-i18n="label_units">4. จำนวนที่จะขายต่อเดือน (หน่วย)</span> <span class="required">*</span></label>
+            <input class="field" type="number" id="units" required placeholder="เช่น 500" data-i18n-placeholder="unitsPlaceholder">
+          </div>
+
+          <div class="form-group">
+            <label for="expense"><span data-i18n="label_expense">5. ค่าใช้จ่ายคงที่ต่อเดือน (บาท)</span> <span class="required">*</span></label>
+            <div class="affix"><span>฿</span><input class="field" type="number" id="expense" step="0.01" required placeholder="เช่น 3000" data-i18n-placeholder="expensePlaceholder"></div>
+            <div class="help-text" data-i18n="help_text">ค่าเช่า + ค่าไฟ + เงินเดือน</div>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label data-i18n="label_units">4. จำนวนที่จะขายต่อเดือน (หน่วย) <span class="required">*</span></label>
-          <input type="number" id="units" required placeholder="เช่น 500" data-i18n-placeholder="unitsPlaceholder">
-        </div>
-
-        <div class="form-group">
-          <label data-i18n="label_expense">5. ค่าใช้จ่ายคงที่ต่อเดือน (บาท) <span class="required">*</span></label>
-          <input type="number" id="expense" step="0.01" required placeholder="เช่น 3000" data-i18n-placeholder="expensePlaceholder">
-          <div class="help-text" data-i18n="help_text">ค่าเช่า + ค่าไฟ + เงินเดือน</div>
-        </div>
-
-        <button type="submit" class="submit-button" data-i18n="btn_submit">🚀 เริ่มวิเคราะห์เลย!</button>
+        <button type="submit" class="btn btn-block" data-i18n="btn_submit">เริ่มวิเคราะห์เลย!</button>
       </form>
     </div>
 
-    <a href="index.html" class="nav-link" data-i18n="back_home">← กลับหน้าแรก</a>
-  </div>
+    <a href="index.html" class="back" data-i18n="back_home">← กลับหน้าแรก</a>
+  </main>
 
   <script>
     // โหลดชื่อสินค้าที่เลือกจากหน้าแรก
@@ -246,6 +92,13 @@
       document.getElementById('selectedProductName').textContent = selectedProduct;
       document.getElementById('productName').value = selectedProduct;
     }
+
+    const getLang = () => localStorage.getItem('language') || 'th';
+    const markInvalid = (el, bad) => el.classList.toggle('is-invalid', bad);
+
+    // เอาสีแดงออกทันทีเมื่อเริ่มพิมพ์แก้
+    document.querySelectorAll('#businessForm .field').forEach(el =>
+      el.addEventListener('input', () => markInvalid(el, false)));
 
     document.getElementById('businessForm').addEventListener('submit', function (e) {
       e.preventDefault();
@@ -256,17 +109,13 @@
 
       requiredFields.forEach(fieldId => {
         const field = document.getElementById(fieldId);
-        if (!field.value.trim()) {
-          field.style.borderColor = '#ef4444';
-          isValid = false;
-        } else {
-          field.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-        }
+        const empty = !field.value.trim();
+        markInvalid(field, empty);
+        if (empty) isValid = false;
       });
 
       if (!isValid) {
-        const lang = localStorage.getItem('language') || 'th';
-        const message = lang === 'th' ? 'กรุณากรอกข้อมูลให้ครบถ้วน' : 'Please fill in all required fields';
+        const message = getLang() === 'th' ? 'กรุณากรอกข้อมูลให้ครบถ้วน' : 'Please fill in all required fields';
         alert(message);
         return;
       }
@@ -275,15 +124,13 @@
       const price = parseFloat(document.getElementById('price').value);
 
       if (price <= cost) {
-        const lang = localStorage.getItem('language') || 'th';
-        const message = lang === 'th' ? '❗ ราคาขายต้องมากกว่าต้นทุน' : '❗ Selling price must be higher than cost';
+        const message = getLang() === 'th' ? '❗ ราคาขายต้องมากกว่าต้นทุน' : '❗ Selling price must be higher than cost';
         alert(message);
-        document.getElementById('price').style.borderColor = '#ef4444';
+        markInvalid(document.getElementById('price'), true);
         document.getElementById('price').focus();
         return; // หยุดการส่งฟอร์ม
-      } else {
-        document.getElementById('price').style.borderColor = 'rgba(255, 255, 255, 0.2)';
       }
+
       // รวบรวมข้อมูล
       const businessData = {
         productName: document.getElementById('productName').value,
@@ -318,39 +165,6 @@
   </script>
 
   <script src="i18n.js"></script>
-  <script>
-        // Set default language to Thai
-        let currentLanguage = localStorage.getItem('language') || 'th';
-
-        // Function to translate the page
-        function translatePage() {
-            const elements = document.querySelectorAll('[data-i18n]');
-            elements.forEach(element => {
-                const translationKey = element.getAttribute('data-i18n');
-                if (i18n[currentLanguage] && i18n[currentLanguage][translationKey]) {
-                    element.textContent = i18n[currentLanguage][translationKey];
-                }
-
-                // Translate placeholder if applicable
-                const placeholderKey = element.getAttribute('data-i18n-placeholder');
-                if (placeholderKey && i18n[currentLanguage] && i18n[currentLanguage][placeholderKey]) {
-                    element.setAttribute('placeholder', i18n[currentLanguage][placeholderKey]);
-                }
-            });
-        }
-
-        // Function to set the language and translate the page
-        function setLanguage(language) {
-            currentLanguage = language;
-            localStorage.setItem('language', language);
-            translatePage();
-        }
-
-        // Translate the page when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            setLanguage(currentLanguage); // Set to the stored language or default
-        });
-  </script>
 </body>
 
 </html>
