@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <title>แหล่งทุน</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="7" fill="#15203A"/>
+          <path d="M5 20 L23 8" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M5 11 L23 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Math4Startup
+      </a>
+      <nav class="main-nav" aria-label="Main">
+        <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
+        <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
+        <a href="news.html" data-i18n="navNews">ข่าว</a>
+        <a href="tools.html" data-i18n="navTools">เครื่องมือ</a>
+        <a href="funding.html" data-i18n="navFunding" aria-current="page">แหล่งทุน</a>
+        <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
+      </nav>
+      <div class="lang">
+        <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language">
+          <option value="th" data-i18n="langThai">ไทย</option>
+          <option value="en" data-i18n="langEnglish">English</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="header">
+      <h1 data-i18n="fdTitle">แหล่งทุนและโครงการสนับสนุน</h1>
+      <p data-i18n="fdSubtitle"></p>
+    </div>
+    <p class="alert-warning" data-i18n="fdNote"></p>
+    <div class="fund-list" id="fundList"></div>
+
+    <section class="section-card">
+      <h3 class="card-title" data-i18n="fdPrepTitle"></h3>
+      <ul class="plain-list">
+        <li data-i18n="fdPrep1"></li><li data-i18n="fdPrep2"></li><li data-i18n="fdPrep3"></li><li data-i18n="fdPrep4"></li>
+      </ul>
+      <div class="nav-links">
+        <a class="nav-link" href="tools.html" data-i18n="fdLinkTools"></a>
+        <a class="nav-link" href="idea.html" data-i18n="fdLinkIdea"></a>
+      </div>
+    </section>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script src="lib.js"></script>
+  <script>
+    Object.assign(translations.th, {
+  "navFunding": "แหล่งทุน",
+  "fdTitle": "แหล่งทุนและโครงการสนับสนุน",
+  "fdSubtitle": "หน่วยงานที่ให้สินเชื่อ ค้ำประกัน ทุน และสิทธิประโยชน์สำหรับ SME และสตาร์ทอัปไทย",
+  "fdNote": "รวบรวมจากแหล่งสาธารณะ ข้อมูลบางส่วนอ้างอิงข่าวปี 2566-2567 วงเงิน เงื่อนไข และช่วงรับสมัครเปลี่ยนบ่อย ตรวจที่เว็บไซต์ทางการทุกครั้งก่อนตัดสินใจ",
+  "fdTagLoan": "สินเชื่อ",
+  "fdTagGuarantee": "ค้ำประกัน",
+  "fdTagGrant": "ทุน/ร่วมลงทุน",
+  "fdTagTax": "ภาษี/สิทธิประโยชน์",
+  "fdTagInfo": "ข้อมูลและนโยบาย",
+  "fdVisit": "เปิดเว็บไซต์",
+  "fdPrepTitle": "ก่อนยื่นขอ โดยทั่วไปควรเตรียม",
+  "fdPrep1": "ข้อมูลธุรกิจและตัวเลขรายรับ-รายจ่ายที่เป็นปัจจุบัน",
+  "fdPrep2": "แผนว่าจะนำเงินไปใช้ทำอะไร และจะคืนทุนอย่างไร",
+  "fdPrep3": "เอกสารจดทะเบียนธุรกิจและบัญชีธนาคาร",
+  "fdPrep4": "ตรวจคุณสมบัติและเงื่อนไขล่าสุดที่เว็บไซต์ทางการของแต่ละที่",
+  "fdLinkTools": "ลองคำนวณตัวเลขธุรกิจ",
+  "fdLinkIdea": "ตรวจไอเดียด้วย AI"
+});
+    Object.assign(translations.en, {
+  "navFunding": "Funding",
+  "fdTitle": "Funding and support programs",
+  "fdSubtitle": "Agencies offering loans, guarantees, grants and benefits for Thai SMEs and startups",
+  "fdNote": "Compiled from public sources, some based on 2023-2024 news. Amounts, conditions and application windows change often, so always check the official website.",
+  "fdTagLoan": "Loans",
+  "fdTagGuarantee": "Guarantee",
+  "fdTagGrant": "Grants / co-investment",
+  "fdTagTax": "Tax / benefits",
+  "fdTagInfo": "Info & policy",
+  "fdVisit": "Visit website",
+  "fdPrepTitle": "Before applying, you generally need",
+  "fdPrep1": "Up-to-date business information and income/expense figures",
+  "fdPrep2": "A plan for how you will use the money and pay it back",
+  "fdPrep3": "Business registration documents and a bank account",
+  "fdPrep4": "To check current eligibility and terms on each official website",
+  "fdLinkTools": "Run your business numbers",
+  "fdLinkIdea": "Check your idea with AI"
+});
+
+    const ORGS = [
+      { name: 'SME D Bank (ธพว.)', url: 'https://www.smebank.co.th', tag: 'Loan',
+        th: 'ธนาคารของรัฐที่ให้สินเชื่อแก่ SME ดูผลิตภัณฑ์และเงื่อนไขล่าสุดที่เว็บไซต์',
+        en: 'State-owned bank lending to SMEs. See current products and terms on its website.' },
+      { name: 'บสย. (TCG)', url: 'https://www.tcg.or.th', tag: 'Guarantee',
+        th: 'ค้ำประกันสินเชื่อให้ SME ที่ขาดหลักทรัพย์ค้ำ ใช้ร่วมกับสินเชื่อจากสถาบันการเงิน',
+        en: 'Credit guarantee for SMEs that lack collateral, used together with loans from financial institutions.' },
+      { name: 'depa', url: 'https://www.depa.or.th', tag: 'Grant',
+        th: 'ส่งเสริมเศรษฐกิจดิจิทัล มีโครงการบ่มเพาะและกองทุน Digital Startup Fund แบบร่วมลงทุนมีเงื่อนไข ผู้สมัครต้องผ่านการรับรองจากหน่วยงานที่กำหนด เช่น NIA, depa, NSTDA',
+        en: 'Digital economy agency with accelerator programs and the Digital Startup Fund (conditional co-investment). Applicants must be certified by designated agencies such as NIA, depa or NSTDA.' },
+      { name: 'NIA', url: 'https://www.nia.or.th', tag: 'Grant',
+        th: 'หน่วยงานรัฐด้านนวัตกรรม มีกลไกสนับสนุนสตาร์ทอัปทั้งทุน การบ่มเพาะ และเครือข่าย',
+        en: 'Government innovation agency with startup support covering funding, incubation and networking.' },
+      { name: 'Startup Thailand', url: 'https://govsupport.startupthailand.org/en/home', tag: 'Info',
+        th: 'รวมข้อมูลการสนับสนุนจากภาครัฐสำหรับสตาร์ทอัปไว้ในที่เดียว',
+        en: 'A single place listing government support available to startups.' },
+      { name: 'BOI', url: 'https://www.boi.go.th', tag: 'Tax',
+        th: 'ส่งเสริมการลงทุน ให้สิทธิประโยชน์ด้านภาษี และเคยประกาศโครงการทุนจับคู่สำหรับสตาร์ทอัปศักยภาพสูง (กรกฎาคม 2567) ตรวจเงื่อนไขล่าสุดก่อนสมัคร',
+        en: 'Investment promotion with tax benefits, and a matching-fund scheme for high-potential startups announced in July 2024. Check current terms before applying.' },
+      { name: 'สสว. (OSMEP)', url: 'https://www.sme.go.th', tag: 'Info',
+        th: 'สำนักงานส่งเสริมวิสาหกิจขนาดกลางและขนาดย่อม ศูนย์กลางนโยบายและโครงการสนับสนุน SME',
+        en: 'Office of SMEs Promotion, the central body for SME policy and support programs.' }
+    ];
+    const TAGS = { Loan: 'fdTagLoan', Guarantee: 'fdTagGuarantee', Grant: 'fdTagGrant', Tax: 'fdTagTax', Info: 'fdTagInfo' };
+    const list = document.getElementById('fundList');
+
+    function render() {
+      const lang = Lib.lang() === 'en' ? 'en' : 'th';
+      list.innerHTML = ORGS.map(o => `
+        <section class="section-card fund-card">
+          <div class="card-head"><h3>${Lib.esc(o.name)}</h3><span class="tag">${Lib.esc(getTranslation(TAGS[o.tag]))}</span></div>
+          <p>${Lib.esc(o[lang])}</p>
+          <a class="nav-link" href="${Lib.esc(o.url)}" target="_blank" rel="noopener noreferrer">${Lib.esc(getTranslation('fdVisit'))}</a>
+        </section>`).join('');
+    }
+    document.getElementById('languageSelect').addEventListener('change', render);
+    render();
+  </script>
+</body>
+
+</html>

@@ -25,9 +25,10 @@
       </a>
       <nav class="main-nav" aria-label="Main">
         <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
-        <a href="analyze.html" data-i18n="navFinance">การเงิน</a>
         <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
         <a href="news.html" data-i18n="navNews">ข่าว</a>
+        <a href="tools.html" data-i18n="navTools">เครื่องมือ</a>
+        <a href="funding.html" data-i18n="navFunding">แหล่งทุน</a>
         <a href="advisor.html" data-i18n="navAdvisor" aria-current="page">ที่ปรึกษา AI</a>
       </nav>
       <div class="lang">
@@ -44,6 +45,8 @@
       <h1 data-i18n="advisorTitle">ที่ปรึกษาธุรกิจ AI</h1>
       <p data-i18n="advisorSubtitle">ถามเรื่องราคา ต้นทุน การตลาด หรือแผนธุรกิจ ที่ปรึกษาจะใช้ตัวเลขของคุณประกอบคำตอบ</p>
     </div>
+
+    <p><a class="nav-link" href="idea.html" data-i18n="ideaLink">ตรวจไอเดียธุรกิจด้วย AI</a></p>
 
     <section class="section-card" id="ctxCard"></section>
 
@@ -147,7 +150,7 @@
         history.push({ role: 'assistant', content: data.reply });
       } catch (err) {
         console.error(err);
-        pending.textContent = t('advisorError');
+        pending.textContent = err.message === 'not_configured' ? t('aiNotReady') : t('advisorError');
         pending.classList.remove('pending');
         pending.classList.add('error');
         history.pop(); // drop the unanswered question so a retry doesn't duplicate it

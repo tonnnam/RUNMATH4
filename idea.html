@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ตรวจไอเดียธุรกิจ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="7" fill="#15203A"/>
+          <path d="M5 20 L23 8" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M5 11 L23 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Math4Startup
+      </a>
+      <nav class="main-nav" aria-label="Main">
+        <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
+        <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
+        <a href="news.html" data-i18n="navNews">ข่าว</a>
+        <a href="tools.html" data-i18n="navTools">เครื่องมือ</a>
+        <a href="funding.html" data-i18n="navFunding">แหล่งทุน</a>
+        <a href="advisor.html" data-i18n="navAdvisor" aria-current="page">ที่ปรึกษา AI</a>
+      </nav>
+      <div class="lang">
+        <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language">
+          <option value="th" data-i18n="langThai">ไทย</option>
+          <option value="en" data-i18n="langEnglish">English</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="header">
+      <h1 data-i18n="ideaTitle">ตรวจไอเดียธุรกิจด้วย AI</h1>
+      <p data-i18n="ideaSubtitle"></p>
+    </div>
+
+    <section class="section-card">
+      <form id="ideaForm" novalidate>
+        <div class="form-group"><label for="fIdea" data-i18n="ideaF1"></label>
+          <textarea id="fIdea" rows="3" maxlength="600" data-i18n-placeholder="ideaF1Ph"></textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label for="fCust" data-i18n="ideaF2"></label>
+            <input type="text" id="fCust" maxlength="300" data-i18n-placeholder="ideaF2Ph"></div>
+          <div class="form-group"><label for="fRev" data-i18n="ideaF3"></label>
+            <input type="text" id="fRev" maxlength="300" data-i18n-placeholder="ideaF3Ph"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label for="fBudget" data-i18n="ideaF4"></label>
+            <input type="number" id="fBudget" inputmode="decimal" min="0" step="any"></div>
+        </div>
+        <button type="submit" id="ideaBtn" data-i18n="ideaBtn">ตรวจไอเดียของฉัน</button>
+      </form>
+    </section>
+
+    <section class="section-card" id="resultCard" hidden>
+      <h3 class="card-title" data-i18n="ideaResult"></h3>
+      <div class="result-text" id="resultText" aria-live="polite"></div>
+      <p class="help-text" data-i18n="ideaNote"></p>
+    </section>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script src="lib.js"></script>
+  <script>
+    Object.assign(translations.th, {
+  "ideaTitle": "ตรวจไอเดียธุรกิจด้วย AI",
+  "ideaSubtitle": "เล่าไอเดียสั้นๆ แล้วให้ AI ช่วยชี้จุดแข็ง ความเสี่ยง และสิ่งที่ควรทดสอบก่อนลงทุน",
+  "ideaF1": "ไอเดียของคุณคืออะไร",
+  "ideaF1Ph": "เช่น กาแฟคั่วสดส่งถึงบ้านแบบสมาชิกรายเดือน",
+  "ideaF2": "ลูกค้าเป้าหมายคือใคร",
+  "ideaF2Ph": "เช่น คนทำงานออฟฟิศในกรุงเทพ",
+  "ideaF3": "จะหารายได้อย่างไร",
+  "ideaF3Ph": "เช่น ค่าสมาชิกเดือนละ 399 บาท",
+  "ideaF4": "งบเริ่มต้น (บาท) ไม่บังคับ",
+  "ideaBtn": "ตรวจไอเดียของฉัน",
+  "ideaWorking": "กำลังวิเคราะห์...",
+  "ideaResult": "ผลการตรวจไอเดีย",
+  "ideaNeed": "กรุณาใส่ไอเดียก่อน",
+  "ideaNote": "AI ไม่มีข้อมูลตลาดสดๆ ผลนี้เป็นเครื่องช่วยคิด ควรทดสอบกับลูกค้าจริงก่อนลงทุน"
+});
+    Object.assign(translations.en, {
+  "ideaTitle": "Check your business idea with AI",
+  "ideaSubtitle": "Describe your idea briefly and the AI will point out strengths, risks and what to test before investing.",
+  "ideaF1": "What is your idea?",
+  "ideaF1Ph": "e.g. Freshly roasted coffee delivered monthly by subscription",
+  "ideaF2": "Who are your target customers?",
+  "ideaF2Ph": "e.g. Office workers in Bangkok",
+  "ideaF3": "How will it make money?",
+  "ideaF3Ph": "e.g. 399 THB per month subscription",
+  "ideaF4": "Starting budget (THB), optional",
+  "ideaBtn": "Check my idea",
+  "ideaWorking": "Analyzing...",
+  "ideaResult": "Idea check result",
+  "ideaNeed": "Please describe your idea first",
+  "ideaNote": "The AI has no live market data. Treat this as a thinking aid and test with real customers before investing."
+});
+
+    const $ = id => document.getElementById(id);
+    const t = k => getTranslation(k);
+    let busy = false;
+
+    $('ideaForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      if (busy) return;
+      const idea = $('fIdea').value.trim();
+      if (!idea) { $('fIdea').classList.add('is-invalid'); alert(t('ideaNeed')); return; }
+      $('fIdea').classList.remove('is-invalid');
+      busy = true;
+      $('ideaBtn').disabled = true;
+      $('resultCard').hidden = false;
+      const out = $('resultText');
+      out.className = 'result-text pending';
+      out.textContent = t('ideaWorking');
+      out.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      try {
+        const res = await fetch('/api/advisor', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            mode: 'idea', lang: Lib.lang(),
+            idea: { idea, customers: $('fCust').value, revenue: $('fRev').value, budget: $('fBudget').value }
+          })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.reply) throw new Error(data.error || 'error');
+        out.className = 'result-text';
+        out.textContent = data.reply;
+      } catch (err) {
+        console.error(err);
+        out.className = 'result-text error';
+        out.textContent = err.message === 'not_configured' ? t('aiNotReady') : t('advisorError');
+      }
+      busy = false;
+      $('ideaBtn').disabled = false;
+    });
+    $('fIdea').addEventListener('input', () => $('fIdea').classList.remove('is-invalid'));
+  </script>
+</body>
+
+</html>

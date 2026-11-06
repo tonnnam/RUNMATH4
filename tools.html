@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <title>เครื่องมือคำนวณ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="7" fill="#15203A"/>
+          <path d="M5 20 L23 8" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M5 11 L23 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Math4Startup
+      </a>
+      <nav class="main-nav" aria-label="Main">
+        <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
+        <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
+        <a href="news.html" data-i18n="navNews">ข่าว</a>
+        <a href="tools.html" data-i18n="navTools" aria-current="page">เครื่องมือ</a>
+        <a href="funding.html" data-i18n="navFunding">แหล่งทุน</a>
+        <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
+      </nav>
+      <div class="lang">
+        <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language">
+          <option value="th" data-i18n="langThai">ไทย</option>
+          <option value="en" data-i18n="langEnglish">English</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="header">
+      <h1 data-i18n="tlTitle">เครื่องมือคำนวณสำหรับธุรกิจ</h1>
+      <p data-i18n="tlSubtitle">กรอกตัวเลขแล้วเห็นผลทันที</p>
+    </div>
+
+    <section class="section-card">
+      <div class="tab-navigation" role="tablist">
+        <button type="button" class="tab-button active" data-tab="pricing" data-i18n="tlTabPricing">ตั้งราคา</button>
+        <button type="button" class="tab-button" data-tab="runway" data-i18n="tlTabRunway">เงินทุนหมุนเวียน</button>
+        <button type="button" class="tab-button" data-tab="target" data-i18n="tlTabTarget">เป้ายอดขาย</button>
+        <button type="button" class="tab-button" data-tab="profit" data-i18n="tlTabProfit">กำไร/จุดคุ้มทุน</button>
+      </div>
+
+      <div class="tab-content active" id="tab-pricing">
+        <div class="form-row"><div class="form-group"><label for="prCost" data-i18n="tlPrCost"></label><input type="number" id="prCost" inputmode="decimal" min="0" step="any" placeholder="เช่น 40" value=""></div><div class="form-group"><label for="prExtra" data-i18n="tlPrExtra"></label><input type="number" id="prExtra" inputmode="decimal" min="0" step="any" placeholder="เช่น 8" value=""></div></div>
+        <div class="form-row"><div class="form-group"><label for="prFee" data-i18n="tlPrFee"></label><input type="number" id="prFee" inputmode="decimal" min="0" step="any" placeholder="เช่น 8" value=""></div><div class="form-group"><label for="prMargin" data-i18n="tlPrMargin"></label><input type="number" id="prMargin" inputmode="decimal" min="0" step="any" placeholder="เช่น 30" value=""></div></div>
+        <p class="help-text" data-i18n="tlPrHelp"></p>
+        <div id="prOut"></div>
+      </div>
+
+      <div class="tab-content" id="tab-runway">
+        <div class="form-row"><div class="form-group"><label for="rwCash" data-i18n="tlRwCash"></label><input type="number" id="rwCash" inputmode="decimal" min="0" step="any" placeholder="เช่น 150000" value=""></div><div class="form-group"><label for="rwRevenue" data-i18n="tlRwRevenue"></label><input type="number" id="rwRevenue" inputmode="decimal" min="0" step="any" placeholder="เช่น 60000" value=""></div><div class="form-group"><label for="rwCosts" data-i18n="tlRwCosts"></label><input type="number" id="rwCosts" inputmode="decimal" min="0" step="any" placeholder="เช่น 75000" value=""></div></div>
+        <div id="rwOut"></div>
+        <p class="help-text" data-i18n="tlRwNote"></p>
+      </div>
+
+      <div class="tab-content" id="tab-target">
+        <div class="form-row"><div class="form-group"><label for="tgProfit" data-i18n="tlTgProfit"></label><input type="number" id="tgProfit" inputmode="decimal" min="0" step="any" placeholder="เช่น 30000" value=""></div><div class="form-group"><label for="tgFixed" data-i18n="tlTgFixed"></label><input type="number" id="tgFixed" inputmode="decimal" min="0" step="any" placeholder="เช่น 20000" value=""></div></div>
+        <div class="form-row"><div class="form-group"><label for="tgPrice" data-i18n="tlTgPrice"></label><input type="number" id="tgPrice" inputmode="decimal" min="0" step="any" placeholder="เช่น 80" value=""></div><div class="form-group"><label for="tgVar" data-i18n="tlTgVar"></label><input type="number" id="tgVar" inputmode="decimal" min="0" step="any" placeholder="เช่น 45" value=""></div><div class="form-group"><label for="tgDays" data-i18n="tlTgDays"></label><input type="number" id="tgDays" inputmode="decimal" min="0" step="1" placeholder="เช่น 26" value="26"></div></div>
+        <div id="tgOut"></div>
+      </div>
+
+      <div class="tab-content" id="tab-profit">
+        <p data-i18n="tlPfText"></p>
+        <div class="nav-links"><a class="nav-link" href="analyze.html" data-i18n="tlPfBtn"></a></div>
+      </div>
+
+      <p class="help-text" data-i18n="tlNote"></p>
+    </section>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script src="lib.js"></script>
+  <script>
+    Object.assign(translations.th, {
+  "navTools": "เครื่องมือ",
+  "tlTitle": "เครื่องมือคำนวณสำหรับธุรกิจ",
+  "tlSubtitle": "กรอกตัวเลขแล้วเห็นผลทันที ไม่ต้องสมัครหรือบันทึกอะไร",
+  "tlTabPricing": "ตั้งราคา",
+  "tlTabRunway": "เงินทุนหมุนเวียน",
+  "tlTabTarget": "เป้ายอดขาย",
+  "tlTabProfit": "กำไร/จุดคุ้มทุน",
+  "tlFillHint": "กรอกตัวเลขเพื่อดูผลทันที",
+  "tlNote": "ผลลัพธ์คำนวณจากตัวเลขที่คุณกรอก ไม่ใช่คำแนะนำทางการเงิน",
+  "tlPrCost": "ต้นทุนสินค้าต่อหน่วย (บาท)",
+  "tlPrExtra": "ต้นทุนอื่นต่อหน่วย เช่น แพ็กเกจ ค่าส่ง (บาท)",
+  "tlPrFee": "ค่าธรรมเนียมแพลตฟอร์ม/ชำระเงิน (% ของราคา)",
+  "tlPrMargin": "กำไรที่ต้องการ (% ของราคาขาย)",
+  "tlPrPrice": "ราคาขายที่แนะนำ",
+  "tlPrProfit": "กำไรต่อหน่วย",
+  "tlPrMarkup": "บวกเพิ่มจากต้นทุน (%)",
+  "tlPrErr": "ค่าธรรมเนียม + กำไรที่ต้องการ ต้องรวมกันน้อยกว่า 100%",
+  "tlPrHelp": "ราคา = ต้นทุนรวม ÷ (1 − ค่าธรรมเนียม% − กำไร%)",
+  "tlRwCash": "เงินสดที่มีอยู่ (บาท)",
+  "tlRwRevenue": "รายรับต่อเดือน (บาท)",
+  "tlRwCosts": "ค่าใช้จ่ายรวมต่อเดือน (บาท)",
+  "tlRwNet": "รายรับ − รายจ่าย ต่อเดือน",
+  "tlRwRunway": "เงินสดอยู่ได้อีก (เดือน)",
+  "tlRwCover": "เท่ากับกี่เดือนของค่าใช้จ่าย",
+  "tlRwOk": "กำไรสุทธิเป็นบวก ไม่ได้เผาเงินสด",
+  "tlRwLow": "ต่ำกว่า 3 เดือนของค่าใช้จ่าย",
+  "tlRwMid": "ประมาณ 3-6 เดือนของค่าใช้จ่าย",
+  "tlRwHigh": "6 เดือนขึ้นไปของค่าใช้จ่าย",
+  "tlRwNote": "เกณฑ์คร่าวๆ ที่หลายคนใช้: เก็บเงินสดสำรองเท่ากับค่าใช้จ่าย 3-6 เดือน ไม่ใช่กฎตายตัว",
+  "tlTgProfit": "กำไรที่อยากได้ต่อเดือน (บาท)",
+  "tlTgPrice": "ราคาขายต่อหน่วย (บาท)",
+  "tlTgVar": "ต้นทุนผันแปรต่อหน่วย (บาท)",
+  "tlTgFixed": "ค่าใช้จ่ายคงที่ต่อเดือน (บาท)",
+  "tlTgDays": "จำนวนวันที่ขายต่อเดือน",
+  "tlTgUnits": "ต้องขายต่อเดือน (หน่วย)",
+  "tlTgPerDay": "เฉลี่ยต่อวัน (หน่วย)",
+  "tlTgRevenue": "ยอดขายที่ต้องทำ (บาท)",
+  "tlTgUnit": "กำไรต่อหน่วย",
+  "tlTgErr": "ราคาขายต้องมากกว่าต้นทุนผันแปร",
+  "tlPfText": "วิเคราะห์กำไร จุดคุ้มทุน และบันทึกรายรับรายจ่ายรายวัน",
+  "tlPfBtn": "เปิดเครื่องมือวิเคราะห์กำไร"
+});
+    Object.assign(translations.en, {
+  "navTools": "Tools",
+  "tlTitle": "Business calculators",
+  "tlSubtitle": "Enter your numbers and see results instantly. No sign-up, nothing saved.",
+  "tlTabPricing": "Pricing",
+  "tlTabRunway": "Cash runway",
+  "tlTabTarget": "Sales target",
+  "tlTabProfit": "Profit / break-even",
+  "tlFillHint": "Enter your numbers to see results",
+  "tlNote": "Results are calculated from the numbers you enter and are not financial advice.",
+  "tlPrCost": "Product cost per unit (THB)",
+  "tlPrExtra": "Other cost per unit, e.g. packaging, shipping (THB)",
+  "tlPrFee": "Platform / payment fee (% of price)",
+  "tlPrMargin": "Target profit (% of selling price)",
+  "tlPrPrice": "Suggested selling price",
+  "tlPrProfit": "Profit per unit",
+  "tlPrMarkup": "Markup on cost (%)",
+  "tlPrErr": "Fee % + target profit % must add up to less than 100%",
+  "tlPrHelp": "Price = total cost / (1 - fee% - profit%)",
+  "tlRwCash": "Cash on hand (THB)",
+  "tlRwRevenue": "Monthly revenue (THB)",
+  "tlRwCosts": "Total monthly costs (THB)",
+  "tlRwNet": "Revenue - costs per month",
+  "tlRwRunway": "Cash lasts another (months)",
+  "tlRwCover": "Equals months of costs",
+  "tlRwOk": "Net result is positive, so you are not burning cash",
+  "tlRwLow": "Under 3 months of costs",
+  "tlRwMid": "About 3-6 months of costs",
+  "tlRwHigh": "6+ months of costs",
+  "tlRwNote": "A common rule of thumb is to keep 3-6 months of costs in reserve. It is not a hard rule.",
+  "tlTgProfit": "Profit you want per month (THB)",
+  "tlTgPrice": "Selling price per unit (THB)",
+  "tlTgVar": "Variable cost per unit (THB)",
+  "tlTgFixed": "Fixed costs per month (THB)",
+  "tlTgDays": "Selling days per month",
+  "tlTgUnits": "Units to sell per month",
+  "tlTgPerDay": "Average per day (units)",
+  "tlTgRevenue": "Sales needed (THB)",
+  "tlTgUnit": "Profit per unit",
+  "tlTgErr": "Selling price must be higher than variable cost",
+  "tlPfText": "Analyze profit, break-even and track daily income and expenses",
+  "tlPfBtn": "Open profit analysis"
+});
+
+    const $ = id => document.getElementById(id);
+    const t = k => getTranslation(k);
+    const num = id => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : NaN; };
+    const num0 = id => { const v = num(id); return Number.isNaN(v) ? 0 : v; };
+    const card = (label, value, cls) => `<div class="metric-card"><div class="metric-value ${cls || ''}">${value}</div><div class="metric-label">${Lib.esc(label)}</div></div>`;
+    const hint = () => `<p class="help-text">${Lib.esc(t('tlFillHint'))}</p>`;
+    const warn = key => `<div class="alert-warning">${Lib.esc(t(key))}</div>`;
+
+    function renderPricing() {
+      const cost = num('prCost'), margin = num('prMargin');
+      if (!(cost >= 0) || !(margin >= 0)) { $('prOut').innerHTML = hint(); return; }
+      const r = Lib.calcPrice({ cost, extra: num0('prExtra'), feePct: num0('prFee'), marginPct: margin });
+      if (!r) { $('prOut').innerHTML = warn('tlPrErr'); return; }
+      $('prOut').innerHTML = `<div class="metrics-grid">
+        ${card(t('tlPrPrice'), Lib.money(r.price) + ' ฿')}
+        ${card(t('tlPrProfit'), Lib.money(r.profit) + ' ฿', 'positive')}
+        ${r.markup === null ? '' : card(t('tlPrMarkup'), r.markup.toFixed(1) + '%')}</div>`;
+    }
+
+    function renderRunway() {
+      const cash = num('rwCash'), revenue = num('rwRevenue'), costs = num('rwCosts');
+      if (!(cash >= 0) || !(revenue >= 0) || !(costs >= 0)) { $('rwOut').innerHTML = hint(); return; }
+      const r = Lib.calcRunway({ cash, revenue, costs });
+      let cards = card(t('tlRwNet'), Lib.fmt(r.net) + ' ฿', r.net >= 0 ? 'positive' : 'negative');
+      let status = '';
+      if (r.runway === null) {
+        status = `<div class="alert-success">${Lib.esc(t('tlRwOk'))}</div>`;
+      } else {
+        cards += card(t('tlRwRunway'), r.runway.toFixed(1));
+      }
+      if (r.coverage !== null) {
+        cards += card(t('tlRwCover'), r.coverage.toFixed(1), r.coverage < 3 ? 'negative' : r.coverage < 6 ? 'warning' : 'positive');
+        const label = r.coverage < 3 ? 'tlRwLow' : r.coverage < 6 ? 'tlRwMid' : 'tlRwHigh';
+        status += `<p class="help-text">${Lib.esc(t(label))}</p>`;
+      }
+      $('rwOut').innerHTML = `<div class="metrics-grid">${cards}</div>${status}`;
+    }
+
+    function renderTarget() {
+      const targetProfit = num('tgProfit'), fixed = num('tgFixed'), price = num('tgPrice'), varCost = num('tgVar');
+      if (![targetProfit, fixed, price, varCost].every(v => v >= 0)) { $('tgOut').innerHTML = hint(); return; }
+      const r = Lib.calcTarget({ targetProfit, price, varCost, fixed, days: num('tgDays') });
+      if (!r) { $('tgOut').innerHTML = warn('tlTgErr'); return; }
+      $('tgOut').innerHTML = `<div class="metrics-grid">
+        ${card(t('tlTgUnits'), Lib.fmt(r.units))}
+        ${r.perDay === null ? '' : card(t('tlTgPerDay'), Lib.fmt(r.perDay))}
+        ${card(t('tlTgRevenue'), Lib.fmt(r.revenue) + ' ฿')}
+        ${card(t('tlTgUnit'), Lib.money(r.unit) + ' ฿', 'positive')}</div>`;
+    }
+
+    const renderAll = () => { renderPricing(); renderRunway(); renderTarget(); };
+    document.querySelectorAll('.tab-content input').forEach(el => el.addEventListener('input', renderAll));
+    document.getElementById('languageSelect').addEventListener('change', renderAll);
+
+    function showTab(name) {
+      if (!document.getElementById('tab-' + name)) name = 'pricing';
+      document.querySelectorAll('.tab-button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+      document.querySelectorAll('.tab-content').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+    }
+    document.querySelector('.tab-navigation').addEventListener('click', e => {
+      const b = e.target.closest('.tab-button'); if (!b) return;
+      showTab(b.dataset.tab); history.replaceState(null, '', '#' + b.dataset.tab);
+    });
+    showTab(location.hash.slice(1));
+    renderAll();
+  </script>
+</body>
+
+</html>

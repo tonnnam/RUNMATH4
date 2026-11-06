@@ -113,6 +113,9 @@ h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; line
 .start-row { display: flex; gap: .75rem; }
 .start-row .btn { white-space: nowrap; }
 
+.hero-links { margin-top: 1rem; }
+.hero-links a { color: var(--ink); font-weight: 500; text-underline-offset: 3px; }
+
 .sheet {
   background: var(--surface);
   border: 1.5px solid var(--ink); border-radius: 14px;

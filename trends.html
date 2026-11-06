@@ -25,9 +25,10 @@
       </a>
       <nav class="main-nav" aria-label="Main">
         <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
-        <a href="analyze.html" data-i18n="navFinance">การเงิน</a>
         <a href="trends.html" data-i18n="navTrends" aria-current="page">เทรนด์</a>
         <a href="news.html" data-i18n="navNews">ข่าว</a>
+        <a href="tools.html" data-i18n="navTools">เครื่องมือ</a>
+        <a href="funding.html" data-i18n="navFunding">แหล่งทุน</a>
         <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
       </nav>
       <div class="lang">
@@ -42,7 +43,7 @@
   <main class="container">
     <div class="header">
       <h1 data-i18n="trendsTitle">เทรนด์ธุรกิจตอนนี้</h1>
-      <p data-i18n="trendsSubtitle">สินค้าและธุรกิจที่คนค้นหามาก เลือกอันที่สนใจเพื่อวิเคราะห์ต่อ</p>
+      <p data-i18n="trendsSubtitle"></p>
     </div>
 
     <section class="section-card">
@@ -50,7 +51,8 @@
         <h3 data-i18n="trendsListTitle">10 อันดับที่คนสนใจ</h3>
         <button type="button" class="chip" id="reloadBtn" data-i18n="refreshBtn">รีเฟรชข้อมูล</button>
       </div>
-      <p class="help-text" id="trendNote" hidden data-i18n="trendsFallback">โหลดข้อมูลสดไม่สำเร็จ จึงแสดงรายการตัวอย่างแทน</p>
+      <p class="help-text" id="trendUpdated" hidden></p>
+      <p class="help-text" id="trendNote" hidden data-i18n="trendsFallback"></p>
       <ol class="trend-list with-action" id="trendList"></ol>
     </section>
   </main>
@@ -58,25 +60,46 @@
   <script src="i18n.js"></script>
   <script src="lib.js"></script>
   <script>
+    Object.assign(translations.th, {
+  "trendsNews": "ข่าว",
+  "trendsUpdated": "ข้อมูลอัปเดตล่าสุด"
+});
+    Object.assign(translations.en, {
+  "trendsNews": "News",
+  "trendsUpdated": "Data last updated"
+});
+
     const listEl = document.getElementById('trendList');
     const noteEl = document.getElementById('trendNote');
     const reloadBtn = document.getElementById('reloadBtn');
+    const updatedEl = document.getElementById('trendUpdated');
     let current = [];
+    let updated = null;
 
     function render() {
       const go = Lib.esc(getTranslation('trendsAnalyze'));
+      const news = Lib.esc(getTranslation('trendsNews'));
+      if (updated) {
+        const d = new Date(updated);
+        updatedEl.textContent = getTranslation('trendsUpdated') + ' ' + d.toLocaleDateString(Lib.lang() === 'en' ? 'en-GB' : 'th-TH', { day: 'numeric', month: 'long', year: 'numeric' });
+        updatedEl.hidden = false;
+      } else { updatedEl.hidden = true; }
       listEl.innerHTML = current.map((name, i) => `
-        <li><a class="trend-row" href="form.html" data-name="${Lib.esc(name)}">
-          <span class="rank">${i + 1}</span><span class="name">${Lib.esc(name)}</span><span class="go">${go}</span>
-        </a></li>`).join('');
+        <li class="trend-item">
+          <span class="rank">${i + 1}</span>
+          <span class="name">${Lib.esc(name)}</span>
+          <a class="go" href="news.html?q=${encodeURIComponent(Lib.newsKeyword(name))}">${news}</a>
+          <a class="go" href="form.html" data-name="${Lib.esc(name)}">${go}</a>
+        </li>`).join('');
     }
 
     async function load() {
       reloadBtn.disabled = true;
       noteEl.hidden = true;
       listEl.innerHTML = '<li class="skeleton"></li>'.repeat(10);
-      const { items, fallback } = await Lib.fetchTrends();
+      const { items, fallback, updated: u } = await Lib.fetchTrends();
       current = items;
+      updated = u;
       noteEl.hidden = !fallback;
       render();
       reloadBtn.disabled = false;

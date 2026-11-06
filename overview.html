@@ -25,9 +25,10 @@
       </a>
       <nav class="main-nav" aria-label="Main">
         <a href="overview.html" data-i18n="navOverview" aria-current="page">ภาพรวม</a>
-        <a href="analyze.html" data-i18n="navFinance">การเงิน</a>
         <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
         <a href="news.html" data-i18n="navNews">ข่าว</a>
+        <a href="tools.html" data-i18n="navTools">เครื่องมือ</a>
+        <a href="funding.html" data-i18n="navFunding">แหล่งทุน</a>
         <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
       </nav>
       <div class="lang">
@@ -42,32 +43,36 @@
   <main class="container">
     <div class="header">
       <h1 data-i18n="overviewTitle">ภาพรวมธุรกิจ</h1>
-      <p data-i18n="overviewSubtitle">ตัวเลขการเงิน ข่าว และเทรนด์ล่าสุด ในหน้าเดียว</p>
+      <p data-i18n="overviewSubtitle"></p>
     </div>
-
-    <section class="section-card" id="finCard"></section>
 
     <div class="ov-grid">
       <section class="section-card">
-        <div class="card-head">
-          <h3 data-i18n="ovNewsTitle">ข่าวเด่น</h3>
-          <a href="news.html" data-i18n="ovViewAll">ดูทั้งหมด</a>
-        </div>
+        <div class="card-head"><h3 data-i18n="ovNewsTitle">ข่าวเด่น</h3><a href="news.html" data-i18n="ovViewAll"></a></div>
         <ul class="mini-list" id="ovNews"></ul>
       </section>
       <section class="section-card">
-        <div class="card-head">
-          <h3 data-i18n="ovTrendsTitle">เทรนด์ตอนนี้</h3>
-          <a href="trends.html" data-i18n="ovViewAll">ดูทั้งหมด</a>
-        </div>
+        <div class="card-head"><h3 data-i18n="ovTrendsTitle">เทรนด์ตอนนี้</h3><a href="trends.html" data-i18n="ovViewAll"></a></div>
         <ul class="mini-list" id="ovTrends"></ul>
       </section>
     </div>
 
+    <h2 class="section-title" data-i18n="ovToolsTitle">เครื่องมือ</h2>
+    <div class="tool-grid">
+      <a class="tool-card" href="idea.html"><strong data-i18n="ovToolIdea"></strong><span data-i18n="ovToolIdeaD"></span></a>
+      <a class="tool-card" href="tools.html#pricing"><strong data-i18n="ovToolPrice"></strong><span data-i18n="ovToolPriceD"></span></a>
+      <a class="tool-card" href="tools.html#runway"><strong data-i18n="ovToolRunway"></strong><span data-i18n="ovToolRunwayD"></span></a>
+      <a class="tool-card" href="tools.html#target"><strong data-i18n="ovToolTarget"></strong><span data-i18n="ovToolTargetD"></span></a>
+      <a class="tool-card" href="funding.html"><strong data-i18n="ovToolFund"></strong><span data-i18n="ovToolFundD"></span></a>
+      <a class="tool-card" href="analyze.html"><strong data-i18n="ovToolProfit"></strong><span data-i18n="ovToolProfitD"></span></a>
+    </div>
+
+    <section class="section-card" id="finCard" hidden></section>
+
     <section class="section-card cta-card">
       <div>
         <h3 data-i18n="ovAdvisorTitle">ถามที่ปรึกษา AI</h3>
-        <p class="help-text" data-i18n="ovAdvisorText">ขอคำแนะนำเรื่องราคา ต้นทุน และการตลาดจากตัวเลขของคุณ</p>
+        <p class="help-text" data-i18n="ovAdvisorText"></p>
       </div>
       <a class="btn-link" href="advisor.html" data-i18n="ovAdvisorBtn">เปิดที่ปรึกษา</a>
     </section>
@@ -76,6 +81,37 @@
   <script src="i18n.js"></script>
   <script src="lib.js"></script>
   <script>
+    Object.assign(translations.th, {
+  "ovToolsTitle": "เครื่องมือ",
+  "ovToolIdea": "ตรวจไอเดียธุรกิจ",
+  "ovToolIdeaD": "ให้ AI ประเมินจุดแข็ง ความเสี่ยง และสิ่งที่ควรทดสอบ",
+  "ovToolPrice": "ตั้งราคา",
+  "ovToolPriceD": "คำนวณราคาขายจากต้นทุน ค่าธรรมเนียม และกำไรที่ต้องการ",
+  "ovToolRunway": "เงินทุนหมุนเวียน",
+  "ovToolRunwayD": "ดูว่าเงินสดอยู่ได้อีกกี่เดือน",
+  "ovToolTarget": "เป้ายอดขาย",
+  "ovToolTargetD": "ต้องขายกี่ชิ้นต่อเดือนถึงได้กำไรตามเป้า",
+  "ovToolFund": "แหล่งทุน",
+  "ovToolFundD": "สินเชื่อ ค้ำประกัน และทุนสนับสนุน SME/สตาร์ทอัป",
+  "ovToolProfit": "กำไร/จุดคุ้มทุน",
+  "ovToolProfitD": "วิเคราะห์กำไร จุดคุ้มทุน และบัญชีรายวัน"
+});
+    Object.assign(translations.en, {
+  "ovToolsTitle": "Tools",
+  "ovToolIdea": "Idea check",
+  "ovToolIdeaD": "AI assesses strengths, risks and what to test",
+  "ovToolPrice": "Pricing",
+  "ovToolPriceD": "Price from cost, fees and the profit you want",
+  "ovToolRunway": "Cash runway",
+  "ovToolRunwayD": "How many months your cash will last",
+  "ovToolTarget": "Sales target",
+  "ovToolTargetD": "Units per month needed to hit your profit goal",
+  "ovToolFund": "Funding",
+  "ovToolFundD": "Loans, guarantees and grants for SMEs and startups",
+  "ovToolProfit": "Profit / break-even",
+  "ovToolProfitD": "Profit, break-even and daily bookkeeping"
+});
+
     const t = key => getTranslation(key);
     const finCard = document.getElementById('finCard');
     const newsEl = document.getElementById('ovNews');
@@ -84,12 +120,8 @@
 
     function renderFinance() {
       const biz = Lib.loadBiz();
-      if (!biz) {
-        finCard.innerHTML = `<h3 class="card-title">${Lib.esc(t('ovFinanceTitle'))}</h3>
-          <p>${Lib.esc(t('advisorNoContext'))}</p>
-          <div class="nav-links"><a class="nav-link" href="form.html">${Lib.esc(t('advisorNoContextLink'))}</a></div>`;
-        return;
-      }
+      finCard.hidden = !biz;          // only shown once the person has entered business numbers
+      if (!biz) return;
       const c = Lib.calc(biz);
       finCard.innerHTML = `
         <h3 class="card-title">${Lib.esc(t('ovFinanceTitle'))}: <span>${Lib.esc(biz.productName)}</span></h3>
@@ -139,15 +171,10 @@
       trendsEl.innerHTML = '<li class="skeleton"></li>'.repeat(4);
       const { items } = await Lib.fetchTrends();
       trendsEl.innerHTML = items.slice(0, 5).map((name, i) =>
-        `<li><a class="row" href="form.html" data-name="${Lib.esc(name)}"><span class="rank">${i + 1}</span> ${Lib.esc(name)}</a></li>`).join('');
+        `<li><a class="row" href="news.html?q=${encodeURIComponent(Lib.newsKeyword(name))}"><span class="rank">${i + 1}</span> ${Lib.esc(name)}</a></li>`).join('');
     }
 
-    trendsEl.addEventListener('click', e => {
-      const a = e.target.closest('a[data-name]');
-      if (a) localStorage.setItem('selectedProduct', a.dataset.name);
-    });
     document.getElementById('languageSelect').addEventListener('change', () => { renderFinance(); renderNews(); });
-
     renderFinance();
     loadNews();
     loadTrends();

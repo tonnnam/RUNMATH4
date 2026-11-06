@@ -25,9 +25,10 @@
       </a>
       <nav class="main-nav" aria-label="Main">
         <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
-        <a href="analyze.html" data-i18n="navFinance">การเงิน</a>
         <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
         <a href="news.html" data-i18n="navNews" aria-current="page">ข่าว</a>
+        <a href="tools.html" data-i18n="navTools">เครื่องมือ</a>
+        <a href="funding.html" data-i18n="navFunding">แหล่งทุน</a>
         <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
       </nav>
       <div class="lang">
@@ -46,6 +47,7 @@
     </div>
 
     <section class="section-card">
+      <div class="q-banner" id="qBanner" hidden><span><span data-i18n="newsFor">ข่าวที่เกี่ยวกับ:</span> <strong id="qText"></strong></span> <a href="news.html" data-i18n="newsShowAll">ดูข่าวทั้งหมด</a></div>
       <div class="filters" id="catFilters">
         <button type="button" class="chip" data-cat="all" aria-pressed="true" data-i18n="newsAll">ทั้งหมด</button>
         <button type="button" class="chip" data-cat="economy" aria-pressed="false" data-i18n="newsEconomy">เศรษฐกิจ</button>
@@ -66,10 +68,13 @@
 
   <script src="i18n.js"></script>
   <script>
+    Object.assign(translations.th, { newsFor: "ข่าวที่เกี่ยวกับ:", newsShowAll: "ดูข่าวทั้งหมด", newsNoMatch: "ไม่พบข่าวที่ตรงกับคำนี้ในแหล่งข่าวของเรา ลองดูข่าวทั้งหมด" });
+    Object.assign(translations.en, { newsFor: "News about:", newsShowAll: "Show all news", newsNoMatch: "No stories match this term in our sources. Try all news." });
     const list = document.getElementById('newsList');
     let all = [];
     let cat = 'all';
     let lg = 'all';
+    const q = (new URLSearchParams(location.search).get('q') || '').trim().slice(0, 60);
 
     const lang = () => localStorage.getItem('language') || 'th';
     const t = key => getTranslation(key);
@@ -94,7 +99,7 @@
 
     function render() {
       const items = all.filter(i => (cat === 'all' || i.cat === cat) && (lg === 'all' || i.lang === lg));
-      if (!items.length) return message(t('newsEmpty'), false);
+      if (!items.length) return message(t(q ? 'newsNoMatch' : 'newsEmpty'), false);
       list.innerHTML = '';
       for (const i of items) {
         const li = document.createElement('li');
@@ -118,7 +123,7 @@
     async function load() {
       list.innerHTML = '<li class="skeleton"></li>'.repeat(8);
       try {
-        const res = await fetch('/api/news');
+        const res = await fetch(q ? '/api/news?q=' + encodeURIComponent(q) : '/api/news');
         const data = await res.json();
         if (!res.ok || !Array.isArray(data.items)) throw new Error('bad response');
         all = data.items;
@@ -143,6 +148,7 @@
     document.getElementById('reloadBtn').addEventListener('click', load);
     document.getElementById('languageSelect').addEventListener('change', () => { if (all.length) render(); });
 
+    if (q) { document.getElementById('qBanner').hidden = false; document.getElementById('qText').textContent = q; }
     load();
   </script>
 </body>
