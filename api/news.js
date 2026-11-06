@@ -117,7 +117,11 @@ module.exports = async (req, res) => {
     if (!cache.data || Date.now() - cache.time > CACHE_MS) {
       cache = { time: Date.now(), data: await build() };
     }
-    return res.status(200).json(cache.data);
+    const q = String((req.query && req.query.q) || '').trim().slice(0, 60).toLowerCase();
+    if (!q) return res.status(200).json(cache.data);
+    const tokens = q.split(/\s+/).filter(w => w.length >= 2);
+    const items = cache.data.items.filter(i => tokens.some(w => i.title.toLowerCase().includes(w)));
+    return res.status(200).json({ ...cache.data, items, query: q });
   } catch (err) {
     console.error('news failed', err);
     return res.status(500).json({ error: 'failed' });
