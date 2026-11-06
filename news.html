@@ -124,13 +124,14 @@
       list.innerHTML = '<li class="skeleton"></li>'.repeat(8);
       try {
         const res = await fetch(q ? '/api/news?q=' + encodeURIComponent(q) : '/api/news');
+        if (!(res.headers.get('content-type') || '').includes('json')) throw new Error('no_api');
         const data = await res.json();
         if (!res.ok || !Array.isArray(data.items)) throw new Error('bad response');
         all = data.items;
         render();
       } catch (err) {
         console.error(err);
-        message(t('newsError'), true);
+        message(t(err.message === 'no_api' ? 'newsNoApi' : 'newsError'), true);
       }
     }
 

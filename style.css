@@ -16,6 +16,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 body {
   font-family: var(--font-body);
@@ -177,8 +178,9 @@ h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; line
 .back { display: inline-block; margin: 1.5rem 0 4rem; color: var(--ink); font-weight: 500; text-underline-offset: 3px; }
 
 /* ----- Responsive & motion ----- */
-@media (max-width: 640px) {
+@media (max-width: 960px) {
   .bar { padding-top: .5rem; }
+  .lang { margin-left: auto; }
   .main-nav { order: 3; width: 100%; margin: 0; padding-bottom: .5rem; overflow-x: auto; }
 }
 @media (max-width: 820px) {

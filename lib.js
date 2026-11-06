@@ -45,6 +45,7 @@ const Lib = (() => {
 
   async function fetchNews() {
     const r = await fetch('/api/news');
+    if (!(r.headers.get('content-type') || '').includes('json')) throw new Error('no_api');
     const d = await r.json();
     if (!r.ok || !Array.isArray(d.items)) throw new Error('bad response');
     return d.items;

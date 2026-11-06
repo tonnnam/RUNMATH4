@@ -5,6 +5,7 @@
   <title>ผลการวิเคราะห์เส้นทางสู่เป้าหมาย</title>
   
   <script src="i18n.js"></script>
+  <script src="lib.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,6 +49,8 @@
       <p data-i18n="analysisResultSubtitle">คำนวณจากข้อมูล 7 ตัวแปรสำคัญ</p>
     </div>
 
+    <div id="dayWarning"></div>
+
     <!-- แสดงข้อมูลที่นำเข้า -->
     <div class="section-card">
       <h3 style="margin-bottom: 1.5rem;" data-i18n="basicDataTitle">ข้อมูลพื้นฐาน</h3>
@@ -58,6 +61,12 @@
     <div class="section-card">
       <h3 style="margin-bottom: 1.5rem;" data-i18n="mainResultsTitle">ผลการคำนวณเส้นทางสู่เป้าหมาย</h3>
       <div class="metrics-grid" id="mainResults"></div>
+    </div>
+
+    <div class="section-card">
+      <h3 class="card-title" id="chartTitle"></h3>
+      <div class="plan-chart" id="planChart"></div>
+      <p class="help-text" id="chartNote"></p>
     </div>
 
     <!-- ส่วนเปรียบเทียบยอดขายจริง -->
@@ -78,6 +87,9 @@
 
     <!-- ผลการเปรียบเทียบ -->
     <div id="comparisonResults" class="comparison-section"></div>
+
+    <h2 class="section-title" id="nextTitle"></h2>
+    <div class="tool-grid" id="nextGrid"></div>
 
     <a href="analyze.html" class="nav-link" data-i18n="navBackAnalyze">← กลับหน้าศูนย์วิเคราะห์ธุรกิจครบวงจร</a>
     <a href="index.html" class="nav-link" data-i18n="navBackHome">กลับหน้าแรก</a>
@@ -109,6 +121,11 @@
       calculateMain();
       displayBasicData();
       displayMainResults();
+      drawPlanChart();
+      renderNext();
+      if (D < 1 || D > 31) {
+        document.getElementById('dayWarning').innerHTML = `<div class="alert-warning">${tx('จำนวนวันที่ขายต่อเดือนต้องอยู่ระหว่าง 1-31 วัน ตัวเลขที่กรอกคือ ' + D + ' ผลคำนวณอาจผิดเพี้ยน กรุณากลับไปแก้ข้อมูล', 'Selling days per month must be 1-31 but you entered ' + D + '. Results may be off, please go back and fix it.')}</div>`;
+      }
     }
 
     function calculateMain() {
@@ -162,30 +179,19 @@
       document.getElementById('basicData').innerHTML = basicDataHTML;
     }
 
+    const tx = (th, en) => (localStorage.getItem('language') === 'en' ? en : th);
+    const fmt2 = n => Number(n).toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
     function displayMainResults() {
-      const mainResultsHTML = `
-        <div class="metric-card">
-          <div class="metric-value ${profitPerUnit > 0 ? 'positive' : 'negative'}">${profitPerUnit.toLocaleString()} ฿</div>
-          <div class="metric-label">กำไรสุทธิต่อชิ้น</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value neutral">${unitsPerMonth.toLocaleString()} ชิ้น</div>
-          <div class="metric-label">ต้องขายต่อเดือน</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value neutral">${unitsPerDay.toLocaleString()} ชิ้น</div>
-          <div class="metric-label">ต้องขายต่อวัน</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value positive">${actualRevenue.toLocaleString()} ฿</div>
-          <div class="metric-label">รายได้จริงที่จะได้</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value ${actualProfit > 0 ? 'positive' : 'negative'}">${actualProfit.toLocaleString()} ฿</div>
-          <div class="metric-label">กำไรจริงหลังหักต้นทุนคงที่</div>
-        </div>
-      `;
-      document.getElementById('mainResults').innerHTML = mainResultsHTML;
+      const planUnits = unitsPerDay * D;          // selling the daily target on every selling day
+      const planRevenue = planUnits * P;
+      const card = (value, label, cls) => `<div class="metric-card"><div class="metric-value ${cls}">${value}</div><div class="metric-label">${label}</div></div>`;
+      document.getElementById('mainResults').innerHTML =
+        card(profitPerUnit.toLocaleString() + ' ฿', tx('กำไรสุทธิต่อชิ้น', 'Net profit per unit'), profitPerUnit > 0 ? 'positive' : 'negative') +
+        card(unitsPerMonth.toLocaleString() + ' ' + tx('ชิ้น', 'units'), tx('ต้องขายต่อเดือน (ขั้นต่ำเพื่อถึงเป้า)', 'Units needed per month'), 'neutral') +
+        card(unitsPerDay.toLocaleString() + ' ' + tx('ชิ้น', 'units'), tx('ต้องขายต่อวัน (ปัดขึ้น)', 'Units needed per day (rounded up)'), 'neutral') +
+        card(planRevenue.toLocaleString() + ' ฿', tx(`รายได้ถ้าขายวันละ ${unitsPerDay} ชิ้น × ${D} วัน`, `Revenue at ${unitsPerDay}/day × ${D} days`), 'neutral') +
+        card(actualProfit.toLocaleString() + ' ฿', tx('กำไรสุทธิตามแผนนั้น (หลังหักต้นทุนคงที่)', 'Net profit on that plan (after fixed costs)'), actualProfit > 0 ? 'positive' : 'negative');
     }
 
     function analyzeActualSales() {
@@ -215,6 +221,7 @@ if (!actualSalesInput || actualSalesInput <= -1) {
         // ขายตรงเป้า
         displayOnTarget();
       }
+      decorateComparison(actualSalesInput);
     }
 
     function displayBelowTarget(actualSales) {
@@ -341,15 +348,15 @@ if (!actualSalesInput || actualSalesInput <= -1) {
             </div>
           </div>
 
-          <h4 style="margin: 1.5rem 0 1rem 0;">หากอยากให้อยู่ในเป้า</h4>
+          <h4 style="margin: 1.5rem 0 1rem 0;">${tx('ส่วนเกินนี้ใช้ทำอะไรได้ (ยังได้กำไรตามเป้า)', 'What the extra sales allow (while still hitting your goal)')}</h4>
           <div class="metrics-grid">
             <div class="metric-card">
-              <div class="metric-value positive">-${priceReduction.toFixed(2)} ฿</div>
-              <div class="metric-label">สามารถลดราคาขาย<br>(เป็น ${newPrice.toFixed(2)} ฿)</div>
+              <div class="metric-value positive">${fmt2(priceReduction)} ฿</div>
+              <div class="metric-label">${tx('ลดราคาได้สูงสุดต่อชิ้น', 'Max price cut per unit')}<br>(${tx('ราคาไม่ต่ำกว่า', 'not below')} ${fmt2(newPrice)} ฿)</div>
             </div>
             <div class="metric-card">
-              <div class="metric-value warning">+${costIncrease.toFixed(2)} ฿</div>
-              <div class="metric-label">หรือเพิ่มต้นทุนรวม<br>(เป็น ${newMaxCost.toFixed(2)} ฿)</div>
+              <div class="metric-value warning">${fmt2(costIncrease)} ฿</div>
+              <div class="metric-label">${tx('หรือต้นทุนต่อชิ้นเพิ่มได้สูงสุด', 'Or max cost increase per unit')}<br>(${tx('ต้นทุนรวมไม่เกิน', 'total cost up to')} ${fmt2(newMaxCost)} ฿)</div>
             </div>
           </div>
         </div>
@@ -378,6 +385,65 @@ if (!actualSalesInput || actualSalesInput <= -1) {
       `;
 
       document.getElementById('comparisonResults').innerHTML = resultHTML;
+    }
+
+
+    function drawPlanChart(actual) {
+      const box = document.getElementById('planChart');
+      if (!box) return;
+      if (!(profitPerUnit > 0)) { box.innerHTML = ''; return; }
+      const k = C + M + T, be = F / profitPerUnit;
+      const xMax = Math.max(unitsPerMonth, be, actual || 0, 5) * 1.3;
+      const yMax = Math.max(P * xMax, F + k * xMax);
+      const W = 480, H = 300, L0 = 56, R0 = 16, T0 = 34, B0 = 44;
+      const x = u => L0 + u / xMax * (W - L0 - R0);
+      const y = v => H - B0 - v / yMax * (H - T0 - B0);
+      const p = (a, b) => a.toFixed(1) + ',' + b.toFixed(1);
+      const bx = x(be), by = y(P * be), tx0 = x(unitsPerMonth);
+      let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-hidden="true">
+        <polygon points="${p(x(0), y(F))} ${p(bx, by)} ${p(x(0), y(0))}" fill="#D9482B" fill-opacity=".15"/>
+        <polygon points="${p(bx, by)} ${p(x(xMax), y(F + k * xMax))} ${p(x(xMax), y(P * xMax))}" fill="#0B7A55" fill-opacity=".18"/>
+        <g stroke="#15203A" stroke-width="2" stroke-linecap="round"><line x1="${L0}" y1="${T0 - 8}" x2="${L0}" y2="${H - B0}"/><line x1="${L0}" y1="${H - B0}" x2="${W - R0}" y2="${H - B0}"/></g>
+        <line x1="${p(x(0), y(F)).replace(',', '" y1="')}" x2="${p(x(xMax), y(F + k * xMax)).replace(',', '" y2="')}" stroke="#D9482B" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="${p(x(0), y(0)).replace(',', '" y1="')}" x2="${p(x(xMax), y(P * xMax)).replace(',', '" y2="')}" stroke="#0B7A55" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="${bx}" y1="${by}" x2="${bx}" y2="${H - B0}" stroke="#15203A" stroke-width="1.5" stroke-dasharray="4 5"/>
+        <circle cx="${bx}" cy="${by}" r="8" fill="#FFD23F" stroke="#15203A" stroke-width="2.5"/>
+        <text x="${bx}" y="${H - B0 + 18}" text-anchor="middle" font-family="Prompt, sans-serif" font-weight="600" font-size="12" fill="#15203A">${tx('คุ้มทุน', 'Break-even')} ${Math.ceil(be).toLocaleString()}</text>
+        <line x1="${tx0}" y1="${T0 - 6}" x2="${tx0}" y2="${H - B0}" stroke="#0B7A55" stroke-width="2"/>
+        <text x="${tx0}" y="12" text-anchor="middle" font-family="Prompt, sans-serif" font-weight="600" font-size="12" fill="#0B7A55">${tx('เป้า', 'Goal')} ${unitsPerMonth.toLocaleString()}</text>`;
+      if (actual) {
+        const ax = Math.min(x(actual), W - R0);
+        s += `<line x1="${ax}" y1="${T0 - 6}" x2="${ax}" y2="${H - B0}" stroke="#15203A" stroke-width="2.5"/>
+        <text x="${ax}" y="${Math.abs(ax - tx0) < 80 ? 26 : 12}" text-anchor="middle" font-family="Prompt, sans-serif" font-weight="600" font-size="12" fill="#15203A">${tx('ยอดจริง', 'Actual')} ${Number(actual).toLocaleString()}</text>`;
+      }
+      s += `<text x="${W - R0}" y="${H - 6}" text-anchor="end" font-family="IBM Plex Sans Thai, sans-serif" font-size="11" fill="#4B5670">${tx('ชิ้น/เดือน', 'units / month')}</text></svg>`;
+      box.innerHTML = s;
+    }
+
+    function renderNext() {
+      document.getElementById('chartTitle').textContent = tx('จุดคุ้มทุนและเป้าหมายของคุณ', 'Your break-even and goal');
+      document.getElementById('chartNote').textContent = tx('เส้นเขียว = รายได้  เส้นแดง = ต้นทุนรวม (ต้นทุนคงที่ + ต้นทุนต่อชิ้น)  พื้นเขียว = โซนกำไร', 'Green line = revenue, red line = total cost (fixed + per-unit). Green area = profit zone.');
+      document.getElementById('nextTitle').textContent = tx('ต่อไปทำอะไรดี', 'What next?');
+      const items = [
+        ['tools.html#pricing', tx('ตั้งราคาใหม่', 'Re-price'), tx('ลองปรับราคาแล้วดูกำไรต่อชิ้น', 'Try a price and see profit per unit')],
+        ['tools.html#runway', tx('เช็กเงินทุนหมุนเวียน', 'Check cash runway'), tx('เงินสดอยู่ได้อีกกี่เดือน', 'How many months your cash lasts')],
+        ['funding.html', tx('แหล่งทุน', 'Funding'), tx('สินเชื่อและทุนสนับสนุน SME', 'Loans and SME support')],
+        ['news.html', tx('ข่าวธุรกิจ', 'Business news'), tx('ติดตามสถานการณ์ตลาด', 'Follow the market')]];
+      document.getElementById('nextGrid').innerHTML = items.map(i => `<a class="tool-card" href="${i[0]}"><strong>${i[1]}</strong><span>${i[2]}</span></a>`).join('');
+    }
+
+    function decorateComparison(actual) {
+      const alertEl = document.querySelector('#comparisonResults .alert-success, #comparisonResults .alert-warning, #comparisonResults .alert-danger');
+      if (alertEl) {
+        const pct = unitsPerMonth > 0 ? actual / unitsPerMonth * 100 : 0;
+        let html = `<div class="progress ${pct < 100 ? 'low' : ''}"><span style="width:${Math.min(100, pct).toFixed(0)}%"></span></div>
+          <div class="prog-label">${Math.round(pct).toLocaleString()}% ${tx('ของเป้า', 'of goal')} (${Number(actual).toLocaleString()} / ${unitsPerMonth.toLocaleString()} ${tx('ชิ้น', 'units')})</div>`;
+        if (actual >= unitsPerMonth * 10) {
+          html += `<div class="alert-warning">${tx('ยอดขายจริงสูงกว่าเป้ามากกว่า 10 เท่า ลองตรวจว่าตัวเลขที่กรอกถูกต้องไหม', 'Actual sales are more than 10x the goal. Please double-check the numbers you entered.')}</div>`;
+        }
+        alertEl.insertAdjacentHTML('afterend', html);
+      }
+      drawPlanChart(actual);
     }
 
     // โหลดข้อมูลเมื่อเริ่มต้น

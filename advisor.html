@@ -143,6 +143,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ messages: history.slice(-10), lang: lang(), context })
         });
+        if (!(res.headers.get('content-type') || '').includes('json')) throw new Error('not_configured');
         const data = await res.json();
         if (!res.ok || !data.reply) throw new Error(data.error || 'error');
         pending.textContent = data.reply;

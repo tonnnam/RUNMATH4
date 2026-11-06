@@ -73,9 +73,11 @@
           </h3>
         <div class="metrics-grid" id="businessMetrics"></div>
         <div class="chart-container">
-          <canvas id="overviewChart" width="400" height="200"></canvas>
+          <div class="donut-wrap"><canvas id="overviewChart" width="400" height="200"></canvas></div>
+          <div class="breakdown" id="breakdown"></div>
         </div>
         <div id="businessInsights"></div>
+          <div id="nextSteps"></div>
       </div>
     </div>
 
@@ -584,6 +586,9 @@
         }
       });
 
+      renderBreakdown(revenue, cost, businessData.expense, profit);
+      renderNextSteps();
+
       // แสดงข้อเสนอแนะ
       const insights = generateBusinessInsights(profitMargin, profit, breakeven);
       document.getElementById('businessInsights').innerHTML = `
@@ -594,28 +599,66 @@
       `;
     }
 
+    const tx = (th, en) => (localStorage.getItem('language') === 'en' ? en : th);
+    const f0 = n => Math.round(n).toLocaleString('th-TH');
+
+    function renderBreakdown(revenue, cost, expense, profit) {
+      const rows = [
+        ['#15203A', getTranslation('chartCostLabel'), cost],
+        ['#FFD23F', getTranslation('chartExpenseFixedLabel'), expense],
+        ['#0B7A55', getTranslation('chartProfitLabel'), profit]];
+      const pct = v => (revenue > 0 ? v / revenue * 100 : 0);
+      const stack = rows.map(r => `<span style="width:${Math.max(0, Math.min(100, pct(r[2]))).toFixed(1)}%;background:${r[0]}"></span>`).join('');
+      document.getElementById('breakdown').innerHTML =
+        `<div class="bk-title">${tx('รายได้ 100 บาท ไปอยู่ตรงไหนบ้าง', 'Where each 100 THB of revenue goes')}</div>
+         <div class="stack">${stack}</div>` +
+        rows.map(r => `<div class="bk-row"><span class="dot" style="background:${r[0]}"></span><span>${r[1]}</span><span>${f0(r[2])} ฿</span><span class="bk-pct ${r[2] < 0 ? 'negative' : ''}">${pct(r[2]).toFixed(1)}%</span></div>`).join('');
+    }
+
+    function renderNextSteps() {
+      const items = [
+        ['tools.html#pricing', tx('ตั้งราคาใหม่', 'Re-price'), tx('ลองปรับราคาแล้วดูกำไรต่อชิ้น', 'Try a price and see profit per unit')],
+        ['tools.html#runway', tx('เช็กเงินทุนหมุนเวียน', 'Check cash runway'), tx('เงินสดอยู่ได้อีกกี่เดือน', 'How many months your cash lasts')],
+        ['funding.html', tx('แหล่งทุน', 'Funding'), tx('สินเชื่อและทุนสนับสนุน SME', 'Loans and SME support')],
+        ['news.html', tx('ข่าวธุรกิจ', 'Business news'), tx('ติดตามสถานการณ์ตลาด', 'Follow the market')]];
+      document.getElementById('nextSteps').innerHTML = `<h4 style="margin: 1.5rem 0 1rem 0;">${tx('ต่อไปทำอะไรดี', 'What next?')}</h4><div class="tool-grid">` +
+        items.map(i => `<a class="tool-card" href="${i[0]}"><strong>${i[1]}</strong><span>${i[2]}</span></a>`).join('') + '</div>';
+    }
+
+    // Insights are calculated from this business's own numbers (no canned praise)
     function generateBusinessInsights(profitMargin, profit, breakeven) {
-      const insights = [];
-
-      if (profitMargin > 25) {
-        insights.push(getTranslation('insightHighProfit'));
-      } else if (profitMargin < 5) {
-        insights.push(getTranslation('insightLowProfit'));
+      const { price, cost, units, expense } = businessData;
+      const unit = price - cost, out = [];
+      if (!(unit > 0)) {
+        out.push(tx('ราคาขายไม่สูงกว่าต้นทุน ขายเท่าไรก็ไม่ได้กำไร ต้องขึ้นราคาหรือลดต้นทุนก่อน', 'Your price is not above cost, so every sale loses money. Raise the price or cut cost first.'));
+        return out;
       }
-
       if (profit > 0) {
-        insights.push(getTranslation('insightProfitable'));
+        const safe = (units - breakeven) / units * 100;
+        out.push(tx(`ยอดขายตกได้อีกประมาณ ${safe.toFixed(0)}% (ราว ${f0(units - breakeven)} หน่วยต่อเดือน) ก่อนจะเริ่มขาดทุน`,
+                    `Sales can fall about ${safe.toFixed(0)}% (around ${f0(units - breakeven)} units a month) before you start losing money.`));
       } else {
-        insights.push(getTranslation('insightLoss'));
+        out.push(tx(`ตอนนี้ขาดทุนเดือนละ ${f0(-profit)} ฿ ต้องขายให้ถึง ${f0(breakeven)} หน่วย (เพิ่มอีก ${f0(breakeven - units)}) ถึงจะคุ้มทุน หรือขึ้นราคาเป็นอย่างน้อย ${(cost + expense / units).toFixed(2)} ฿ ที่ยอดขายเท่าเดิม`,
+                    `You are losing ${f0(-profit)} THB a month. Sell ${f0(breakeven)} units (${f0(breakeven - units)} more) to break even, or raise the price to at least ${(cost + expense / units).toFixed(2)} THB at the same volume.`));
       }
-
-      if (breakeven > 0) {
-        insights.push(getTranslation('insightBreakeven').replace('{breakeven}', breakeven.toLocaleString()));
+      out.push(tx(`ถ้าขึ้นราคา 5% (เป็น ${(price * 1.05).toFixed(2)} ฿) และยอดขายไม่ลด กำไรเพิ่มเดือนละ ${f0(price * 0.05 * units)} ฿`,
+                  `A 5% price rise (to ${(price * 1.05).toFixed(2)} THB) with no drop in sales adds ${f0(price * 0.05 * units)} THB a month.`));
+      out.push(tx(`ถ้าต้นทุนต่อหน่วยขึ้น 10% กำไรจะลดเดือนละ ${f0(cost * 0.10 * units)} ฿`,
+                  `If unit cost rises 10%, monthly profit falls by ${f0(cost * 0.10 * units)} THB.`));
+      if (profitMargin > 60) {
+        out.push(tx('อัตรากำไรสูงมาก ลองเช็กว่านับต้นทุนครบหรือยัง เช่น ค่าแรงตัวเอง ค่าส่ง ค่าธรรมเนียมแพลตฟอร์ม ค่าเสื่อมอุปกรณ์',
+                    'Your margin is very high. Check that all costs are counted, such as your own labor, shipping, platform fees and equipment wear.'));
+      } else if (profit > 0 && profitMargin < 10) {
+        out.push(tx('กำไรบางมาก ต้นทุนขึ้นเล็กน้อยก็อาจขาดทุนได้ ควรมีเงินสำรองและติดตามต้นทุนทุกเดือน',
+                    'Margins are thin, so a small cost rise could cause a loss. Keep a cash reserve and track costs monthly.'));
       }
-
-      insights.push(getTranslation('insightTracking'));
-
-      return insights;
+      const fixedShare = expense / (price * units) * 100;
+      if (fixedShare > 30) {
+        out.push(tx(`ค่าใช้จ่ายคงที่กินรายได้ ${fixedShare.toFixed(0)}% ลองดูว่าลดหรือแบ่งจ่ายได้ไหม`,
+                    `Fixed costs take ${fixedShare.toFixed(0)}% of revenue. See whether they can be cut or shared.`));
+      }
+      out.push(getTranslation('insightTracking'));
+      return out;
     }
 
     // ระบบวิเคราะห์เส้นทางสู่เป้าหมาย
@@ -630,6 +673,15 @@
         document.getElementById('profitGoal').value = pathData.profitGoal;
         document.getElementById('fixedCosts').value = pathData.fixedCosts;
         document.getElementById('sellingDays').value = pathData.sellingDays;
+      } else {
+        let biz = null;
+        try { biz = JSON.parse(localStorage.getItem('businessData') || 'null'); } catch (e) { }
+        if (biz && biz.cost >= 0 && biz.price > 0) {
+          document.getElementById('productCost').value = biz.cost;
+          document.getElementById('sellingPrice').value = biz.price;
+          document.getElementById('fixedCosts').value = biz.expense;
+          document.getElementById('sellingDays').value = 26;
+        }
       }
     }
 
@@ -642,10 +694,12 @@
       const fixedCosts = parseFloat(document.getElementById('fixedCosts').value);
       const sellingDays = parseFloat(document.getElementById('sellingDays').value);
 
-      if (!productCost || !marketingCost || !shippingCost || !sellingPrice || !profitGoal || !fixedCosts || !sellingDays) {
+      if ([productCost, marketingCost, shippingCost, sellingPrice, profitGoal, fixedCosts, sellingDays].some(isNaN)) {
         alert('กรุณากรอกข้อมูลให้ครบถ้วน');
         return;
       }
+
+      if (sellingDays < 1 || sellingDays > 31) { alert(getTranslation('daysRange')); return; }
 
       const pathData = {
         productCost,
@@ -681,6 +735,11 @@
       // ตรวจสอบว่าข้อมูลทั้งหมดต้องมากกว่าหรือเท่ากับ 0
       if (productCost < 0 || marketingCost < 0 || shippingCost < 0 || sellingPrice < 0 || profitGoal < 0 || fixedCosts < 0 || sellingDays < 0) {
         alert('ข้อมูลทั้งหมดต้องมากกว่าหรือเท่ากับ 0');
+        return;
+      }
+
+      if (sellingDays < 1 || sellingDays > 31) {
+        alert(getTranslation('daysRange'));
         return;
       }
 

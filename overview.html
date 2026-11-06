@@ -164,7 +164,7 @@
     async function loadNews() {
       newsEl.innerHTML = '<li class="skeleton"></li>'.repeat(4);
       try { newsItems = await Lib.fetchNews(); renderNews(); }
-      catch (e) { console.error(e); message(newsEl, t('newsError'), true); }
+      catch (e) { console.error(e); message(newsEl, t(e.message === 'no_api' ? 'newsNoApi' : 'newsError'), true); }
     }
 
     async function loadTrends() {

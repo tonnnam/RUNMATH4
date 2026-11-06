@@ -133,6 +133,7 @@
             idea: { idea, customers: $('fCust').value, revenue: $('fRev').value, budget: $('fBudget').value }
           })
         });
+        if (!(res.headers.get('content-type') || '').includes('json')) throw new Error('not_configured');
         const data = await res.json();
         if (!res.ok || !data.reply) throw new Error(data.error || 'error');
         out.className = 'result-text';

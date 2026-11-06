@@ -3,6 +3,8 @@
 
 const translations = {
   th: {
+    newsNoApi: "ระบบดึงข่าวยังไม่พร้อมใช้งานบนเว็บนี้ (เว็บนี้ไม่มีเซิร์ฟเวอร์สำหรับ /api)",
+    daysRange: "จำนวนวันที่ขายต่อเดือนต้องอยู่ระหว่าง 1-31 วัน",
     aiNotReady: "ระบบ AI ยังไม่เปิดใช้งาน (ผู้ดูแลเว็บยังไม่ได้ตั้งค่า)",
     ideaLink: "ตรวจไอเดียธุรกิจด้วย AI",
     exploreAll: "หรือดูภาพรวมและเครื่องมือทั้งหมด",
@@ -292,6 +294,8 @@ const translations = {
   },
 
   en: {
+    newsNoApi: "The news feed is not available on this host (no /api server here).",
+    daysRange: "Selling days per month must be between 1 and 31",
     aiNotReady: "The AI feature isn't switched on yet (the site owner hasn't set it up).",
     ideaLink: "Check your idea with AI",
     exploreAll: "Or explore the overview and all tools",
