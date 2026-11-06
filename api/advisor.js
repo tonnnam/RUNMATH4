@@ -51,6 +51,24 @@ Rules:
 - Stay on business topics.${businessBlock(context)}`;
 }
 
+function ideaPrompt(lang) {
+  return `You are a startup mentor inside Math4Startup, a web app for early-stage founders and small business owners in Thailand. The user describes a business idea. Give an honest, practical first assessment.
+
+Rules:
+- Reply in the language the user writes in (Thai or English). Default language: ${lang === 'en' ? 'English' : 'Thai'}.
+- Plain text only: no markdown symbols, no tables. Use exactly these labelled sections, each on its own line followed by short text or hyphen points:
+  Verdict: one sentence (promising / promising with changes / risky) and why.
+  Demand: who needs this and what signals to look for.
+  Competition: likely competitors or substitutes and how this idea could stand out.
+  Money: what to verify about price, costs and margin.
+  Risks: the three biggest risks.
+  Next 30 days: three cheap, concrete tests or actions.
+  Ask 5 customers: three questions to ask potential customers.
+- Translate the section labels into the reply language.
+- You have no live market data. Say what you are assuming, never invent statistics or named competitors you are not sure exist, and never promise outcomes.
+- Keep it under 350 words. You are not a licensed financial or legal advisor.`;
+}
+
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') return res.status(405).json({ error: 'method_not_allowed' });
@@ -68,16 +86,31 @@ module.exports = async (req, res) => {
   if (limited(ip)) return res.status(429).json({ error: 'rate_limited' });
 
   const body = req.body || {};
-  let messages = (Array.isArray(body.messages) ? body.messages : [])
-    .map(m => ({
-      role: m && m.role === 'assistant' ? 'assistant' : 'user',
-      content: String((m && m.content) || '').slice(0, 2000)
-    }))
-    .filter(m => m.content.trim())
-    .slice(-10);
-  while (messages.length && messages[0].role !== 'user') messages.shift();
-  if (!messages.length || messages[messages.length - 1].role !== 'user') {
-    return res.status(400).json({ error: 'bad_request' });
+  let messages, system, maxTokens;
+  if (body.mode === 'idea') {
+    const f = body.idea || {};
+    const s = (v, n) => String(v || '').replace(/\s+/g, ' ').trim().slice(0, n);
+    const idea = s(f.idea, 600);
+    if (!idea) return res.status(400).json({ error: 'bad_request' });
+    const budget = f.budget === '' || f.budget == null ? null : num(f.budget);
+    messages = [{ role: 'user', content:
+      `Business idea: ${idea}\nTarget customers: ${s(f.customers, 300) || 'not given'}\nHow it makes money: ${s(f.revenue, 300) || 'not given'}\nStarting budget (THB): ${budget === null ? 'not given' : budget}` }];
+    system = ideaPrompt(body.lang);
+    maxTokens = 900;
+  } else {
+    messages = (Array.isArray(body.messages) ? body.messages : [])
+      .map(m => ({
+        role: m && m.role === 'assistant' ? 'assistant' : 'user',
+        content: String((m && m.content) || '').slice(0, 2000)
+      }))
+      .filter(m => m.content.trim())
+      .slice(-10);
+    while (messages.length && messages[0].role !== 'user') messages.shift();
+    if (!messages.length || messages[messages.length - 1].role !== 'user') {
+      return res.status(400).json({ error: 'bad_request' });
+    }
+    system = systemPrompt(body.lang, body.context);
+    maxTokens = 700;
   }
 
   const controller = new AbortController();
@@ -93,8 +126,8 @@ module.exports = async (req, res) => {
       },
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 700,
-        system: systemPrompt(body.lang, body.context),
+        max_tokens: maxTokens,
+        system,
         messages
       })
     });
