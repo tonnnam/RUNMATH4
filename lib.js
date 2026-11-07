@@ -20,10 +20,11 @@ const Lib = (() => {
 
   function calc(d) {
     const unit = d.price - d.cost;
+    const revenue = d.price * d.units, profit = unit * d.units - d.expense;
     return {
-      revenue: d.price * d.units,
-      profit: unit * d.units - d.expense,
-      margin: d.price > 0 ? (unit / d.price) * 100 : 0,
+      revenue,
+      profit,
+      margin: revenue > 0 ? profit / revenue * 100 : 0,
       breakeven: unit > 0 ? Math.ceil(d.expense / unit) : null
     };
   }
@@ -94,5 +95,15 @@ const Lib = (() => {
     return k || String(name).trim();
   }
 
-  return { lang, esc, newsKeyword, fmt, money, loadBiz, calc, calcPrice, calcRunway, calcTarget, fetchTrends, fetchNews, ago };
+  // What happens to monthly profit if the price changes by pct% and volume stays the same.
+  // volumeShiftPct > 0: you would need that much MORE volume to keep today's profit; < 0: you can lose that much volume.
+  function calcWhatIf({ price, cost, units, expense }, pct) {
+    const newPrice = price * (1 + pct / 100);
+    const oldUnit = price - cost, newUnit = newPrice - cost;
+    const oldProfit = oldUnit * units - expense, newProfit = newUnit * units - expense;
+    const volumeShiftPct = oldUnit > 0 && newUnit > 0 ? (oldUnit / newUnit - 1) * 100 : null;
+    return { newPrice, newProfit, delta: newProfit - oldProfit, volumeShiftPct };
+  }
+
+  return { lang, esc, calcWhatIf, newsKeyword, fmt, money, loadBiz, calc, calcPrice, calcRunway, calcTarget, fetchTrends, fetchNews, ago };
 })();

@@ -29,7 +29,7 @@
         <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
         <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
         <a href="news.html" data-i18n="navNews">ข่าว</a>
-        <a href="tools.html" data-i18n="navTools" aria-current="page">เครื่องมือ</a>
+        <a href="mybiz.html" data-i18n="navMybiz" aria-current="page">ธุรกิจของฉัน</a>
         <a href="funding.html" data-i18n="navFunding">แหล่งทุน</a>
         <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
       </nav>
@@ -222,7 +222,7 @@
     </div>
 
     <div class="nav-links">
-      <a href="form.html" class="nav-link" data-i18n="editBusinessData">แก้ไขข้อมูลธุรกิจ</a>
+      <a href="mybiz.html" class="nav-link" data-i18n="editBusinessData">แก้ไขข้อมูลธุรกิจ</a>
       <a href="index.html" class="nav-link" data-i18n="backHome">← กลับหน้าแรก</a>
     </div>
   </div>
@@ -630,8 +630,8 @@
 
     function renderNextSteps() {
       const items = [
-        ['tools.html#pricing', tx('ตั้งราคาใหม่', 'Re-price'), tx('ลองปรับราคาแล้วดูกำไรต่อชิ้น', 'Try a price and see profit per unit')],
-        ['tools.html#runway', tx('เช็กเงินทุนหมุนเวียน', 'Check cash runway'), tx('เงินสดอยู่ได้อีกกี่เดือน', 'How many months your cash lasts')],
+        ['mybiz.html#price', tx('ตั้งราคาใหม่', 'Re-price'), tx('ลองปรับราคาแล้วดูกำไรต่อชิ้น', 'Try a price and see profit per unit')],
+        ['mybiz.html#cash', tx('เช็กเงินทุนหมุนเวียน', 'Check cash runway'), tx('เงินสดอยู่ได้อีกกี่เดือน', 'How many months your cash lasts')],
         ['funding.html', tx('แหล่งทุน', 'Funding'), tx('สินเชื่อและทุนสนับสนุน SME', 'Loans and SME support')],
         ['news.html', tx('ข่าวธุรกิจ', 'Business news'), tx('ติดตามสถานการณ์ตลาด', 'Follow the market')]];
       document.getElementById('nextSteps').innerHTML = `<h4 style="margin: 1.5rem 0 1rem 0;">${tx('ต่อไปทำอะไรดี', 'What next?')}</h4><div class="tool-grid">` +

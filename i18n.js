@@ -3,6 +3,7 @@
 
 const translations = {
   th: {
+    navMybiz: "ธุรกิจของฉัน",
     chartEmpty: "ยังไม่มีรายการ เพิ่มรายรับหรือรายจ่ายรายการแรกเพื่อดูกราฟ",
     newsNoApi: "ระบบดึงข่าวยังไม่พร้อมใช้งานบนเว็บนี้ (เว็บนี้ไม่มีเซิร์ฟเวอร์สำหรับ /api)",
     daysRange: "จำนวนวันที่ขายต่อเดือนต้องอยู่ระหว่าง 1-31 วัน",
@@ -295,6 +296,7 @@ const translations = {
   },
 
   en: {
+    navMybiz: "My business",
     chartEmpty: "No entries yet. Add your first income or expense to see the chart.",
     newsNoApi: "The news feed is not available on this host (no /api server here).",
     daysRange: "Selling days per month must be between 1 and 31",

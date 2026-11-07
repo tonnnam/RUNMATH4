@@ -28,7 +28,7 @@
         <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
         <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
         <a href="news.html" data-i18n="navNews">ข่าว</a>
-        <a href="tools.html" data-i18n="navTools" aria-current="page">เครื่องมือ</a>
+        <a href="mybiz.html" data-i18n="navMybiz" aria-current="page">ธุรกิจของฉัน</a>
         <a href="funding.html" data-i18n="navFunding">แหล่งทุน</a>
         <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
       </nav>
@@ -445,8 +445,8 @@ if (!actualSalesInput || actualSalesInput <= -1) {
       document.getElementById('chartNote').textContent = tx('เส้นเขียว = รายได้  เส้นแดง = ต้นทุนรวม (ต้นทุนคงที่ + ต้นทุนต่อชิ้น)  พื้นเขียว = โซนกำไร', 'Green line = revenue, red line = total cost (fixed + per-unit). Green area = profit zone.');
       document.getElementById('nextTitle').textContent = tx('ต่อไปทำอะไรดี', 'What next?');
       const items = [
-        ['tools.html#pricing', tx('ตั้งราคาใหม่', 'Re-price'), tx('ลองปรับราคาแล้วดูกำไรต่อชิ้น', 'Try a price and see profit per unit')],
-        ['tools.html#runway', tx('เช็กเงินทุนหมุนเวียน', 'Check cash runway'), tx('เงินสดอยู่ได้อีกกี่เดือน', 'How many months your cash lasts')],
+        ['mybiz.html#price', tx('ตั้งราคาใหม่', 'Re-price'), tx('ลองปรับราคาแล้วดูกำไรต่อชิ้น', 'Try a price and see profit per unit')],
+        ['mybiz.html#cash', tx('เช็กเงินทุนหมุนเวียน', 'Check cash runway'), tx('เงินสดอยู่ได้อีกกี่เดือน', 'How many months your cash lasts')],
         ['funding.html', tx('แหล่งทุน', 'Funding'), tx('สินเชื่อและทุนสนับสนุน SME', 'Loans and SME support')],
         ['news.html', tx('ข่าวธุรกิจ', 'Business news'), tx('ติดตามสถานการณ์ตลาด', 'Follow the market')]];
       document.getElementById('nextGrid').innerHTML = items.map(i => `<a class="tool-card" href="${i[0]}"><strong>${i[1]}</strong><span>${i[2]}</span></a>`).join('');

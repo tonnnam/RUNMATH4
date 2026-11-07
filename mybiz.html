@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ธุรกิจของฉัน</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&family=Prompt:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="index.html">
+        <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+          <rect width="28" height="28" rx="7" fill="#15203A"/>
+          <path d="M5 20 L23 8" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M5 11 L23 19" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+        Math4Startup
+      </a>
+      <nav class="main-nav" aria-label="Main">
+        <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
+        <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
+        <a href="news.html" data-i18n="navNews">ข่าว</a>
+        <a href="mybiz.html" data-i18n="navMybiz" aria-current="page">ธุรกิจของฉัน</a>
+        <a href="funding.html" data-i18n="navFunding">แหล่งทุน</a>
+        <a href="advisor.html" data-i18n="navAdvisor">ที่ปรึกษา AI</a>
+      </nav>
+      <div class="lang">
+        <select id="languageSelect" onchange="setLanguage(this.value)" aria-label="Language">
+          <option value="th" data-i18n="langThai">ไทย</option>
+          <option value="en" data-i18n="langEnglish">English</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="header">
+      <h1 data-i18n="mbTitle">ธุรกิจของฉัน</h1>
+      <p data-i18n="mbSubtitle"></p>
+    </div>
+
+    <section class="section-card" id="dataCard">
+      <h3 class="card-title" data-i18n="mbDataTitle"></h3>
+      <p class="help-text" data-i18n="mbDataHint"></p>
+      <div class="form-row">
+        <div class="form-group"><label for="mbName" data-i18n="mbName"></label><input type="text" id="mbName" maxlength="100" data-i18n-placeholder="mbNamePh"></div>
+        <div class="form-group"><label for="mbPrice" data-i18n="mbPrice"></label><input type="number" id="mbPrice" inputmode="decimal" min="0" step="any" placeholder="เช่น 80" ></div>
+        <div class="form-group"><label for="mbCost" data-i18n="mbCost"></label><input type="number" id="mbCost" inputmode="decimal" min="0" step="any" placeholder="เช่น 45" ><p class="help-text" data-i18n="mbCostHelp"></p></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label for="mbUnits" data-i18n="mbUnits"></label><input type="number" id="mbUnits" inputmode="decimal" min="0" step="any" placeholder="เช่น 500" ></div>
+        <div class="form-group"><label for="mbExpense" data-i18n="mbExpense"></label><input type="number" id="mbExpense" inputmode="decimal" min="0" step="any" placeholder="เช่น 20000" ><p class="help-text" data-i18n="mbExpenseHelp"></p></div>
+        <div class="form-group"><label for="mbCash" data-i18n="mbCash"></label><input type="number" id="mbCash" inputmode="decimal" min="0" step="any" placeholder="เช่น 150000" ></div>
+        <div class="form-group"><label for="mbGoal" data-i18n="mbGoal"></label><input type="number" id="mbGoal" inputmode="decimal" min="0" step="any" placeholder="เช่น 30000" ></div>
+      </div>
+      <p class="help-text" id="saveNote"></p>
+    </section>
+
+    <nav class="step-chips" aria-label="Steps">
+      <a class="chip-link" href="#profit" data-i18n="mbChipProfit"></a>
+      <a class="chip-link" href="#price" data-i18n="mbChipPrice"></a>
+      <a class="chip-link" href="#target" data-i18n="mbChipTarget"></a>
+      <a class="chip-link" href="#cash" data-i18n="mbChipCash"></a>
+      <a class="chip-link" href="#funding" data-i18n="mbChipFund"></a>
+    </nav>
+
+    <section class="section-card step-card" id="profit">
+      <p class="step-num" data-step="1"></p><h3 class="q-title" data-i18n="mbQ1"></h3>
+      <div id="profitOut"></div>
+      <div class="nav-links"><a class="nav-link" href="analyze.html" data-i18n="mbMoreDetail"></a></div>
+    </section>
+
+    <section class="section-card step-card" id="price">
+      <p class="step-num" data-step="2"></p><h3 class="q-title" data-i18n="mbQ2"></h3>
+      <div class="form-row">
+        <div class="form-group"><label for="mbFee" data-i18n="mbFee"></label><input type="number" id="mbFee" inputmode="decimal" min="0" step="any" placeholder="เช่น 8" ></div><div class="form-group"><label for="mbMargin" data-i18n="mbMargin"></label><input type="number" id="mbMargin" inputmode="decimal" min="0" step="any" placeholder="เช่น 30" ></div><div class="form-group"><label for="mbExtra" data-i18n="mbExtra"></label><input type="number" id="mbExtra" inputmode="decimal" min="0" step="any" placeholder="เช่น 5" ></div>
+      </div>
+      <div id="priceOut"></div>
+      <h4 class="sub-title" data-i18n="mbWhatIf"></h4>
+      <div class="slider-row"><input type="range" id="mbSlider" min="-20" max="30" step="5" value="0" aria-label="Price change"><strong id="sliderVal">0%</strong></div>
+      <div id="whatIfOut"></div>
+    </section>
+
+    <section class="section-card step-card" id="target">
+      <p class="step-num" data-step="3"></p><h3 class="q-title" data-i18n="mbQ3"></h3>
+      <div class="form-row"><div class="form-group"><label for="mbDays" data-i18n="mbDays"></label><input type="number" id="mbDays" inputmode="decimal" min="0" step="any" placeholder="เช่น 26" value="26"></div></div>
+      <div id="targetOut"></div>
+      <div class="nav-links"><a class="nav-link" href="analyze.html" data-i18n="mbPlanLink"></a></div>
+    </section>
+
+    <section class="section-card step-card" id="cash">
+      <p class="step-num" data-step="4"></p><h3 class="q-title" data-i18n="mbQ4"></h3>
+      <div id="cashOut"></div>
+    </section>
+
+    <section class="section-card step-card" id="funding">
+      <p class="step-num" data-step="5"></p><h3 class="q-title" data-i18n="mbQ5"></h3>
+      <p id="fundHint"></p>
+      <p class="help-text" data-i18n="mbFundText"></p>
+      <div class="nav-links">
+        <a class="nav-link" href="funding.html" data-i18n="mbFundBtn"></a>
+        <a class="nav-link" href="idea.html" data-i18n="mbIdeaBtn"></a>
+      </div>
+    </section>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script src="lib.js"></script>
+  <script>
+    Object.assign(translations.th, {
+  "navMybiz": "ธุรกิจของฉัน",
+  "mbTitle": "ธุรกิจของฉัน",
+  "mbSubtitle": "กรอกตัวเลขครั้งเดียว แล้วตอบคำถามธุรกิจได้ทีละข้อ ทุกข้อใช้ตัวเลขชุดเดียวกัน",
+  "mbDataTitle": "ข้อมูลธุรกิจของฉัน",
+  "mbDataHint": "ช่องที่มี * ต้องกรอก ระบบบันทึกในเบราว์เซอร์นี้ให้อัตโนมัติ และหน้าอื่นๆ ใช้ข้อมูลชุดนี้ร่วมกัน",
+  "mbName": "ชื่อสินค้า/บริการ *",
+  "mbNamePh": "เช่น กาแฟคั่วสด",
+  "mbPrice": "ราคาขายต่อชิ้น (บาท) *",
+  "mbCost": "ต้นทุนต่อชิ้น (บาท) *",
+  "mbCostHelp": "ค่าวัตถุดิบ ค่าแรง ค่าแพ็กเกจต่อ 1 ชิ้น",
+  "mbUnits": "ขายได้ต่อเดือน (ชิ้น) *",
+  "mbExpense": "ค่าใช้จ่ายคงที่ต่อเดือน (บาท) *",
+  "mbExpenseHelp": "ค่าเช่า ค่าไฟ เงินเดือน ที่ต้องจ่ายทุกเดือนไม่ว่าจะขายได้หรือไม่",
+  "mbCash": "เงินสดที่มีอยู่ (บาท)",
+  "mbGoal": "เป้ากำไรต่อเดือน (บาท)",
+  "mbChipProfit": "กำไร",
+  "mbChipPrice": "ราคา",
+  "mbChipTarget": "เป้ายอดขาย",
+  "mbChipCash": "เงินสด",
+  "mbChipFund": "แหล่งทุน",
+  "mbQ1": "ธุรกิจฉันกำไรไหม?",
+  "mbQ2": "ควรตั้งราคาเท่าไร?",
+  "mbQ3": "ต้องขายเท่าไรถึงจะถึงเป้า?",
+  "mbQ4": "เงินสดจะพอไหม?",
+  "mbQ5": "หาทุนเพิ่มได้จากที่ไหน?",
+  "mbFee": "ค่าธรรมเนียมแพลตฟอร์ม/ชำระเงิน (% ของราคา)",
+  "mbMargin": "กำไรที่อยากได้ (% ของราคาขาย)",
+  "mbExtra": "ต้นทุนอื่นต่อชิ้น เช่น ค่าส่ง ค่าการตลาด (บาท)",
+  "mbWhatIf": "ลองปรับราคาดู",
+  "mbDays": "ขายกี่วันต่อเดือน",
+  "mbMoreDetail": "ดูแบบละเอียดและจดบัญชีรายวัน",
+  "mbPlanLink": "แผนละเอียด (รวมค่าการตลาด ค่าส่ง และเทียบยอดจริง)",
+  "mbFundText": "ถ้าต้องการเงินทุนเพิ่ม หรืออยากรู้ว่ามีโครงการสนับสนุนอะไรบ้าง",
+  "mbFundBtn": "ดูแหล่งทุน",
+  "mbIdeaBtn": "ตรวจไอเดียใหม่ด้วย AI"
+});
+    Object.assign(translations.en, {
+  "navMybiz": "My business",
+  "mbTitle": "My business",
+  "mbSubtitle": "Enter your numbers once, then answer your business questions one by one. Every answer uses the same numbers.",
+  "mbDataTitle": "My business data",
+  "mbDataHint": "Fields marked * are required. Saved automatically in this browser, and other pages use the same data.",
+  "mbName": "Product / service name *",
+  "mbNamePh": "e.g. Fresh roasted coffee",
+  "mbPrice": "Selling price per unit (THB) *",
+  "mbCost": "Cost per unit (THB) *",
+  "mbCostHelp": "Materials, labor and packaging for 1 unit",
+  "mbUnits": "Units sold per month *",
+  "mbExpense": "Fixed costs per month (THB) *",
+  "mbExpenseHelp": "Rent, electricity, salaries: due every month whether you sell or not",
+  "mbCash": "Cash on hand (THB)",
+  "mbGoal": "Monthly profit goal (THB)",
+  "mbChipProfit": "Profit",
+  "mbChipPrice": "Price",
+  "mbChipTarget": "Sales goal",
+  "mbChipCash": "Cash",
+  "mbChipFund": "Funding",
+  "mbQ1": "Is my business profitable?",
+  "mbQ2": "What price should I set?",
+  "mbQ3": "How much must I sell to hit my goal?",
+  "mbQ4": "Will my cash last?",
+  "mbQ5": "Where can I find extra funding?",
+  "mbFee": "Platform / payment fee (% of price)",
+  "mbMargin": "Profit you want (% of selling price)",
+  "mbExtra": "Other cost per unit, e.g. shipping, marketing (THB)",
+  "mbWhatIf": "Try a different price",
+  "mbDays": "Selling days per month",
+  "mbMoreDetail": "Detailed view and daily bookkeeping",
+  "mbPlanLink": "Detailed plan (with marketing, shipping and actual-vs-goal)",
+  "mbFundText": "If you need more capital or want to see what support programs exist",
+  "mbFundBtn": "See funding options",
+  "mbIdeaBtn": "Check a new idea with AI"
+});
+
+    const $ = id => document.getElementById(id);
+    const t = k => getTranslation(k);
+    const tx = (th, en) => (Lib.lang() === 'en' ? en : th);
+    const nv = id => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : NaN; };
+    const nv0 = id => { const v = nv(id); return Number.isNaN(v) ? 0 : v; };
+    const f0 = n => Math.round(n).toLocaleString('th-TH');
+    const card = (value, label, cls) => `<div class="metric-card"><div class="metric-value ${cls || ''}">${value}</div><div class="metric-label">${Lib.esc(label)}</div></div>`;
+    const hint = () => `<p class="help-text">${Lib.esc(tx('กรอกข้อมูลธุรกิจที่มี * ให้ครบก่อน เพื่อดูคำตอบข้อนี้', 'Fill in the fields marked * above to see this answer.'))}</p>`;
+
+    // ---- load / save (same shape as the old form, so every other page keeps working) ----
+    function load() {
+      let d = {};
+      try { d = JSON.parse(localStorage.getItem('businessData') || '{}') || {}; } catch (e) { }
+      const set = (id, v) => { if (v !== undefined && v !== null && v !== '') $(id).value = v; };
+      set('mbName', d.productName || localStorage.getItem('selectedProduct') || '');
+      set('mbPrice', d.price); set('mbCost', d.cost); set('mbUnits', d.units); set('mbExpense', d.expense);
+      set('mbCash', d.cash); set('mbGoal', d.goal);
+    }
+
+    function read() {
+      return { productName: $('mbName').value.trim(), price: nv('mbPrice'), cost: nv('mbCost'), units: nv('mbUnits'), expense: nv('mbExpense'), cash: nv('mbCash'), goal: nv('mbGoal') };
+    }
+
+    function save(b) {
+      const note = $('saveNote');
+      const ok = b.productName && b.price > 0 && b.cost >= 0 && b.units >= 0 && b.expense >= 0;
+      if (!ok) { note.textContent = tx('กรอกช่องที่มี * ให้ครบเพื่อบันทึก', 'Fill in the fields marked * to save.'); return; }
+      if (!(b.price > b.cost)) { note.textContent = tx('ราคาขายต้องมากกว่าต้นทุนถึงจะบันทึกและใช้กับหน้าอื่นได้', 'The price must be above cost to be saved and used on other pages.'); return; }
+      let d = {};
+      try { d = JSON.parse(localStorage.getItem('businessData') || '{}') || {}; } catch (e) { }
+      const defaults = { businessType: 'retail', productDescription: 'ไม่ได้ระบุ', initialCapital: 0, workingCapital: 0, targetMarket: 'ลูกค้าทั่วไป',
+        salesChannel: 'both', competitorCount: 'moderate', advantage: 'คุณภาพดี', employeeCount: 1, businessLocation: 'home', businessDuration: 'new',
+        revenueGoal: 0, createdAt: new Date().toISOString() };
+      d = Object.assign({}, defaults, d, { productName: b.productName, price: b.price, cost: b.cost, units: b.units, expense: b.expense });
+      if (Number.isFinite(b.cash)) d.cash = b.cash; else delete d.cash;
+      if (Number.isFinite(b.goal)) d.goal = b.goal; else delete d.goal;
+      localStorage.setItem('businessData', JSON.stringify(d));
+      localStorage.setItem('selectedProduct', b.productName);
+      note.textContent = tx('บันทึกในเบราว์เซอร์นี้แล้ว', 'Saved in this browser.');
+    }
+
+    // ---- 1. profit ----
+    function renderProfit(b, ready) {
+      const out = $('profitOut');
+      if (!ready) { out.innerHTML = hint(); return; }
+      const c = Lib.calc(b), unit = b.price - b.cost;
+      let verdict;
+      if (!(unit > 0)) {
+        verdict = `<div class="alert-danger">${tx('ราคาขายไม่สูงกว่าต้นทุน ขายเท่าไรก็ไม่ได้กำไร ต้องขึ้นราคาหรือลดต้นทุนก่อน', 'Your price is not above cost, so every sale loses money. Raise the price or cut cost first.')}</div>`;
+      } else if (c.profit >= 0) {
+        verdict = `<div class="alert-success">${tx(`ตอนนี้กำไรเดือนละ <b>${f0(c.profit)} ฿</b> (${c.margin.toFixed(1)}% ของรายได้) ขายได้ ${f0(c.breakeven)} ชิ้นต่อเดือนก็ไม่ขาดทุน`, `You make <b>${f0(c.profit)} THB</b> a month (${c.margin.toFixed(1)}% of revenue). Selling ${f0(c.breakeven)} units a month is enough to avoid a loss.`)}</div>`;
+      } else {
+        verdict = `<div class="alert-danger">${tx(`ตอนนี้ขาดทุนเดือนละ <b>${f0(-c.profit)} ฿</b> ต้องขายให้ถึง ${f0(c.breakeven)} ชิ้นต่อเดือนถึงจะคุ้มทุน หรือขึ้นราคาเป็นอย่างน้อย ${(b.cost + b.expense / b.units).toFixed(2)} ฿ ถ้าขายได้เท่าเดิม`, `You lose <b>${f0(-c.profit)} THB</b> a month. Sell ${f0(c.breakeven)} units a month to break even, or raise the price to at least ${(b.cost + b.expense / b.units).toFixed(2)} THB at the same volume.`)}</div>`;
+      }
+      const rev = b.price * b.units, vc = b.cost * b.units;
+      const pct = v => (rev > 0 ? v / rev * 100 : 0);
+      const rows = [['#15203A', tx('ต้นทุนสินค้า', 'Product cost'), vc], ['#FFD23F', tx('ค่าใช้จ่ายคงที่', 'Fixed costs'), b.expense], ['#0B7A55', tx('กำไร', 'Profit'), c.profit]];
+      const stack = rows.map(r => `<span style="width:${Math.max(0, Math.min(100, pct(r[2]))).toFixed(1)}%;background:${r[0]}"></span>`).join('');
+      const warn = c.margin > 60 ? `<div class="alert-warning">${tx('อัตรากำไรสูงมาก ลองเช็กว่านับต้นทุนครบหรือยัง เช่น ค่าแรงตัวเอง ค่าส่ง ค่าธรรมเนียมแพลตฟอร์ม', 'Your margin is very high. Check every cost is counted: your own labor, shipping, platform fees.')}</div>` : '';
+      out.innerHTML = verdict + warn + `<div class="metrics-grid">
+        ${card(Lib.fmt(rev) + ' ฿', tx('รายได้ต่อเดือน', 'Monthly revenue'))}
+        ${card(Lib.fmt(c.profit) + ' ฿', tx('กำไรต่อเดือน', 'Monthly profit'), c.profit >= 0 ? 'positive' : 'negative')}
+        ${card(c.margin.toFixed(1) + '%', tx('อัตรากำไร', 'Profit margin'))}
+        ${card(c.breakeven === null ? '-' : Lib.fmt(c.breakeven), tx('จุดคุ้มทุน (ชิ้น/เดือน)', 'Break-even (units/month)'))}</div>
+        <div class="bk-title">${tx('รายได้ 100 บาท ไปอยู่ตรงไหนบ้าง', 'Where each 100 THB of revenue goes')}</div><div class="stack">${stack}</div>` +
+        rows.map(r => `<div class="bk-row"><span class="dot" style="background:${r[0]}"></span><span>${r[1]}</span><span>${f0(r[2])} ฿</span><span class="bk-pct ${r[2] < 0 ? 'negative' : ''}">${pct(r[2]).toFixed(1)}%</span></div>`).join('');
+    }
+
+    // ---- 2. price ----
+    function renderPrice(b, ready) {
+      const out = $('priceOut'), wi = $('whatIfOut');
+      const margin = nv('mbMargin');
+      if (!(b.cost >= 0) || !(margin >= 0)) { out.innerHTML = `<p class="help-text">${Lib.esc(tx('กรอกต้นทุนต่อชิ้นด้านบน และกำไรที่อยากได้ (%) เพื่อดูราคาแนะนำ', 'Enter your cost per unit above and the profit % you want to see a suggested price.'))}</p>`; }
+      else {
+        const r = Lib.calcPrice({ cost: b.cost, extra: nv0('mbExtra'), feePct: nv0('mbFee'), marginPct: margin });
+        if (!r) out.innerHTML = `<div class="alert-warning">${tx('ค่าธรรมเนียม + กำไรที่ต้องการ ต้องรวมกันน้อยกว่า 100%', 'Fee % + target profit % must add up to less than 100%.')}</div>`;
+        else {
+          let cmp = '';
+          if (b.price > 0) {
+            const diff = b.price - r.price;
+            cmp = diff >= 0
+              ? `<p>${tx(`ราคาตอนนี้ ${f0(b.price)} ฿ สูงกว่าราคาแนะนำ ${Lib.money(diff)} ฿ จึงมีที่ให้ลดราคาได้ และยังได้กำไรตามที่ต้องการ`, `Your current price of ${f0(b.price)} THB is ${Lib.money(diff)} THB above the suggestion, so there is room to cut it and still hit your profit target.`)}</p>`
+              : `<p>${tx(`ราคาตอนนี้ ${f0(b.price)} ฿ ต่ำกว่าราคาแนะนำ ${Lib.money(-diff)} ฿ กำไรจะยังไม่ถึงที่ต้องการ`, `Your current price of ${f0(b.price)} THB is ${Lib.money(-diff)} THB below the suggestion, so profit will fall short of your target.`)}</p>`;
+          }
+          out.innerHTML = `<div class="metrics-grid">${card(Lib.money(r.price) + ' ฿', tx('ราคาขายที่แนะนำ', 'Suggested price'))}${card(Lib.money(r.profit) + ' ฿', tx('กำไรต่อชิ้น', 'Profit per unit'), 'positive')}</div>${cmp}`;
+        }
+      }
+      const pct = parseFloat($('mbSlider').value);
+      $('sliderVal').textContent = (pct > 0 ? '+' : '') + pct + '%';
+      if (!ready) { wi.innerHTML = hint(); return; }
+      const w = Lib.calcWhatIf(b, pct);
+      let note = '';
+      if (pct !== 0 && w.volumeShiftPct !== null) {
+        const s = Math.abs(w.volumeShiftPct).toFixed(0);
+        note = w.volumeShiftPct < 0
+          ? tx(`ถ้าขึ้นราคา ขายลดลงได้ไม่เกิน ${s}% กำไรก็ยังไม่ต่ำกว่าเดิม`, `After a price rise, sales can fall by up to ${s}% and profit still will not drop below today's.`)
+          : tx(`ถ้าลดราคา ต้องขายเพิ่ม ${s}% ถึงจะได้กำไรเท่าเดิม`, `After a price cut, you need ${s}% more sales to keep today's profit.`);
+      }
+      wi.innerHTML = `<div class="metrics-grid">
+        ${card(Lib.money(w.newPrice) + ' ฿', tx('ราคาใหม่', 'New price'))}
+        ${card(Lib.fmt(w.newProfit) + ' ฿', tx('กำไรต่อเดือน (ถ้ายอดขายเท่าเดิม)', 'Monthly profit (same sales)'), w.newProfit >= 0 ? 'positive' : 'negative')}
+        ${card((w.delta > 0 ? '+' : '') + Lib.fmt(w.delta) + ' ฿', tx('เปลี่ยนไปจากตอนนี้', 'Change vs today'), w.delta >= 0 ? 'positive' : 'negative')}</div>
+        <p class="help-text">${note}</p>`;
+    }
+
+    // ---- 3. sales target ----
+    function renderTarget(b, ready) {
+      const out = $('targetOut'), days = nv('mbDays');
+      if (!ready || !(b.goal >= 0)) { out.innerHTML = `<p class="help-text">${Lib.esc(tx('กรอกข้อมูลที่มี * และ "เป้ากำไรต่อเดือน" ด้านบนเพื่อดูคำตอบ', 'Fill in the fields marked * and your monthly profit goal above.'))}</p>`; return; }
+      if (!(days >= 1 && days <= 31)) { out.innerHTML = `<div class="alert-warning">${tx('จำนวนวันที่ขายต่อเดือนต้องอยู่ระหว่าง 1-31', 'Selling days per month must be between 1 and 31.')}</div>`; return; }
+      const r = Lib.calcTarget({ targetProfit: b.goal, price: b.price, varCost: b.cost, fixed: b.expense, days });
+      if (!r) { out.innerHTML = `<div class="alert-warning">${tx('ราคาขายต้องมากกว่าต้นทุนต่อชิ้น', 'Price must be above cost per unit.')}</div>`; return; }
+      const pct = r.units > 0 ? b.units / r.units * 100 : 100;
+      const status = b.units >= r.units
+        ? tx('ตอนนี้ขายได้ถึงเป้าแล้ว', 'You already reach this goal.')
+        : tx(`ตอนนี้ขายได้ ${f0(b.units)} ชิ้น ยังต้องเพิ่มอีก ${f0(r.units - b.units)} ชิ้นต่อเดือน`, `You sell ${f0(b.units)} units now, so you need ${f0(r.units - b.units)} more a month.`);
+      out.innerHTML = `<p class="big-sentence">${tx(`อยากได้กำไร <b>${f0(b.goal)} ฿</b> ต่อเดือน ต้องขายประมาณ <b>วันละ ${f0(r.perDay)} ชิ้น</b> (เดือนละ ${f0(r.units)} ชิ้น)`, `To make <b>${f0(b.goal)} THB</b> a month, sell about <b>${f0(r.perDay)} units a day</b> (${f0(r.units)} a month).`)}</p>
+        <div class="progress ${pct < 100 ? 'low' : ''}"><span style="width:${Math.min(100, pct).toFixed(0)}%"></span></div>
+        <div class="prog-label">${Math.round(pct)}% ${tx('ของเป้า', 'of goal')} · ${status}</div>
+        <div class="metrics-grid">${card(f0(r.units), tx('ต้องขายต่อเดือน (ชิ้น)', 'Units per month'))}${card(f0(r.perDay), tx('เฉลี่ยต่อวัน (ชิ้น)', 'Average per day'))}${card(f0(r.revenue) + ' ฿', tx('ยอดขายที่ต้องทำ', 'Sales needed'))}</div>`;
+    }
+
+    // ---- 4. cash ----
+    function renderCash(b, ready) {
+      const out = $('cashOut');
+      if (!ready || !(b.cash >= 0)) { out.innerHTML = `<p class="help-text">${Lib.esc(tx('กรอกข้อมูลที่มี * และ "เงินสดที่มีอยู่" ด้านบนเพื่อดูคำตอบ', 'Fill in the fields marked * and your cash on hand above.'))}</p>`; return null; }
+      const costs = b.cost * b.units + b.expense;
+      const r = Lib.calcRunway({ cash: b.cash, revenue: b.price * b.units, costs });
+      let sentence, cls;
+      if (r.runway === null) { sentence = tx('รายรับมากกว่ารายจ่าย ไม่ได้เผาเงินสด', 'Revenue exceeds costs, so you are not burning cash.'); cls = 'alert-success'; }
+      else { sentence = tx(`ตอนนี้เผาเงินสดเดือนละ ${f0(-r.net)} ฿ เงินสดที่มีอยู่ประคองได้ประมาณ <b>${r.runway.toFixed(1)} เดือน</b>`, `You burn ${f0(-r.net)} THB a month, so your cash lasts about <b>${r.runway.toFixed(1)} months</b>.`); cls = r.runway < 3 ? 'alert-danger' : r.runway < 6 ? 'alert-warning' : 'alert-success'; }
+      const cover = r.coverage === null ? '' : card(r.coverage.toFixed(1), tx('เงินสดเท่ากับกี่เดือนของค่าใช้จ่าย', 'Cash equals months of costs'), r.coverage < 3 ? 'negative' : r.coverage < 6 ? 'warning' : 'positive');
+      out.innerHTML = `<div class="${cls}">${sentence}</div><div class="metrics-grid">${card(Lib.fmt(r.net) + ' ฿', tx('รายรับ − รายจ่าย ต่อเดือน', 'Revenue − costs per month'), r.net >= 0 ? 'positive' : 'negative')}${cover}</div>
+        <p class="help-text">${tx('เกณฑ์คร่าวๆ ที่หลายคนใช้: เก็บเงินสดสำรองเท่ากับค่าใช้จ่าย 3-6 เดือน ไม่ใช่กฎตายตัว', 'A common rule of thumb is to keep 3-6 months of costs in reserve. It is not a hard rule.')}</p>`;
+      return r;
+    }
+
+    // ---- 5. funding ----
+    function renderFund(r) {
+      $('fundHint').textContent = r && r.runway !== null && r.runway < 3
+        ? tx('เงินสดเหลือน้อยกว่า 3 เดือน ควรดูสินเชื่อหรือการค้ำประกันเร็วๆ นี้', 'Your cash covers under 3 months, so look at loans or guarantees soon.')
+        : tx('ยังไม่เห็นสัญญาณเงินสดตึง แต่ถ้าอยากขยายธุรกิจ มีหลายหน่วยงานที่สนับสนุน SME และสตาร์ทอัป', 'No sign of a cash squeeze yet, but if you want to grow, several agencies support SMEs and startups.');
+    }
+
+    function render() {
+      const b = read();
+      save(b);
+      const ready = b.price > 0 && b.cost >= 0 && b.units >= 0 && b.expense >= 0;
+      document.querySelectorAll('[data-step]').forEach(el => { el.textContent = tx('ข้อ ' + el.dataset.step + ' จาก 5', 'Step ' + el.dataset.step + ' of 5'); });
+      renderProfit(b, ready);
+      renderPrice(b, ready);
+      renderTarget(b, ready);
+      renderFund(renderCash(b, ready));
+    }
+
+    document.querySelectorAll('.container input').forEach(el => el.addEventListener('input', render));
+    document.getElementById('languageSelect').addEventListener('change', render);
+    load();
+    render();
+  </script>
+</body>
+
+</html>

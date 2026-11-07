@@ -27,7 +27,7 @@
         <a href="overview.html" data-i18n="navOverview">ภาพรวม</a>
         <a href="trends.html" data-i18n="navTrends">เทรนด์</a>
         <a href="news.html" data-i18n="navNews">ข่าว</a>
-        <a href="tools.html" data-i18n="navTools">เครื่องมือ</a>
+        <a href="mybiz.html" data-i18n="navMybiz">ธุรกิจของฉัน</a>
         <a href="funding.html" data-i18n="navFunding">แหล่งทุน</a>
         <a href="advisor.html" data-i18n="navAdvisor" aria-current="page">ที่ปรึกษา AI</a>
       </nav>
@@ -95,13 +95,13 @@
       const wasChecked = !document.getElementById('useCtx') || document.getElementById('useCtx').checked;
       const biz = loadBiz();
       if (!biz) {
-        ctxCard.innerHTML = `<p>${esc(t('advisorNoContext'))}</p><a class="nav-link" href="form.html">${esc(t('advisorNoContextLink'))}</a>`;
+        ctxCard.innerHTML = `<p>${esc(t('advisorNoContext'))}</p><a class="nav-link" href="mybiz.html">${esc(t('advisorNoContextLink'))}</a>`;
         return;
       }
       const unit = biz.price - biz.cost;
       const profit = unit * biz.units - biz.expense;
       const be = unit > 0 ? Math.ceil(biz.expense / unit) : '-';
-      const margin = biz.price > 0 ? (unit / biz.price) * 100 : 0;
+      const margin = biz.price * biz.units > 0 ? profit / (biz.price * biz.units) * 100 : 0;
       ctxCard.innerHTML = `
         <h3 class="card-title">${esc(t('advisorContextTitle'))}: <span>${esc(biz.productName)}</span></h3>
         <div class="metrics-grid">
