@@ -3,6 +3,7 @@
 
 const translations = {
   th: {
+    chartEmpty: "ยังไม่มีรายการ เพิ่มรายรับหรือรายจ่ายรายการแรกเพื่อดูกราฟ",
     newsNoApi: "ระบบดึงข่าวยังไม่พร้อมใช้งานบนเว็บนี้ (เว็บนี้ไม่มีเซิร์ฟเวอร์สำหรับ /api)",
     daysRange: "จำนวนวันที่ขายต่อเดือนต้องอยู่ระหว่าง 1-31 วัน",
     aiNotReady: "ระบบ AI ยังไม่เปิดใช้งาน (ผู้ดูแลเว็บยังไม่ได้ตั้งค่า)",
@@ -98,9 +99,9 @@ const translations = {
     dashboardSubtitle: "วิเคราะห์ธุรกิจ จัดการเงิน และเป้าหมายต่อเดือน",
     productLabel: "สินค้า/บริการ:",
     businessTypeLabel: "ประเภทธุรกิจ:",
-    tabOverview: "ภาพรวม",
+    tabOverview: "กำไรขาดทุน",
     tabAccounting: "บัญชีรายวัน",
-    tabGoalAnalysis: "วิเคราะห์เส้นทางสู่เป้าหมาย",
+    tabGoalAnalysis: "แผนสู่เป้าหมาย",
     overviewHeader: "ผลการวิเคราะห์ธุรกิจ",
     langThai: "ไทย",
     langEnglish: "English",
@@ -294,6 +295,7 @@ const translations = {
   },
 
   en: {
+    chartEmpty: "No entries yet. Add your first income or expense to see the chart.",
     newsNoApi: "The news feed is not available on this host (no /api server here).",
     daysRange: "Selling days per month must be between 1 and 31",
     aiNotReady: "The AI feature isn't switched on yet (the site owner hasn't set it up).",
@@ -389,9 +391,9 @@ const translations = {
     dashboardSubtitle: "Analyze your business, manage finances, and set monthly goals",
     productLabel: "Product/Service:",
     businessTypeLabel: "Business Type:",
-    tabOverview: "Overview",
+    tabOverview: "Profit & loss",
     tabAccounting: "Daily Accounting",
-    tabGoalAnalysis: "Path to Goal Analysis",
+    tabGoalAnalysis: "Goal plan",
     overviewHeader: "Business Analysis Result",
     langThai: "ไทย",
     langEnglish: "English",

@@ -46,6 +46,7 @@
       <p data-i18n="fdSubtitle"></p>
     </div>
     <p class="alert-warning" data-i18n="fdNote"></p>
+    <p class="alert-danger" data-i18n="fdSafety"></p>
     <div class="fund-list" id="fundList"></div>
 
     <section class="section-card">
@@ -102,6 +103,13 @@
   "fdLinkIdea": "Check your idea with AI"
 });
 
+    Object.assign(translations.th, {
+      fdSafety: "ความปลอดภัย: ตรวจชื่อเว็บในแถบที่อยู่ให้ตรงกับที่แสดงในการ์ดก่อนกรอกข้อมูลใดๆ ถ้าเปิดแล้วเจอเว็บพนันหรือหน้าแปลกๆ ให้ปิดทันที ห้ามกดหรือกรอกอะไร และแจ้งเรา",
+      fdUnchecked: "ลิงก์นี้ยังไม่ได้ตรวจสอบ จึงยังไม่เปิดให้กด ค้นชื่อหน่วยงานผ่านเสิร์ชเอนจินแล้วเข้าเว็บที่เป็น .go.th หรือ .or.th ของหน่วยงานเอง" });
+    Object.assign(translations.en, {
+      fdSafety: "Safety: check that the address bar matches the site shown on the card before entering anything. If you land on a gambling or strange page, close it immediately and do not click or type anything, then tell us.",
+      fdUnchecked: "This link has not been checked, so it is not clickable yet. Search for the agency's name and use its own .go.th or .or.th site." });
+
     const ORGS = [
       { name: 'SME D Bank (ธพว.)', url: 'https://www.smebank.co.th', tag: 'Loan',
         th: 'ธนาคารของรัฐที่ให้สินเชื่อแก่ SME ดูผลิตภัณฑ์และเงื่อนไขล่าสุดที่เว็บไซต์',
@@ -115,13 +123,13 @@
       { name: 'NIA', url: 'https://www.nia.or.th', tag: 'Grant',
         th: 'หน่วยงานรัฐด้านนวัตกรรม มีกลไกสนับสนุนสตาร์ทอัปทั้งทุน การบ่มเพาะ และเครือข่าย',
         en: 'Government innovation agency with startup support covering funding, incubation and networking.' },
-      { name: 'Startup Thailand', url: 'https://govsupport.startupthailand.org/en/home', tag: 'Info',
+      { name: 'Startup Thailand', url: 'https://startupthailand.nia.or.th', tag: 'Info',
         th: 'รวมข้อมูลการสนับสนุนจากภาครัฐสำหรับสตาร์ทอัปไว้ในที่เดียว',
         en: 'A single place listing government support available to startups.' },
       { name: 'BOI', url: 'https://www.boi.go.th', tag: 'Tax',
         th: 'ส่งเสริมการลงทุน ให้สิทธิประโยชน์ด้านภาษี และเคยประกาศโครงการทุนจับคู่สำหรับสตาร์ทอัปศักยภาพสูง (กรกฎาคม 2567) ตรวจเงื่อนไขล่าสุดก่อนสมัคร',
         en: 'Investment promotion with tax benefits, and a matching-fund scheme for high-potential startups announced in July 2024. Check current terms before applying.' },
-      { name: 'สสว. (OSMEP)', url: 'https://www.sme.go.th', tag: 'Info',
+      { name: 'สสว. (OSMEP)', url: 'https://www.sme.go.th', tag: 'Info', unchecked: true,
         th: 'สำนักงานส่งเสริมวิสาหกิจขนาดกลางและขนาดย่อม ศูนย์กลางนโยบายและโครงการสนับสนุน SME',
         en: 'Office of SMEs Promotion, the central body for SME policy and support programs.' }
     ];
@@ -134,7 +142,10 @@
         <section class="section-card fund-card">
           <div class="card-head"><h3>${Lib.esc(o.name)}</h3><span class="tag">${Lib.esc(getTranslation(TAGS[o.tag]))}</span></div>
           <p>${Lib.esc(o[lang])}</p>
-          <a class="nav-link" href="${Lib.esc(o.url)}" target="_blank" rel="noopener noreferrer">${Lib.esc(getTranslation('fdVisit'))}</a>
+          <p class="host">${Lib.esc(new URL(o.url).hostname)}</p>
+          ${o.unchecked
+            ? `<p class="help-text">${Lib.esc(getTranslation('fdUnchecked'))}</p>`
+            : `<a class="nav-link" href="${Lib.esc(o.url)}" target="_blank" rel="noopener noreferrer">${Lib.esc(getTranslation('fdVisit'))}</a>`}
         </section>`).join('');
     }
     document.getElementById('languageSelect').addEventListener('change', render);

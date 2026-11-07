@@ -65,6 +65,7 @@
       <button class="tab-button" onclick="switchTab('accounting')" data-i18n="tabAccounting">บัญชีรายวัน</button>
       <button class="tab-button" onclick="switchTab('path-analysis')" data-i18n="tabGoalAnalysis">วิเคราะห์เส้นทางสู่เป้าหมาย</button>
     </div>
+      <p class="tab-desc" id="tabDesc"></p>
 
     <!-- แท็บภาพรวม -->
     <div id="overview" class="tab-content active">
@@ -143,9 +144,10 @@
             <div class="metric-label" data-i18n="monthlyBalance">ยอดคงเหลือ</div>
           </div>
         </div>
-        <div class="chart-container">
+        <div class="chart-container" id="accountingChartBox">
           <canvas id="accountingChart" width="400" height="200"></canvas>
         </div>
+        <p class="empty-note" id="chartEmpty" data-i18n="chartEmpty" hidden></p>
       </div>
 
       <div class="section-card">
@@ -231,6 +233,7 @@
 
     // โหลดข้อมูลเริ่มต้น
     function initializePage() {
+      updateTabDesc('overview');
       loadBusinessInfo();
       initializeDateInput();
       updateAccountingSummary();
@@ -253,6 +256,7 @@
 
     // ระบบแท็บ
     function switchTab(tabName) {
+      updateTabDesc(tabName);
       // ซ่อนแท็บทั้งหมด
       const tabs = document.querySelectorAll('.tab-content');
       tabs.forEach(tab => tab.classList.remove('active'));
@@ -373,6 +377,13 @@
 
       // เรียงวันที่และคำนวณยอดสะสม
       const sortedDates = Object.keys(dailyData).sort();
+      const chartBox = document.getElementById('accountingChartBox'), emptyNote = document.getElementById('chartEmpty');
+      if (!sortedDates.length) {            // nothing to draw yet: show a friendly message instead of an empty axis
+        if (window.accountingChart && window.accountingChart.destroy) window.accountingChart.destroy();
+        chartBox.hidden = true; emptyNote.hidden = false;
+        return;
+      }
+      chartBox.hidden = false; emptyNote.hidden = true;
       let cumulativeIncome = 0;
       let cumulativeExpense = 0;
 
@@ -394,6 +405,7 @@
 
       const ctx = document.getElementById('accountingChart').getContext('2d');
 
+      if (window.Chart && Chart.getChart && Chart.getChart(ctx.canvas)) Chart.getChart(ctx.canvas).destroy();
       window.accountingChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -535,6 +547,7 @@
 
       // สร้างกราฟ
       const ctx = document.getElementById('overviewChart').getContext('2d');
+      if (window.Chart && Chart.getChart && Chart.getChart(ctx.canvas)) Chart.getChart(ctx.canvas).destroy();
       new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -659,6 +672,16 @@
       }
       out.push(getTranslation('insightTracking'));
       return out;
+    }
+
+    function updateTabDesc(name) {
+      const d = {
+        'overview': tx('ดูว่าธุรกิจกำไรหรือขาดทุนเดือนละเท่าไร และต้องขายกี่ชิ้นถึงคุ้มทุน', 'See your monthly profit or loss and how many units you need to break even.'),
+        'accounting': tx('จดรายรับรายจ่ายทุกวัน ดูยอดคงเหลือและกราฟสะสม', 'Log income and expenses daily and watch the balance and cumulative chart.'),
+        'path-analysis': tx('ตั้งเป้ากำไรต่อเดือน ดูว่าต้องขายกี่ชิ้นต่อวัน แล้วเทียบกับยอดขายจริง', 'Set a monthly profit goal, see units needed per day, then compare with real sales.')
+      };
+      const el = document.getElementById('tabDesc');
+      if (el) el.textContent = d[name] || '';
     }
 
     // ระบบวิเคราะห์เส้นทางสู่เป้าหมาย

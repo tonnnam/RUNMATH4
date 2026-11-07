@@ -54,6 +54,9 @@
         <button type="button" class="tab-button" data-tab="profit" data-i18n="tlTabProfit">กำไร/จุดคุ้มทุน</button>
       </div>
 
+      <p class="tab-desc" id="toolDesc"></p>
+      <p class="alert-note" id="prefillNote" hidden data-i18n="tlPrefill"></p>
+
       <div class="tab-content active" id="tab-pricing">
         <div class="form-row"><div class="form-group"><label for="prCost" data-i18n="tlPrCost"></label><input type="number" id="prCost" inputmode="decimal" min="0" step="any" placeholder="เช่น 40" value=""></div><div class="form-group"><label for="prExtra" data-i18n="tlPrExtra"></label><input type="number" id="prExtra" inputmode="decimal" min="0" step="any" placeholder="เช่น 8" value=""></div></div>
         <div class="form-row"><div class="form-group"><label for="prFee" data-i18n="tlPrFee"></label><input type="number" id="prFee" inputmode="decimal" min="0" step="any" placeholder="เช่น 8" value=""></div><div class="form-group"><label for="prMargin" data-i18n="tlPrMargin"></label><input type="number" id="prMargin" inputmode="decimal" min="0" step="any" placeholder="เช่น 30" value=""></div></div>
@@ -172,6 +175,19 @@
   "tlPfBtn": "Open profit analysis"
 });
 
+    Object.assign(translations.th, {
+      tlDescPricing: "หาราคาขายที่ได้กำไรตามต้องการ หลังหักค่าธรรมเนียมแพลตฟอร์ม",
+      tlDescRunway: "ดูว่าเงินสดที่มีอยู่ประคองธุรกิจได้อีกกี่เดือน",
+      tlDescTarget: "คำนวณว่าต้องขายกี่ชิ้นต่อเดือนและต่อวันถึงจะได้กำไรตามเป้า",
+      tlDescProfit: "ดูกำไร จุดคุ้มทุน จดรายรับรายจ่ายรายวัน และวางแผนสู่เป้าหมายแบบละเอียด",
+      tlPrefill: "เติมตัวเลขให้จากข้อมูลธุรกิจของคุณแล้ว แก้ไขได้ตามต้องการ" });
+    Object.assign(translations.en, {
+      tlDescPricing: "Find the selling price that gives the profit you want after platform fees.",
+      tlDescRunway: "See how many more months your cash can keep the business going.",
+      tlDescTarget: "Work out how many units a month and a day you need to hit your profit goal.",
+      tlDescProfit: "See profit and break-even, log daily income and expenses, and plan toward a goal in detail.",
+      tlPrefill: "Filled in from your business data. Edit freely." });
+
     const $ = id => document.getElementById(id);
     const t = k => getTranslation(k);
     const num = id => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : NaN; };
@@ -223,18 +239,32 @@
     }
 
     const renderAll = () => { renderPricing(); renderRunway(); renderTarget(); };
+
+    // Use the numbers the person already entered, so nobody types the same thing twice
+    function prefill() {
+      const b = Lib.loadBiz();
+      if (!b) return;
+      let filled = false;
+      const set = (id, v) => { const el = $(id); if (el && el.value === '' && Number.isFinite(v)) { el.value = Math.round(v * 100) / 100; filled = true; } };
+      set('prCost', b.cost); set('rwRevenue', b.price * b.units); set('rwCosts', b.cost * b.units + b.expense);
+      set('tgPrice', b.price); set('tgVar', b.cost); set('tgFixed', b.expense);
+      $('prefillNote').hidden = !filled;
+    }
     document.querySelectorAll('.tab-content input').forEach(el => el.addEventListener('input', renderAll));
-    document.getElementById('languageSelect').addEventListener('change', renderAll);
+    document.getElementById('languageSelect').addEventListener('change', () => { renderAll(); showTab((document.querySelector('.tab-button.active') || {}).dataset ? document.querySelector('.tab-button.active').dataset.tab : 'pricing'); });
 
     function showTab(name) {
       if (!document.getElementById('tab-' + name)) name = 'pricing';
       document.querySelectorAll('.tab-button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
       document.querySelectorAll('.tab-content').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+      const key = { pricing: 'tlDescPricing', runway: 'tlDescRunway', target: 'tlDescTarget', profit: 'tlDescProfit' }[name];
+      $('toolDesc').textContent = getTranslation(key);
     }
     document.querySelector('.tab-navigation').addEventListener('click', e => {
       const b = e.target.closest('.tab-button'); if (!b) return;
       showTab(b.dataset.tab); history.replaceState(null, '', '#' + b.dataset.tab);
     });
+    prefill();
     showTab(location.hash.slice(1));
     renderAll();
   </script>

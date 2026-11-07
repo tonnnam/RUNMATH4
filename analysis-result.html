@@ -51,11 +51,13 @@
 
     <div id="dayWarning"></div>
 
+    <div class="section-card hero-card" id="summaryCard"></div>
+
     <!-- แสดงข้อมูลที่นำเข้า -->
-    <div class="section-card">
-      <h3 style="margin-bottom: 1.5rem;" data-i18n="basicDataTitle">ข้อมูลพื้นฐาน</h3>
+    <details class="section-card fold">
+      <summary><span data-i18n="basicDataTitle">ข้อมูลพื้นฐาน</span> <small id="foldHint"></small></summary>
       <div class="metrics-grid" id="basicData"></div>
-    </div>
+    </details>
 
     <!-- ผลการคำนวณหลัก -->
     <div class="section-card">
@@ -122,6 +124,7 @@
       displayBasicData();
       displayMainResults();
       drawPlanChart();
+      renderSummary();
       renderNext();
       if (D < 1 || D > 31) {
         document.getElementById('dayWarning').innerHTML = `<div class="alert-warning">${tx('จำนวนวันที่ขายต่อเดือนต้องอยู่ระหว่าง 1-31 วัน ตัวเลขที่กรอกคือ ' + D + ' ผลคำนวณอาจผิดเพี้ยน กรุณากลับไปแก้ข้อมูล', 'Selling days per month must be 1-31 but you entered ' + D + '. Results may be off, please go back and fix it.')}</div>`;
@@ -149,31 +152,31 @@
       const basicDataHTML = `
         <div class="metric-card">
           <div class="metric-value neutral">${C.toLocaleString()} ฿</div>
-          <div class="metric-label">ต้นทุนต่อชิ้น (C)</div>
+          <div class="metric-label">ต้นทุนต่อชิ้น</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${M.toLocaleString()} ฿</div>
-          <div class="metric-label">ค่าการตลาดต่อชิ้น (M)</div>
+          <div class="metric-label">ค่าการตลาดต่อชิ้น</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${T.toLocaleString()} ฿</div>
-          <div class="metric-label">ค่าขนส่งต่อชิ้น (T)</div>
+          <div class="metric-label">ค่าขนส่งต่อชิ้น</div>
         </div>
         <div class="metric-card">
           <div class="metric-value positive">${P.toLocaleString()} ฿</div>
-          <div class="metric-label">ราคาขายต่อชิ้น (P)</div>
+          <div class="metric-label">ราคาขายต่อชิ้น</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${G.toLocaleString()} ฿</div>
-          <div class="metric-label">เป้าหมายกำไรต่อเดือน (G)</div>
+          <div class="metric-label">เป้าหมายกำไรต่อเดือน</div>
         </div>
         <div class="metric-card">
           <div class="metric-value warning">${F.toLocaleString()} ฿</div>
-          <div class="metric-label">ต้นทุนคงที่ต่อเดือน (F)</div>
+          <div class="metric-label">ต้นทุนคงที่ต่อเดือน</div>
         </div>
         <div class="metric-card">
           <div class="metric-value neutral">${D} วัน</div>
-          <div class="metric-label">จำนวนวันที่ขายต่อเดือน (D)</div>
+          <div class="metric-label">จำนวนวันที่ขายต่อเดือน</div>
         </div>
       `;
       document.getElementById('basicData').innerHTML = basicDataHTML;
@@ -418,6 +421,23 @@ if (!actualSalesInput || actualSalesInput <= -1) {
       }
       s += `<text x="${W - R0}" y="${H - 6}" text-anchor="end" font-family="IBM Plex Sans Thai, sans-serif" font-size="11" fill="#4B5670">${tx('ชิ้น/เดือน', 'units / month')}</text></svg>`;
       box.innerHTML = s;
+    }
+
+    function renderSummary() {
+      const el = document.getElementById('summaryCard');
+      document.getElementById('foldHint').textContent = tx('(แตะเพื่อดูตัวเลขที่ใช้คำนวณ)', '(tap to see the numbers used)');
+      if (!(profitPerUnit > 0)) {
+        el.innerHTML = `<div class="alert-danger">${tx('ราคาขายไม่สูงกว่าต้นทุนรวมต่อชิ้น ขายเท่าไรก็ไม่ได้กำไร กลับไปแก้ตัวเลขก่อน', 'Your price does not cover the total cost per unit, so you cannot make a profit. Go back and adjust the numbers.')}</div>`;
+        return;
+      }
+      const n = x => Number(x).toLocaleString('th-TH');
+      el.innerHTML = `<p class="kicker">${tx('สรุปสั้นๆ', 'In short')}</p>
+        <p class="big-sentence">${tx(
+          `อยากได้กำไร <b>${n(G)} ฿</b> ต่อเดือน ต้องขายประมาณ <b>วันละ ${n(unitsPerDay)} ชิ้น</b> (เดือนละ ${n(unitsPerMonth)} ชิ้น) ที่ราคา <b>${n(P)} ฿</b>`,
+          `To make <b>${n(G)} THB</b> profit a month, sell about <b>${n(unitsPerDay)} units a day</b> (${n(unitsPerMonth)} a month) at <b>${n(P)} THB</b>`)}</p>
+        <p class="muted">${tx(
+          `ขายแต่ละชิ้นเหลือกำไร ${n(profitPerUnit)} ฿ หลังหักต้นทุน ค่าการตลาด และค่าส่ง ส่วนค่าใช้จ่ายคงที่ ${n(F)} ฿ ต่อเดือนต้องจ่ายอยู่แล้ว ธุรกิจเริ่มคุ้มทุนเมื่อขายได้ ${n(Math.ceil(F / profitPerUnit))} ชิ้นต่อเดือน`,
+          `Each unit leaves ${n(profitPerUnit)} THB after cost, marketing and shipping. Fixed costs of ${n(F)} THB a month are due anyway. You break even at ${n(Math.ceil(F / profitPerUnit))} units a month.`)}</p>`;
     }
 
     function renderNext() {
